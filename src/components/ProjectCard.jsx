@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Network, Play, Sparkles, Terminal, Layers } from 'lucide-react';
+import { ExternalLink, Network, Play, Sparkles, Terminal, Layers, Zap } from 'lucide-react';
 import { GithubIcon } from './BrandIcons';
 
-export default function ProjectCard({ project, activeRole, onOpenArchitecture, onOpenSimulator }) {
+export default function ProjectCard({ project, activeRole, onOpenArchitecture, onOpenSimulator, onOpenCaseStudy }) {
   const isMatchRole = project.roles.includes(activeRole);
 
   return (
@@ -74,12 +74,21 @@ export default function ProjectCard({ project, activeRole, onOpenArchitecture, o
       {/* Card Action Footer */}
       <div className="mt-6 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-2">
-          <button 
-            onClick={() => onOpenArchitecture(project)} 
-            className="btn-secondary text-xs font-bold py-2 px-3.5"
-          >
-            <Network size={14} className="text-cyan-300" /> Architecture
-          </button>
+          {project.isCaseStudy ? (
+            <button
+              onClick={() => onOpenCaseStudy(project)}
+              className="btn-secondary text-xs font-bold py-2 px-3.5 bg-gradient-to-r from-emerald-500/30 to-teal-500/30 border-emerald-400/50 text-emerald-200 hover:bg-emerald-500/40 shadow-md"
+            >
+              <Zap size={14} className="text-emerald-400" /> Case Study & Live Demo
+            </button>
+          ) : (
+            <button 
+              onClick={() => onOpenArchitecture(project)} 
+              className="btn-secondary text-xs font-bold py-2 px-3.5"
+            >
+              <Network size={14} className="text-cyan-300" /> Architecture
+            </button>
+          )}
 
           {project.simulatorType !== 'generic' && (
             <button 

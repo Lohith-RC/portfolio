@@ -106,6 +106,31 @@ export const resumeData = {
 
   projects: [
     {
+      id: "linkflow-boomerang",
+      title: "LinkFlow — Boomerang Video Engine",
+      subtitle: "Canvas Frame-Capture Video Engine & Zero-Dependency CSS Motion",
+      roles: ["fullstack", "aiml", "backend"],
+      category: "Interactive Canvas & Motion Design",
+      featured: true,
+      isCaseStudy: true,
+      description: "Custom HTML5 Canvas boomerang video engine using requestVideoFrameCallback for 30fps forward/backward frame loops with 960px downsampling and zero-dependency CSS bezier drawer transitions.",
+      stack: ["Vite", "React 18", "TypeScript", "Tailwind CSS 3.4", "HTML5 Canvas"],
+      metrics: [
+        { label: "Loop Smoothness", val: "30fps Canvas" },
+        { label: "RAM Savings", val: "60% Memory" },
+        { label: "Animation Overhead", val: "0kb Extra Libs" }
+      ],
+      architectureNodes: [
+        { name: "Video Stream Ingestion", desc: "Listens for metadata loading and initializes hidden video element." },
+        { name: "Offscreen Canvas Extraction", desc: "Captures downsampled 960px frames via requestVideoFrameCallback." },
+        { name: "Bidirectional Frame Buffer", desc: "Stores canvas frame array and flips direction at loop boundaries." },
+        { name: "Zero-Lib CSS Motion Engine", desc: "Orchestrates 60fps drawer slide and staggered link transitions using CSS cubic-bezier." }
+      ],
+      simulatorType: "generic",
+      github: "https://github.com/Lohith-RC",
+      demoUrl: "#"
+    },
+    {
       id: "ai-crm",
       title: "AI-First CRM: Agentic HCP Interaction Logging",
       subtitle: "Full-Stack Healthcare CRM powered by LangGraph Agents & Groq",

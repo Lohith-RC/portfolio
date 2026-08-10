@@ -14,6 +14,7 @@ import AiChatModal from './components/AiChatModal';
 import ArchitectureModal from './components/ArchitectureModal';
 import ProjectSimulatorModal from './components/ProjectSimulatorModal';
 import ProjectCard from './components/ProjectCard';
+import LinkFlowCaseStudyModal from './components/LinkFlowCaseStudyModal';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function App() {
   const [aiBotOpen, setAiBotOpen] = useState(false);
   const [archProject, setArchProject] = useState(null);
   const [simProject, setSimProject] = useState(null);
+  const [caseStudyOpen, setCaseStudyOpen] = useState(false);
   const [projectFilter, setProjectFilter] = useState('All');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
@@ -42,7 +44,7 @@ export default function App() {
     return p.category === projectFilter;
   });
 
-  const categories = ['All', 'Agentic AI & Full-Stack', 'Machine Learning & Rescue Analytics', 'Deep Learning & Diagnostic Web App', 'RAG & LLM Application'];
+  const categories = ['All', 'Interactive Canvas & Motion Design', 'Agentic AI & Full-Stack', 'Machine Learning & Rescue Analytics', 'Deep Learning & Diagnostic Web App', 'RAG & LLM Application'];
 
   const copyToClipboard = (text, type) => {
     navigator.clipboard.writeText(text);
@@ -93,10 +95,11 @@ Full Stack Development Intern | CodeAlpha (Jul 2026 - Aug 2026)
 - Built production full-stack web features using React UI and REST APIs with structured Git code reviews.
 
 FLAGSHIP PROJECTS:
-1. AI-First CRM Module (React, Redux, FastAPI, PostgreSQL, LangGraph, Groq)
-2. DisasterLens — Disaster Intelligence Platform (Python, Flask, SQLite, scikit-learn, DBSCAN, SHAP)
-3. Visionary Diagnostics — Ensemble CNN OSCC Platform (React, Flask, TensorFlow, Grad-CAM, JWT)
-4. Personal Knowledge Engine (LangChain, FAISS, OpenAI API, FastAPI, MongoDB)
+1. LinkFlow — Boomerang Video Engine (React, TypeScript, HTML5 Canvas, Tailwind CSS)
+2. AI-First CRM Module (React, Redux, FastAPI, PostgreSQL, LangGraph, Groq)
+3. DisasterLens — Disaster Intelligence Platform (Python, Flask, SQLite, scikit-learn, DBSCAN, SHAP)
+4. Visionary Diagnostics — Ensemble CNN OSCC Platform (React, Flask, TensorFlow, Grad-CAM, JWT)
+5. Personal Knowledge Engine (LangChain, FAISS, OpenAI API, FastAPI, MongoDB)
 
 VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 - Cisco CyberOps Associate & CCNA Series (3 Modules)
@@ -350,6 +353,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                   activeRole={activeRole}
                   onOpenArchitecture={setArchProject}
                   onOpenSimulator={setSimProject}
+                  onOpenCaseStudy={() => setCaseStudyOpen(true)}
                 />
               ))}
             </div>
@@ -744,6 +748,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
       <AiChatModal isOpen={aiBotOpen} onClose={() => setAiBotOpen(false)} />
       <ArchitectureModal project={archProject} isOpen={Boolean(archProject)} onClose={() => setArchProject(null)} />
       <ProjectSimulatorModal project={simProject} isOpen={Boolean(simProject)} onClose={() => setSimProject(null)} />
+      <LinkFlowCaseStudyModal isOpen={caseStudyOpen} onClose={() => setCaseStudyOpen(false)} />
 
     </div>
   );
