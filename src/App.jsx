@@ -219,18 +219,9 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               transition={{ duration: 0.8 }}
               className="max-w-xl"
             >
-              <div className="inline-flex items-center gap-2 rounded-full liquid-pill px-4 py-1 text-xs font-semibold text-cyan-300 mb-4 border border-cyan-400/40">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10B981]" />
-                Lohith R C • BE Computer Science (CGPA 8.6 / 10)
-              </div>
-
-              <h1 className="text-3xl sm:text-4xl lg:text-[3.4rem] font-bold leading-[1.15] tracking-tight text-white drop-shadow-md">
-                Ship Full-Stack & Agentic AI Systems That Scale
+              <h1 className="font-chillax text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.15] tracking-tight text-white drop-shadow-md">
+                Lohith R C • BE Computer Science and engineering
               </h1>
-
-              <p className="mt-4 text-sm sm:text-base text-white/90 leading-relaxed font-normal drop-shadow-sm">
-                Final-year CS student proficient in <strong className="text-white font-bold">Java & Python (both primary)</strong>, Spring Boot, FastAPI, React/Redux, LangGraph multi-agent workflows, and RAG architectures.
-              </p>
 
               {/* Email Form CTA */}
               <form onSubmit={(e) => e.preventDefault()} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:inline-flex sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:liquid-pill sm:p-1.5 sm:border-white/30">

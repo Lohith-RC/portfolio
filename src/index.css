@@ -23,6 +23,10 @@
   font-family: 'Silkscreen', cursive;
 }
 
+.font-chillax {
+  font-family: 'Chillax', sans-serif;
+}
+
 /* High-End iOS Liquid Glass System */
 .liquid-glass {
   background: rgba(255, 255, 255, 0.12);
