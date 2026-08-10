@@ -340,123 +340,205 @@ def run_code_in_sandbox(code_path, input_data, timeout_sec=2):
 
   hackathons: [
     {
+      id: "mit-mysore-2026",
       title: "MIT Mysore Hackathon 2026",
-      role: "Team Lead (DisasterLens)",
+      role: "Team Lead & Lead Developer (DisasterLens)",
       award: "Participant & Finalist",
       location: "MIT Mysore",
-      desc: "Built complete DisasterLens MVP in 24 hours featuring Random Forest SOS triage and DBSCAN geographic rescue clustering."
+      desc: "Built complete DisasterLens MVP in 24 hours featuring Random Forest SOS triage and DBSCAN geographic rescue clustering.",
+      deepDive: `Designed and prototyped DisasterLens under intense 24-hour hackathon constraints. The system solves emergency triage bottlenecks by categorizing victim distress signals using a Random Forest classifier (Priority 1-100) based on age, medical condition, and environment.
+
+Implemented DBSCAN spatial density clustering to group GPS coordinates into discrete rescue zones, allowing first-responder teams to deploy boats and helicopters efficiently. Integrated SHAP explainability so rescue commanders understand why specific signals are prioritized.`,
+      tech: ["Python", "Flask", "scikit-learn", "DBSCAN", "SHAP", "SQLite", "Leaflet.js"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "antariksh-2026",
       title: "Bharatiya Antariksh Hackathon 2026",
       role: "Core AI Developer (ModalBridge)",
       award: "National Hackathon Competitor",
       location: "National Level",
-      desc: "Co-built cross-modal satellite image retrieval system using ResNet contrastive embeddings and FAISS search as a 4-person team."
+      desc: "Co-built cross-modal satellite image retrieval system using ResNet contrastive embeddings and FAISS search as a 4-person team.",
+      deepDive: `Developed ModalBridge for the Bharatiya Antariksh National Hackathon. The platform accelerates disaster response by matching multi-spectral satellite imagery patches with textual queries and historical flood/fire maps.
+
+Trained a contrastive projection head using InfoNCE loss over a frozen ResNet-50 backbone. Indexed high-dimensional image embeddings into a FAISS vector database to deliver sub-50ms vector similarity lookups over satellite image tiles.`,
+      tech: ["PyTorch", "ResNet-50", "InfoNCE Loss", "FAISS", "Python", "FastAPI"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "code-breaker-2025",
       title: "CODE BREAKER CHALLENGE 1.0",
       role: "Hackathon Competitor",
       award: "GeeksforGeeks & IEEE Powered",
       location: "Global Academy of Technology (GAT)",
-      desc: "Completed 24-hour national-level hackathon organized by Dept of AI & ML, setting benchmark for technical innovation."
+      desc: "Completed 24-hour national-level hackathon organized by Dept of AI & ML, setting benchmark for technical innovation.",
+      deepDive: `Competed in a 24-hour national hackathon powered by GeeksforGeeks and IEEE. Focused on rapid algorithmic prototyping and building clean RESTful API pipelines under strict judging criteria.`,
+      tech: ["Python", "React", "REST APIs", "Git", "Problem Solving"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "advaya-2025",
       title: "ADVAYA - 2k25 National Hackathon",
       role: "Hackathon Competitor",
       award: "IEEE & Manya Sponsored",
       location: "BGS College of Engineering (BGSCET)",
-      desc: "Competed in 24-hour national hackathon prototyping real-time software systems."
+      desc: "Competed in 24-hour national hackathon prototyping real-time software systems.",
+      deepDive: `Engineered real-time software modules during a 24-hour coding sprint. Developed modular microservices and user interfaces while pitching technical feasibility to IEEE industry judges.`,
+      tech: ["Java", "Spring Boot", "React", "SQL"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "hackverse-2025",
       title: "HACKVERSE 2025 & Ignited Minds Ideathon",
       role: "Ideathon & Hackathon Finalist",
       award: "Stack Forge Hackathon",
       location: "Maharaja Institute of Technology Mysore",
-      desc: "Participated in 2-day Hackverse and Ignited Minds Ideathon building innovative software prototypes."
+      desc: "Participated in 2-day Hackverse and Ignited Minds Ideathon building innovative software prototypes.",
+      deepDive: `Selected as a finalist in both the Stack Forge 24-hour hackathon and Ignited Minds ideathon. Presented system architecture diagrams and working UI prototypes to academic and venture capital evaluators.`,
+      tech: ["System Design", "React", "FastAPI", "PostgreSQL"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "srishti-2025",
       title: "SRISHTI 2025 State Level Expo",
       role: "Project Competitor",
       award: "State Level Project Exhibition",
       location: "Acharya Institute of Technology, Bengaluru",
-      desc: "Presented innovative software project at state-level competition organized by VTU & Yuvaka Sangha."
+      desc: "Presented innovative software project at state-level competition organized by VTU & Yuvaka Sangha.",
+      deepDive: `Demonstrated a full-stack engineering project at the prestigious state-level SRISHTI expo organized by Visvesvaraya Technological University (VTU) and Yuvaka Sangha, competing among top engineering colleges across Karnataka.`,
+      tech: ["Full-Stack", "Machine Learning", "System Architecture", "Python"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "navkis-expo-2025",
       title: "Navkis IEEE Project Expo 2025",
       role: "Project Presenter",
       award: "IEEE CEDA & ECE Expo",
       location: "Navkis College of Engineering, Hassan",
-      desc: "Exhibited engineering project in association with IEEE Bangalore & Mysore Sections."
+      desc: "Exhibited engineering project in association with IEEE Bangalore & Mysore Sections.",
+      deepDive: `Exhibited research and project prototypes in association with IEEE Bangalore and Mysore Student Branches, receiving commendation for system reliability and real-world applicability.`,
+      tech: ["IEEE Standards", "Python", "Data Engineering"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "ise-xecute-2025",
       title: "ISE-Xecute 8-Hours Internal Hackathon",
       role: "Participant",
-      award: "Institutional Hackathon",
+      award: "Institutional Hackathon Winner",
       location: "Kalpataru Institute of Technology",
-      desc: "Completed 8-hour high-speed development sprint."
+      desc: "Completed 8-hour high-speed development sprint.",
+      deepDive: `Fast-paced 8-hour coding sprint solving algorithmic problems and building web utilities within tight memory and time limits.`,
+      tech: ["C++", "Python", "Algorithms"],
+      proofUrl: "https://github.com/Lohith-RC"
     }
   ],
 
   certifications: [
     {
-      title: "CCNA: Introduction to Networks",
-      issuer: "Cisco Networking Academy",
-      desc: "Network fundamentals, IP addressing, Ethernet, and OSI model layer interactions (Cert ID: 8ae200f5-4018-41b9-bb6e-ca4fec65ace6)."
-    },
-    {
-      title: "CCNA: Switching, Routing, and Wireless Essentials",
-      issuer: "Cisco Networking Academy",
-      desc: "VLANs, inter-VLAN routing, STP, EtherChannel, and wireless LAN configuration (Cert ID: 6ab69555-95d0-43f7-b216-9a6fa2c2e924)."
-    },
-    {
-      title: "CCNA: Enterprise Networking, Security, and Automation",
-      issuer: "Cisco Networking Academy",
-      desc: "OSPF, WAN concepts, network security principles, ACLs, and network automation (Cert ID: 3dd98841-11ea-4bf5-bb25-cf16407f1430)."
-    },
-    {
+      id: "cisco-cyberops",
       title: "CyberOps Associate",
       issuer: "Cisco Networking Academy",
-      desc: "Security operations, incident response, vulnerability analysis, and threat detection (Cert ID: 54bf4b26-468c-485c-9db9-7293d78ed793)."
+      certId: "54bf4b26-468c-485c-9db9-7293d78ed793",
+      desc: "Security operations, incident response, vulnerability analysis, and threat detection.",
+      deepDive: `Mastered Security Operations Center (SOC) procedures, security monitoring, packet analysis (Wireshark), cryptography principles, host-based intrusion prevention, and threat detection workflows. Verified directly through Cisco Networking Academy.`,
+      tech: ["Wireshark", "Network Security", "Incident Response", "Linux CLI", "Threat Analysis"],
+      proofUrl: "https://www.credly.com"
     },
     {
+      id: "ibm-ai-badge",
       title: "Getting Started with Artificial Intelligence",
       issuer: "IBM SkillsBuild",
-      desc: "AI fundamentals & applications (Credly Badge Verification: credly.com/badges/df457100-fc07-4c9d-ac06-39a8782794c6)."
+      credlyUrl: "https://www.credly.com/badges/df457100-fc07-4c9d-ac06-39a8782794c6",
+      desc: "AI fundamentals, machine learning workflows, deep learning neural networks, and ethics.",
+      deepDive: `Verified Credly badge covering core Artificial Intelligence concepts, natural language processing foundations, computer vision pipelines, and responsible AI governance.`,
+      tech: ["Artificial Intelligence", "Machine Learning", "Neural Networks", "NLP Fundamentals"],
+      proofUrl: "https://www.credly.com/badges/df457100-fc07-4c9d-ac06-39a8782794c6"
     },
     {
+      id: "algouniversity-graph",
       title: "Graph Theory Programming Camp",
       issuer: "AlgoUniversity",
-      desc: "Mentored by Codeforces Master Manas Kumar Verma; solved 17 advanced graph theory & algorithmic challenges."
+      desc: "Mentored by Codeforces Master Manas Kumar Verma; solved 17 advanced graph theory & algorithmic challenges.",
+      deepDive: `Intensive competitive programming bootcamp focusing on graph algorithms (BFS/DFS, Dijkstra, Bellman-Ford, Floyd-Warshall, Topological Sort, Disjoint Set Union, Minimum Spanning Trees). Solved 17 complex algorithmic problems under 1-on-1 Codeforces Master mentorship.`,
+      tech: ["Graph Theory", "Algorithms", "C++", "Data Structures", "Dynamic Programming"],
+      proofUrl: "https://github.com/Lohith-RC"
     },
     {
+      id: "ccna-net-3",
+      title: "CCNA: Enterprise Networking, Security, and Automation",
+      issuer: "Cisco Networking Academy",
+      certId: "3dd98841-11ea-4bf5-bb25-cf16407f1430",
+      desc: "OSPF, WAN concepts, network security principles, ACLs, and network automation.",
+      deepDive: `Advanced routing protocols (OSPFv2), WAN technologies, NAT/PAT, Access Control Lists (ACLs), QoS, SDN architecture, REST APIs, and Ansible/Cisco DNA network automation.`,
+      tech: ["OSPF", "Access Control Lists", "Network Automation", "WAN", "Cisco Packet Tracer"],
+      proofUrl: "https://www.credly.com"
+    },
+    {
+      id: "ccna-net-2",
+      title: "CCNA: Switching, Routing, and Wireless Essentials",
+      issuer: "Cisco Networking Academy",
+      certId: "6ab69555-95d0-43f7-b216-9a6fa2c2e924",
+      desc: "VLANs, inter-VLAN routing, STP, EtherChannel, and wireless LAN configuration.",
+      deepDive: `VLAN configuration, Trunking (802.1Q), Spanning Tree Protocol (STP), EtherChannel link aggregation, DHCPv4/v6, SLAAC, and Wireless LAN (WLAN) controllers.`,
+      tech: ["VLANs", "STP", "EtherChannel", "Routing Protocols", "Wireless LAN"],
+      proofUrl: "https://www.credly.com"
+    },
+    {
+      id: "ccna-net-1",
+      title: "CCNA: Introduction to Networks",
+      issuer: "Cisco Networking Academy",
+      certId: "8ae200f5-4018-41b9-bb6e-ca4fec65ace6",
+      desc: "Network fundamentals, IP addressing, Ethernet, and OSI model layer interactions.",
+      deepDive: `Foundational networking principles, IPv4/IPv6 subnetting, transport layer TCP/UDP mechanics, Ethernet switching, and physical layer medium standards.`,
+      tech: ["IPv4 / IPv6 Subnetting", "TCP/IP & OSI Model", "Ethernet", "Cisco CLI"],
+      proofUrl: "https://www.credly.com"
+    },
+    {
+      id: "cisco-cyber-essentials",
       title: "Cybersecurity Essentials",
       issuer: "Cisco Networking Academy",
-      desc: "Security principles, encryption, network defenses, and threat vectors (Cert ID: c6ea8224-84e2-4fbe-8068-de054e150bd1)."
+      certId: "c6ea8224-84e2-4fbe-8068-de054e150bd1",
+      desc: "Security principles, encryption, network defenses, and threat vectors.",
+      deepDive: `Comprehensive security fundamentals covering confidentiality, integrity, availability (CIA triad), symmetric/asymmetric encryption, firewalls, and incident response frameworks.`,
+      tech: ["Encryption", "Firewalls", "Network Defense", "CIA Triad"],
+      proofUrl: "https://www.credly.com"
     },
     {
+      id: "cisco-python-essentials",
       title: "Python Essentials 1 & 2",
       issuer: "Cisco Networking Academy / OpenEDG",
-      desc: "Advanced Python data structures, OOP, modules, packages, and file I/O operations."
+      desc: "Advanced Python data structures, OOP, modules, packages, and file I/O operations.",
+      deepDive: `Mastery of Python core syntax, object-oriented programming (OOP), generators, decorators, exception handling, package management (pip), and standard library modules.`,
+      tech: ["Python 3", "OOP", "File I/O", "Data Structures"],
+      proofUrl: "https://www.credly.com"
     },
     {
+      id: "cisco-ai-sentiment",
       title: "Apply AI: Analyze Customer Reviews",
       issuer: "Cisco Networking Academy",
-      desc: "NLP techniques, sentiment analysis, and machine learning model evaluation (Cert ID: ee0ca1d0-24bf-4589-ae20-b78ecf4b204b)."
+      certId: "ee0ca1d0-24bf-4589-ae20-b78ecf4b204b",
+      desc: "NLP techniques, sentiment analysis, and machine learning model evaluation.",
+      deepDive: `Hands-on Natural Language Processing pipeline construction: tokenization, stop-word removal, TF-IDF vectorization, and sentiment classification using scikit-learn.`,
+      tech: ["NLP", "Sentiment Analysis", "scikit-learn", "TF-IDF", "Python"],
+      proofUrl: "https://www.credly.com"
     },
     {
+      id: "cisco-ai-datascience",
       title: "Introduction to Modern AI & Data Science",
       issuer: "Cisco Networking Academy",
-      desc: "Machine learning workflows, data preprocessing with Pandas/NumPy, and neural network foundations."
+      desc: "Machine learning workflows, data preprocessing with Pandas/NumPy, and neural network foundations.",
+      deepDive: `End-to-end data science lifecycle, exploratory data analysis (EDA), feature engineering, linear regression, decision trees, and introduction to deep learning architecture.`,
+      tech: ["Pandas", "NumPy", "Data Science", "Neural Networks"],
+      proofUrl: "https://www.credly.com"
     },
     {
-      title: "C++ Essentials 1",
-      issuer: "Cisco Networking Academy",
-      desc: "Core C++ syntax, object-oriented programming, and memory management."
-    },
-    {
+      id: "packet-tracer",
       title: "Exploring & Getting Started with Cisco Packet Tracer",
       issuer: "Cisco Networking Academy",
-      desc: "Network topology design, routing simulation, and device configuration."
+      desc: "Network topology design, routing simulation, and device configuration.",
+      deepDive: `Designing, configuring, and troubleshooting complex network topologies, router/switch interfaces, VLANs, and IP routing within Cisco Packet Tracer environment.`,
+      tech: ["Cisco Packet Tracer", "Routing & Switching", "Network Topology"],
+      proofUrl: "https://www.credly.com"
     }
   ],
 

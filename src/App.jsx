@@ -18,6 +18,7 @@ import LinkFlowCaseStudyModal from './components/LinkFlowCaseStudyModal';
 import Carousel3D from './components/Carousel3D';
 import SkillsMatrix from './components/SkillsMatrix';
 import ScrollDrivenVideoBg from './components/ScrollDrivenVideoBg';
+import AchievementDrawer from './components/AchievementDrawer';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,6 +27,8 @@ export default function App() {
   const [archProject, setArchProject] = useState(null);
   const [simProject, setSimProject] = useState(null);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const [drawerItem, setDrawerItem] = useState(null);
+  const [drawerType, setDrawerType] = useState('certification'); // 'certification' | 'hackathon'
   const [projectFilter, setProjectFilter] = useState('All');
   const [viewMode, setViewMode] = useState('3d'); // '3d' | 'grid'
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -453,7 +456,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                   ))}
                 </motion.div>
 
-                {/* Hackathons */}
+                {/* Hackathons Drawer Interactive Cards */}
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -466,15 +469,23 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
                   <div className="space-y-4">
                     {resumeData.hackathons.map((h, idx) => (
-                      <div key={idx} className="liquid-glass p-5 border-l-4 border-l-amber-400 border-white/25">
+                      <div 
+                        key={idx} 
+                        onClick={() => { setDrawerItem(h); setDrawerType('hackathon'); }}
+                        className="liquid-glass-interactive p-5 border-l-4 border-l-amber-400 border-white/25 cursor-pointer group hover:border-amber-300 transition-all"
+                      >
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className="text-base font-bold text-white">{h.title}</h4>
-                          <span className="text-[11px] font-bold text-amber-200 bg-amber-500/30 border border-amber-400/50 px-2.5 py-0.5 rounded-full">
+                          <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">{h.title}</h4>
+                          <span className="text-[11px] font-bold text-amber-200 bg-amber-500/30 border border-amber-400/50 px-2.5 py-0.5 rounded-full shrink-0">
                             {h.award}
                           </span>
                         </div>
                         <div className="text-xs font-semibold text-cyan-300 mt-1">{h.role} ({h.location})</div>
                         <p className="text-xs text-white/80 mt-2 leading-relaxed">{h.desc}</p>
+                        
+                        <div className="mt-3 text-[11px] font-mono font-bold text-amber-300/80 group-hover:text-amber-300 flex items-center gap-1 transition-colors">
+                          <span>Inspect Deep Dive & Tech Specs</span> <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -485,6 +496,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               {/* Right Column: Verified Certifications & Education */}
               <div id="certifications" className="flex flex-col gap-8">
                 
+                {/* Certifications Drawer Interactive Cards */}
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -497,14 +509,24 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
                   <div className="grid grid-cols-1 gap-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
                     {resumeData.certifications.map((cert, idx) => (
-                      <div key={idx} className="liquid-glass p-4 border-white/25 flex items-start gap-3 hover:border-emerald-400/60 transition-all">
-                        <div className="w-9 h-9 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shrink-0 shadow-sm">
-                          <ShieldCheck size={20} />
+                      <div 
+                        key={idx} 
+                        onClick={() => { setDrawerItem(cert); setDrawerType('certification'); }}
+                        className="liquid-glass-interactive p-4 border-white/25 flex items-start justify-between gap-3 hover:border-emerald-400/60 transition-all cursor-pointer group"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                            <ShieldCheck size={20} />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">{cert.title}</h4>
+                            <div className="text-xs font-bold text-emerald-300">{cert.issuer}</div>
+                            <p className="text-xs text-white/75 mt-1 font-medium line-clamp-2">{cert.desc}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="text-sm font-bold text-white">{cert.title}</h4>
-                          <div className="text-xs font-bold text-emerald-300">{cert.issuer}</div>
-                          <p className="text-xs text-white/75 mt-1 font-medium">{cert.desc}</p>
+
+                        <div className="shrink-0 text-[11px] font-mono font-bold text-emerald-300/80 group-hover:text-emerald-300 flex items-center gap-0.5 transition-colors self-center">
+                          <span>Review</span> <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     ))}
@@ -688,7 +710,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
         {/* Footer */}
         <footer className="py-8 px-5 sm:px-8 lg:px-12 backdrop-blur-2xl bg-white/5 border-t border-white/15 text-xs text-white/70 flex flex-wrap justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Lohith R C. Single-Page Scroll Architecture & Persistent Evolving Video Backdrop.</div>
+          <div>© {new Date().getFullYear()} Lohith R C. Single-Page Scroll Architecture & Achievement Slide-out Review Drawers.</div>
           <div className="flex gap-4 font-semibold">
             <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
             <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">LinkedIn</a>
@@ -710,11 +732,12 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10B981]" />
       </motion.button>
 
-      {/* Modals */}
+      {/* Modals & Drawers */}
       <AiChatModal isOpen={aiBotOpen} onClose={() => setAiBotOpen(false)} />
       <ArchitectureModal project={archProject} isOpen={Boolean(archProject)} onClose={() => setArchProject(null)} />
       <ProjectSimulatorModal project={simProject} isOpen={Boolean(simProject)} onClose={() => setSimProject(null)} />
       <LinkFlowCaseStudyModal isOpen={caseStudyOpen} onClose={() => setCaseStudyOpen(false)} />
+      <AchievementDrawer item={drawerItem} type={drawerType} isOpen={Boolean(drawerItem)} onClose={() => setDrawerItem(null)} />
 
     </div>
   );
