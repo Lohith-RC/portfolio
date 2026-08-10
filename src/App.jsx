@@ -19,6 +19,7 @@ import Carousel3D from './components/Carousel3D';
 import SkillsMatrix from './components/SkillsMatrix';
 import ScrollDrivenVideoBg from './components/ScrollDrivenVideoBg';
 import AchievementDrawer from './components/AchievementDrawer';
+import LiquidGlassAchievementDrawer from './components/LiquidGlassAchievementDrawer';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function App() {
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
   const [drawerItem, setDrawerItem] = useState(null);
   const [drawerType, setDrawerType] = useState('certification'); // 'certification' | 'hackathon'
+  const [liquidDrawerOpen, setLiquidDrawerOpen] = useState(false);
   const [projectFilter, setProjectFilter] = useState('All');
   const [viewMode, setViewMode] = useState('3d'); // '3d' | 'grid'
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -417,6 +419,24 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
                 Work Experience, Hackathons & Verified Certifications
               </h2>
+
+              {/* 3D Physical Liquid Glass Emerging Drawer Trigger Button */}
+              <motion.button
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setLiquidDrawerOpen(true)}
+                className="mt-6 inline-flex items-center gap-3 px-6 py-3.5 rounded-full text-xs font-bold text-white shadow-[0_12px_40px_rgba(6,182,212,0.35)] liquid-glass border border-white/40 hover:border-cyan-300 transition-all group"
+              >
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-cyan-500 flex items-center justify-center text-white shadow-md">
+                  <Trophy size={14} />
+                </div>
+                <span className="tracking-tight font-sans">
+                  Hackathons & State Competitions, Verified Industry Certifications
+                </span>
+                <span className="liquid-pill px-2.5 py-0.5 text-[10px] font-mono text-cyan-300 border-cyan-400/40 group-hover:bg-cyan-500/30">
+                  Open 3D Glass Drawer →
+                </span>
+              </motion.button>
             </motion.div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -738,6 +758,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
       <ProjectSimulatorModal project={simProject} isOpen={Boolean(simProject)} onClose={() => setSimProject(null)} />
       <LinkFlowCaseStudyModal isOpen={caseStudyOpen} onClose={() => setCaseStudyOpen(false)} />
       <AchievementDrawer item={drawerItem} type={drawerType} isOpen={Boolean(drawerItem)} onClose={() => setDrawerItem(null)} />
+      <LiquidGlassAchievementDrawer isOpen={liquidDrawerOpen} onClose={() => setLiquidDrawerOpen(false)} />
 
     </div>
   );
