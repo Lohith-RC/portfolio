@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronDown, Menu, X, Terminal, Sparkles, Network, Play, 
   Mail, Phone, MapPin, Copy, Check, Download, ExternalLink, 
-  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2, Layers
+  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2, Layers, LayoutGrid, Box
 } from 'lucide-react';
 
 import { resumeData } from './data/resumeData';
@@ -15,6 +15,7 @@ import ArchitectureModal from './components/ArchitectureModal';
 import ProjectSimulatorModal from './components/ProjectSimulatorModal';
 import ProjectCard from './components/ProjectCard';
 import LinkFlowCaseStudyModal from './components/LinkFlowCaseStudyModal';
+import Carousel3D from './components/Carousel3D';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -24,6 +25,7 @@ export default function App() {
   const [simProject, setSimProject] = useState(null);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
   const [projectFilter, setProjectFilter] = useState('All');
+  const [viewMode, setViewMode] = useState('3d'); // '3d' | 'grid'
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedResume, setCopiedResume] = useState(false);
@@ -111,7 +113,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
   return (
     <div className="relative min-h-screen w-full bg-[#080C14] font-sans text-white antialiased selection:bg-cyan-500 selection:text-white">
-      {/* High-Clarity Ambient Video Background */}
+      {/* Ambient Video Background */}
       <video
         autoPlay
         loop
@@ -121,7 +123,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4"
       />
 
-      {/* Deep Liquid Radial Gradient Backdrop */}
+      {/* Deep Liquid Backdrop Gradient */}
       <div className="fixed inset-0 bg-gradient-to-b from-[#080C14]/40 via-[#080C14]/65 to-[#080C14]/92 z-0 pointer-events-none" />
 
       {/* Content Layer */}
@@ -305,7 +307,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
           </div>
         </section>
 
-        {/* SCROLL-DRIVEN SECTION 1: IMMERSIVE LIQUID GLASS PORTFOLIO SHOWCASE */}
+        {/* SCROLL-DRIVEN SECTION 1: IMMERSIVE 3D CAROUSEL & PORTFOLIO SHOWCASE */}
         <section id="projects" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/40 backdrop-blur-xl">
           <div className="max-w-7xl mx-auto">
             
@@ -314,49 +316,87 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto mb-12"
+              className="text-center max-w-3xl mx-auto mb-10"
             >
               <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-widest mb-2 drop-shadow flex items-center justify-center gap-2">
-                <Layers size={14} className="text-cyan-400" /> Interactive Liquid Glass Portfolio
+                <Box size={14} className="text-cyan-400" /> Interactive 3D Spatial Portfolio
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
                 Architected & Shipped Systems
               </h2>
               <p className="text-white/80 text-sm sm:text-base mt-3">
-                Immersive floating glass screens with interactive node flows and live execution feature simulators.
+                Drag or use arrow keys to rotate through 3D project screens. Click any card to inspect architecture & live feature demos.
               </p>
 
-              {/* Category Filter Pills */}
-              <div className="flex flex-wrap justify-center gap-2 mt-6">
-                {categories.map((cat) => (
+              {/* View Mode & Category Controls */}
+              <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-4 border-t border-white/10">
+                
+                {/* 3D Flow vs Grid Layout Toggle */}
+                <div className="flex items-center gap-1 liquid-pill p-1 border border-white/30">
                   <button
-                    key={cat}
-                    onClick={() => setProjectFilter(cat)}
-                    className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
-                      projectFilter === cat 
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg border border-white/40' 
-                        : 'liquid-pill text-white/80 hover:text-white'
+                    onClick={() => setViewMode('3d')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      viewMode === '3d'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                        : 'text-white/70 hover:text-white'
                     }`}
                   >
-                    {cat}
+                    <Box size={14} /> 3D Carousel Flow
                   </button>
-                ))}
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      viewMode === 'grid'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                        : 'text-white/70 hover:text-white'
+                    }`}
+                  >
+                    <LayoutGrid size={14} /> Grid Layout
+                  </button>
+                </div>
+
+                {/* Category Filter Pills */}
+                <div className="flex flex-wrap gap-1.5">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setProjectFilter(cat)}
+                      className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
+                        projectFilter === cat 
+                          ? 'bg-cyan-500 text-white shadow-md border border-cyan-400' 
+                          : 'liquid-pill text-white/70 hover:text-white'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
               </div>
             </motion.div>
 
-            {/* Floating Projects Showcase Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  activeRole={activeRole}
-                  onOpenArchitecture={setArchProject}
-                  onOpenSimulator={setSimProject}
-                  onOpenCaseStudy={() => setCaseStudyOpen(true)}
-                />
-              ))}
-            </div>
+            {/* Render 3D Carousel Flow OR Grid View */}
+            {viewMode === '3d' ? (
+              <Carousel3D
+                projects={filteredProjects}
+                activeRole={activeRole}
+                onOpenArchitecture={setArchProject}
+                onOpenSimulator={setSimProject}
+                onOpenCaseStudy={() => setCaseStudyOpen(true)}
+              />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                {filteredProjects.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    activeRole={activeRole}
+                    onOpenArchitecture={setArchProject}
+                    onOpenSimulator={setSimProject}
+                    onOpenCaseStudy={() => setCaseStudyOpen(true)}
+                  />
+                ))}
+              </div>
+            )}
 
           </div>
         </section>
@@ -722,7 +762,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
         {/* Footer */}
         <footer className="border-t border-white/20 py-8 px-5 sm:px-8 lg:px-12 bg-black/95 text-xs text-white/70 flex flex-wrap justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Lohith R C. Designed with High-Clarity iOS Liquid Glass Aesthetics.</div>
+          <div>© {new Date().getFullYear()} Lohith R C. Designed with High-Clarity iOS Liquid Glass & 3D Spatial Motion Aesthetics.</div>
           <div className="flex gap-4 font-semibold">
             <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
             <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">LinkedIn</a>

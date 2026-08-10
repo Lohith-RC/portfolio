@@ -1,18 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Network, Play, Sparkles, Terminal, Layers, Zap } from 'lucide-react';
+import { ExternalLink, Network, Play, Sparkles, Terminal, Layers } from 'lucide-react';
 import { GithubIcon } from './BrandIcons';
 
-export default function ProjectCard({ project, activeRole, onOpenArchitecture, onOpenSimulator, onOpenCaseStudy }) {
+export default function ProjectCard({ project, activeRole, onOpenArchitecture, onOpenSimulator }) {
   const isMatchRole = project.roles.includes(activeRole);
 
   return (
     <motion.div
       whileHover={{ y: -8, scale: 1.015 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className={`liquid-glass-interactive p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group ${
-        isMatchRole ? 'border-cyan-400/60 shadow-2xl shadow-cyan-500/25 ring-1 ring-cyan-400/30' : 'border-white/30'
-      }`}
+      className={`liquid-glass-interactive p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group ${isMatchRole ? 'border-cyan-400/60 shadow-2xl shadow-cyan-500/25 ring-1 ring-cyan-400/30' : 'border-white/30'
+        }`}
     >
       {/* Specular Edge & Glow */}
       <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-cyan-500/15 blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500 pointer-events-none" />
@@ -74,25 +73,16 @@ export default function ProjectCard({ project, activeRole, onOpenArchitecture, o
       {/* Card Action Footer */}
       <div className="mt-6 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-2">
-          {project.isCaseStudy ? (
-            <button
-              onClick={() => onOpenCaseStudy(project)}
-              className="btn-secondary text-xs font-bold py-2 px-3.5 bg-gradient-to-r from-emerald-500/30 to-teal-500/30 border-emerald-400/50 text-emerald-200 hover:bg-emerald-500/40 shadow-md"
-            >
-              <Zap size={14} className="text-emerald-400" /> Case Study & Live Demo
-            </button>
-          ) : (
-            <button 
-              onClick={() => onOpenArchitecture(project)} 
-              className="btn-secondary text-xs font-bold py-2 px-3.5"
-            >
-              <Network size={14} className="text-cyan-300" /> Architecture
-            </button>
-          )}
+          <button
+            onClick={() => onOpenArchitecture(project)}
+            className="btn-secondary text-xs font-bold py-2 px-3.5"
+          >
+            <Network size={14} className="text-cyan-300" /> Architecture
+          </button>
 
           {project.simulatorType !== 'generic' && (
-            <button 
-              onClick={() => onOpenSimulator(project)} 
+            <button
+              onClick={() => onOpenSimulator(project)}
               className="btn-secondary text-xs font-bold py-2 px-3.5 bg-purple-500/20 border-purple-400/40 text-purple-200 hover:bg-purple-500/35"
             >
               <Play size={14} className="text-purple-300" /> Interactive Demo
@@ -100,10 +90,10 @@ export default function ProjectCard({ project, activeRole, onOpenArchitecture, o
           )}
         </div>
 
-        <a 
-          href={project.github} 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/80 hover:text-cyan-300 transition-colors"
         >
           <GithubIcon size={15} /> Code
