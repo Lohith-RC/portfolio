@@ -17,6 +17,7 @@ import ProjectCard from './components/ProjectCard';
 import LinkFlowCaseStudyModal from './components/LinkFlowCaseStudyModal';
 import Carousel3D from './components/Carousel3D';
 import SkillsMatrix from './components/SkillsMatrix';
+import ScrollDrivenVideoBg from './components/ScrollDrivenVideoBg';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -113,21 +114,12 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[#080C14] font-sans text-white antialiased selection:bg-cyan-500 selection:text-white">
-      {/* Ambient Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 h-full w-full object-cover z-0 opacity-85 pointer-events-none brightness-110 contrast-105"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4"
-      />
+    <div className="relative min-h-screen w-full bg-[#080C14] font-sans text-white antialiased selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+      
+      {/* Scroll-Driven Evolving Background Video Engine */}
+      <ScrollDrivenVideoBg />
 
-      {/* Deep Liquid Backdrop Gradient */}
-      <div className="fixed inset-0 bg-gradient-to-b from-[#080C14]/40 via-[#080C14]/65 to-[#080C14]/92 z-0 pointer-events-none" />
-
-      {/* Content Layer */}
+      {/* Main Single-Page Content Canvas */}
       <div className="relative z-10 flex flex-col min-h-screen">
         
         {/* iOS Liquid Glass Top Navigation Bar */}
@@ -210,7 +202,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
           </div>
         </div>
 
-        {/* HERO SECTION - Full Screen First Viewport */}
+        {/* HERO SECTION - Single Canvas Viewport */}
         <section className="relative min-h-[calc(100vh-76px)] flex flex-col justify-end px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 pt-10">
           <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
             
@@ -309,7 +301,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         </section>
 
         {/* SCROLL-DRIVEN SECTION 1: IMMERSIVE 3D CAROUSEL & PORTFOLIO SHOWCASE */}
-        <section id="projects" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/40 backdrop-blur-xl">
+        <section id="projects" className="px-5 py-24 sm:px-8 lg:px-12 relative">
           <div className="max-w-7xl mx-auto">
             
             <motion.div 
@@ -406,7 +398,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         <SkillsMatrix activeRole={activeRole} />
 
         {/* SCROLL-DRIVEN SECTION 3: WORK EXPERIENCE, HACKATHONS & CERTIFICATIONS */}
-        <section id="experience" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/40 backdrop-blur-xl">
+        <section id="experience" className="px-5 py-24 sm:px-8 lg:px-12 relative">
           <div className="max-w-7xl mx-auto">
             
             <motion.div 
@@ -556,7 +548,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         </section>
 
         {/* SCROLL-DRIVEN SECTION 4: TAILORED ATS RESUME & CONTACT */}
-        <section id="contact" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/60 backdrop-blur-xl">
+        <section id="contact" className="px-5 py-24 sm:px-8 lg:px-12 relative">
           <div className="max-w-6xl mx-auto">
             
             <motion.div 
@@ -695,8 +687,8 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-white/20 py-8 px-5 sm:px-8 lg:px-12 bg-black/95 text-xs text-white/70 flex flex-wrap justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Lohith R C. Designed with High-Clarity iOS Liquid Glass & 3D Spatial Motion Aesthetics.</div>
+        <footer className="py-8 px-5 sm:px-8 lg:px-12 backdrop-blur-2xl bg-white/5 border-t border-white/15 text-xs text-white/70 flex flex-wrap justify-between items-center gap-4">
+          <div>© {new Date().getFullYear()} Lohith R C. Single-Page Scroll Architecture & Persistent Evolving Video Backdrop.</div>
           <div className="flex gap-4 font-semibold">
             <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
             <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">LinkedIn</a>
