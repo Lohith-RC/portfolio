@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronDown, Menu, X, Terminal, Sparkles, Network, Play, 
   Mail, Phone, MapPin, Copy, Check, Download, ExternalLink, 
-  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2
+  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2, Layers
 } from 'lucide-react';
 
 import { resumeData } from './data/resumeData';
@@ -13,6 +13,7 @@ import lohithImg from './assets/lohith.jpg';
 import AiChatModal from './components/AiChatModal';
 import ArchitectureModal from './components/ArchitectureModal';
 import ProjectSimulatorModal from './components/ProjectSimulatorModal';
+import ProjectCard from './components/ProjectCard';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -107,7 +108,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
   return (
     <div className="relative min-h-screen w-full bg-[#080C14] font-sans text-white antialiased selection:bg-cyan-500 selection:text-white">
-      {/* High-Clarity Background Video with High Brightness & Clarity */}
+      {/* High-Clarity Ambient Video Background */}
       <video
         autoPlay
         loop
@@ -117,10 +118,10 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4"
       />
 
-      {/* Ambient Tint Layer */}
-      <div className="fixed inset-0 bg-gradient-to-b from-[#080C14]/40 via-[#080C14]/60 to-[#080C14]/90 z-0 pointer-events-none" />
+      {/* Deep Liquid Radial Gradient Backdrop */}
+      <div className="fixed inset-0 bg-gradient-to-b from-[#080C14]/40 via-[#080C14]/65 to-[#080C14]/92 z-0 pointer-events-none" />
 
-      {/* Content Wrapper */}
+      {/* Content Layer */}
       <div className="relative z-10 flex flex-col min-h-screen">
         
         {/* iOS Liquid Glass Top Navigation Bar */}
@@ -140,7 +141,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
             </div>
           </a>
 
-          {/* Desktop iOS Liquid Glass Cluster & Role Switcher */}
+          {/* Desktop Nav Cluster & Role Switcher */}
           <div className="hidden md:flex md:items-center md:gap-4">
             <nav className="flex items-center gap-1 rounded-full liquid-pill px-2 py-1.5 border border-white/30">
               <a href="#projects" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Projects</a>
@@ -270,7 +271,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                 </div>
               </div>
 
-              {/* Profile Card with Lohith Image */}
+              {/* Profile Card with Lohith Headshot */}
               <div className="liquid-glass p-5 sm:w-64 sm:p-6 border-white/30 flex flex-col justify-between">
                 <div>
                   <div className="mb-3 sm:mb-4 flex items-center gap-2">
@@ -301,7 +302,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
           </div>
         </section>
 
-        {/* SCROLL-DRIVEN SECTION 1: FLAGSHIP PROJECTS */}
+        {/* SCROLL-DRIVEN SECTION 1: IMMERSIVE LIQUID GLASS PORTFOLIO SHOWCASE */}
         <section id="projects" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/40 backdrop-blur-xl">
           <div className="max-w-7xl mx-auto">
             
@@ -312,14 +313,14 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               transition={{ duration: 0.6 }}
               className="text-center max-w-3xl mx-auto mb-12"
             >
-              <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-widest mb-2 drop-shadow">
-                Flagship Systems & Applications
+              <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-widest mb-2 drop-shadow flex items-center justify-center gap-2">
+                <Layers size={14} className="text-cyan-400" /> Interactive Liquid Glass Portfolio
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
-                Architected & Shipped Projects
+                Architected & Shipped Systems
               </h2>
               <p className="text-white/80 text-sm sm:text-base mt-3">
-                Every project includes interactive node flow diagrams and live feature simulators.
+                Immersive floating glass screens with interactive node flows and live execution feature simulators.
               </p>
 
               {/* Category Filter Pills */}
@@ -340,89 +341,17 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               </div>
             </motion.div>
 
-            {/* Projects Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredProjects.map((project, index) => {
-                const isMatchRole = project.roles.includes(activeRole);
-                return (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className={`liquid-glass-interactive p-6 sm:p-8 flex flex-col justify-between ${
-                      isMatchRole ? 'border-cyan-400/50 shadow-2xl shadow-cyan-500/20' : 'border-white/25'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs font-mono font-bold text-purple-300 uppercase tracking-wider">{project.category}</span>
-                        {isMatchRole && (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 liquid-pill px-3 py-0.5 border-cyan-400/40">
-                            <Sparkles size={10} /> Active Role Highlight
-                          </span>
-                        )}
-                      </div>
-
-                      <h3 className="text-xl font-bold text-white tracking-tight drop-shadow-sm">{project.title}</h3>
-                      <div className="text-xs font-semibold text-cyan-300 mt-1">{project.subtitle}</div>
-
-                      <p className="text-sm text-white/85 mt-3 leading-relaxed">{project.description}</p>
-
-                      {/* Stack Pills */}
-                      <div className="flex flex-wrap gap-1.5 mt-4">
-                        {project.stack.map((t, idx) => (
-                          <span key={idx} className="liquid-pill px-3 py-1 text-xs text-white/90 font-medium">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Metrics */}
-                      <div className="grid grid-cols-3 gap-2 mt-5 p-3 rounded-2xl bg-black/40 border border-white/20 text-center">
-                        {project.metrics.map((m, mIdx) => (
-                          <div key={mIdx}>
-                            <div className="font-mono text-sm font-bold text-white">{m.val}</div>
-                            <div className="text-[11px] text-white/70">{m.label}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="mt-6 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between gap-3">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => setArchProject(project)}
-                          className="liquid-pill px-4 py-1.5 text-xs font-bold text-white hover:bg-white/30 transition-all"
-                        >
-                          <Network size={14} className="inline mr-1" /> Architecture
-                        </button>
-
-                        {project.simulatorType !== 'generic' && (
-                          <button
-                            onClick={() => setSimProject(project)}
-                            className="liquid-pill px-4 py-1.5 text-xs font-bold text-purple-200 border-purple-400/40 bg-purple-500/20 hover:bg-purple-500/40 transition-all"
-                          >
-                            <Play size={14} className="inline mr-1" /> Interactive Demo
-                          </button>
-                        )}
-                      </div>
-
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-white/70 hover:text-white transition-colors"
-                      >
-                        <GithubIcon size={14} /> Code
-                      </a>
-                    </div>
-
-                  </motion.div>
-                );
-              })}
+            {/* Floating Projects Showcase Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {filteredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  activeRole={activeRole}
+                  onOpenArchitecture={setArchProject}
+                  onOpenSimulator={setSimProject}
+                />
+              ))}
             </div>
 
           </div>
@@ -799,13 +728,17 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
       </div>
 
-      {/* Floating AI Launcher Button */}
-      <button
+      {/* Floating High-End Liquid Glass Orb Launcher */}
+      <motion.button
+        whileHover={{ scale: 1.08, y: -4 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setAiBotOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full px-5 py-3 text-xs font-bold text-white shadow-2xl transition-transform hover:scale-105 liquid-button-primary"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 rounded-full px-5 py-3.5 text-xs font-bold text-white shadow-[0_10px_35px_rgba(6,182,212,0.4)] liquid-button-primary border border-white/40 animate-float"
       >
-        <Sparkles size={16} className="text-white" /> Ask Lohith's AI
-      </button>
+        <Sparkles size={17} className="text-cyan-200 animate-spin" style={{ animationDuration: '6s' }} /> 
+        <span>Ask Lohith's AI</span>
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10B981]" />
+      </motion.button>
 
       {/* Modals */}
       <AiChatModal isOpen={aiBotOpen} onClose={() => setAiBotOpen(false)} />
