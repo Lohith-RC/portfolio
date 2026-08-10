@@ -504,12 +504,33 @@ Trained a contrastive projection head using InfoNCE loss over a frozen ResNet-50
       proofUrl: "https://www.credly.com"
     },
     {
-      id: "cisco-python-essentials",
-      title: "Python Essentials 1 & 2",
+      id: "cisco-python-essentials-1",
+      title: "Python Essentials 1",
       issuer: "Cisco Networking Academy / OpenEDG",
-      desc: "Advanced Python data structures, OOP, modules, packages, and file I/O operations.",
-      deepDive: `Mastery of Python core syntax, object-oriented programming (OOP), generators, decorators, exception handling, package management (pip), and standard library modules.`,
-      tech: ["Python 3", "OOP", "File I/O", "Data Structures"],
+      certId: "95225433-c3ee-4d74-95a8-e9ec964dbc91",
+      desc: "Fundamental Python programming concepts, data types, control flow, functions, and list processing.",
+      deepDive: `Mastery of Python fundamental syntax, conditional branching, loops, functions, lists, tuples, and basic algorithm construction. Issued through Cisco Networking Academy.`,
+      tech: ["Python 3", "Data Structures", "Functions", "Algorithms"],
+      proofUrl: "https://www.credly.com"
+    },
+    {
+      id: "cisco-python-essentials-2",
+      title: "Python Essentials 2",
+      issuer: "Cisco Networking Academy / OpenEDG",
+      certId: "cefdddc5-937d-4ecd-aa0a-cf6f5ed66012",
+      desc: "Advanced Python data structures, Object-Oriented Programming (OOP), modules, packages, and file I/O operations.",
+      deepDive: `Advanced Python concepts including Object-Oriented Programming (classes, inheritance, polymorphism), exceptions, strings, generators, package management, and file I/O operations.`,
+      tech: ["Python 3", "OOP", "Exceptions", "Modules & Packages", "File I/O"],
+      proofUrl: "https://www.credly.com"
+    },
+    {
+      id: "cisco-data-science",
+      title: "Introduction to Data Science",
+      issuer: "Cisco Networking Academy",
+      certId: "07ef8584-7b82-43a1-8d96-a13bceefa750",
+      desc: "Data collection, cleaning, exploratory data analysis, and predictive modeling fundamentals.",
+      deepDive: `Comprehensive introduction to data science methodologies, data visualization, statistical analysis, and basic machine learning workflows using Python data science tools.`,
+      tech: ["Data Science", "Python", "EDA", "Data Visualization"],
       proofUrl: "https://www.credly.com"
     },
     {
@@ -532,12 +553,23 @@ Trained a contrastive projection head using InfoNCE loss over a frozen ResNet-50
       proofUrl: "https://www.credly.com"
     },
     {
-      id: "packet-tracer",
-      title: "Exploring & Getting Started with Cisco Packet Tracer",
+      id: "exploring-packet-tracer",
+      title: "Exploring Networking with Cisco Packet Tracer",
       issuer: "Cisco Networking Academy",
-      desc: "Network topology design, routing simulation, and device configuration.",
-      deepDive: `Designing, configuring, and troubleshooting complex network topologies, router/switch interfaces, VLANs, and IP routing within Cisco Packet Tracer environment.`,
-      tech: ["Cisco Packet Tracer", "Routing & Switching", "Network Topology"],
+      certId: "c360f538-6372-4de1-a0dc-7b3d3bb55cd4",
+      desc: "Network topology design, device configuration, Packet Tracer simulation, and media protocols.",
+      deepDive: `Hands-on network simulation building LAN topologies, configuring routers, switches, servers, and observing PDU packet traversal across OSI model layers.`,
+      tech: ["Cisco Packet Tracer", "Network Simulation", "Routers & Switches", "OSI Model"],
+      proofUrl: "https://www.credly.com"
+    },
+    {
+      id: "getting-started-packet-tracer",
+      title: "Getting Started with Cisco Packet Tracer",
+      issuer: "Cisco Networking Academy",
+      certId: "ba10527c-474d-46fc-8642-fda124d3dfd9",
+      desc: "Introduction to Cisco Packet Tracer simulation environment and device interfaces.",
+      deepDive: `Initial hands-on configuration of network devices, physical cabling, IP address assignment, and basic ping connectivity testing in Cisco Packet Tracer.`,
+      tech: ["Cisco Packet Tracer", "Network Topology", "IP Configuration"],
       proofUrl: "https://www.credly.com"
     }
   ],
