@@ -27,11 +27,11 @@
   font-family: 'Chillax', sans-serif;
 }
 
-/* High-End iOS Liquid Glass System */
+/* High-End Optimized iOS Liquid Glass System */
 .liquid-glass {
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.28);
   box-shadow: 
     0 20px 50px 0 rgba(0, 0, 0, 0.45), 
@@ -43,8 +43,8 @@
 
 .liquid-glass-interactive {
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.28);
   box-shadow: 
     0 20px 50px 0 rgba(0, 0, 0, 0.45), 
@@ -66,8 +66,8 @@
 
 .liquid-pill {
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
   border-radius: 9999px;

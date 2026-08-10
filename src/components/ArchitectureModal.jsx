@@ -14,7 +14,7 @@ export default function ArchitectureModal({ project, isOpen, onClose }) {
   ];
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={`System Architecture Flow for ${project.title}`}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '850px' }}>
         
         {/* Header */}
@@ -30,7 +30,7 @@ export default function ArchitectureModal({ project, isOpen, onClose }) {
               </div>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
+          <button onClick={onClose} aria-label="Close architecture modal" style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
             <X size={20} />
           </button>
         </div>

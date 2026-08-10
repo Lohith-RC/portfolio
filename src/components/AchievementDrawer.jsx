@@ -34,7 +34,7 @@ export default function AchievementDrawer({ item, type, isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex justify-end">
+      <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label={`Achievement Review for ${item.title}`}>
         {/* Backdrop Overlay */}
         <motion.div
           initial={{ opacity: 0 }}

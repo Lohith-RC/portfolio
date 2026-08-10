@@ -48,7 +48,7 @@ export default function ProjectSimulatorModal({ project, isOpen, onClose }) {
   ];
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={`Interactive Feature Simulator for ${project.title}`}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '850px' }}>
         
         {/* Header */}
@@ -64,7 +64,7 @@ export default function ProjectSimulatorModal({ project, isOpen, onClose }) {
               </div>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
+          <button onClick={onClose} aria-label="Close feature simulator modal" style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
             <X size={20} />
           </button>
         </div>

@@ -269,6 +269,22 @@ function TechConstellationLines({ nodePositions, hoveredSkill }) {
 
 // --- 4. Main Exported Canvas Container ---
 export default function SkillsNetworkBackground({ hoveredSkill }) {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   // Map tech nodes to fixed 3D space once
   const nodePositions = useMemo(() => {
     return TECH_NODES.map((_, i) => {
@@ -285,23 +301,25 @@ export default function SkillsNetworkBackground({ hoveredSkill }) {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <Canvas
-        camera={{ position: [0, 0, 3.2], fov: 60 }}
-        gl={{ antialias: true, alpha: true }}
-        style={{ pointerEvents: 'none' }}
-      >
-        <ambientLight intensity={0.3} />
-        
-        {/* Background Particle Cloud */}
-        <ParticleField />
-        
-        {/* Constellation Nodes */}
-        <TechConstellationNodes nodePositions={nodePositions} hoveredSkill={hoveredSkill} />
-        
-        {/* Constellation Lines & Shader Pulse */}
-        <TechConstellationLines nodePositions={nodePositions} hoveredSkill={hoveredSkill} />
-      </Canvas>
+    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {isVisible && (
+        <Canvas
+          camera={{ position: [0, 0, 3.2], fov: 60 }}
+          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+          style={{ pointerEvents: 'none' }}
+        >
+          <ambientLight intensity={0.3} />
+          
+          {/* Background Particle Cloud */}
+          <ParticleField />
+          
+          {/* Constellation Nodes */}
+          <TechConstellationNodes nodePositions={nodePositions} hoveredSkill={hoveredSkill} />
+          
+          {/* Constellation Lines & Shader Pulse */}
+          <TechConstellationLines nodePositions={nodePositions} hoveredSkill={hoveredSkill} />
+        </Canvas>
+      )}
     </div>
   );
 }

@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronDown, Menu, X, Terminal, Sparkles, Network, Play, 
   Mail, Phone, MapPin, Copy, Check, Download, ExternalLink, 
-  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2, Layers, LayoutGrid, Box
+  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2, Layers, LayoutGrid, Box, AlertCircle
 } from 'lucide-react';
 
 import { resumeData } from './data/resumeData';
 import { GithubIcon, LinkedinIcon } from './components/BrandIcons';
 import lohithImg from './assets/lohith.jpg';
 
-import AiChatModal from './components/AiChatModal';
-import ArchitectureModal from './components/ArchitectureModal';
-import ProjectSimulatorModal from './components/ProjectSimulatorModal';
 import ProjectCard from './components/ProjectCard';
-import LinkFlowCaseStudyModal from './components/LinkFlowCaseStudyModal';
-import Carousel3D from './components/Carousel3D';
-import SkillsMatrix from './components/SkillsMatrix';
 import ScrollDrivenVideoBg from './components/ScrollDrivenVideoBg';
-import AchievementDrawer from './components/AchievementDrawer';
-import LiquidGlassAchievementDrawer from './components/LiquidGlassAchievementDrawer';
-import AchievementAccordion from './components/AchievementAccordion';
+
+// Code-split heavy dependencies & modals for performance optimization
+const SkillsMatrix = lazy(() => import('./components/SkillsMatrix'));
+const Carousel3D = lazy(() => import('./components/Carousel3D'));
+const AiChatModal = lazy(() => import('./components/AiChatModal'));
+const ArchitectureModal = lazy(() => import('./components/ArchitectureModal'));
+const ProjectSimulatorModal = lazy(() => import('./components/ProjectSimulatorModal'));
+const LinkFlowCaseStudyModal = lazy(() => import('./components/LinkFlowCaseStudyModal'));
+const AchievementDrawer = lazy(() => import('./components/AchievementDrawer'));
+const LiquidGlassAchievementDrawer = lazy(() => import('./components/LiquidGlassAchievementDrawer'));
+const AchievementAccordion = lazy(() => import('./components/AchievementAccordion'));
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -30,15 +32,26 @@ export default function App() {
   const [simProject, setSimProject] = useState(null);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
   const [drawerItem, setDrawerItem] = useState(null);
-  const [drawerType, setDrawerType] = useState('certification'); // 'certification' | 'hackathon'
+  const [drawerType, setDrawerType] = useState('certification');
   const [liquidDrawerOpen, setLiquidDrawerOpen] = useState(false);
   const [projectFilter, setProjectFilter] = useState('All');
-  const [viewMode, setViewMode] = useState('3d'); // '3d' | 'grid'
+  const [viewMode, setViewMode] = useState('3d');
+  
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedResume, setCopiedResume] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Hero Lead Form State
+  const [heroEmail, setHeroEmail] = useState('');
+  const [heroSubmitting, setHeroSubmitting] = useState(false);
+  const [heroSuccess, setHeroSuccess] = useState(false);
+  const [heroError, setHeroError] = useState(null);
+
+  // Main Contact Form State
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
@@ -70,14 +83,66 @@ export default function App() {
     }
   };
 
-  const handleContactSubmit = (e) => {
+  const handleHeroEmailSubmit = async (e) => {
+    e.preventDefault();
+    if (!heroEmail || !heroEmail.includes('@')) return;
+
+    setHeroSubmitting(true);
+    setHeroError(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: heroEmail, type: 'hero_lead' })
+      });
+
+      if (res.ok) {
+        setHeroSuccess(true);
+        setHeroEmail('');
+        setTimeout(() => setHeroSuccess(false), 4000);
+      } else {
+        throw new Error('API server unavailable');
+      }
+    } catch (err) {
+      console.warn("Serverless contact lead API error, falling back to mailto:", err);
+      // Fallback mailto trigger
+      window.location.href = `mailto:lohithraj9090@gmail.com?subject=Portfolio%20Inquiry&body=Contact%20email:%20${encodeURIComponent(heroEmail)}`;
+      setHeroSuccess(true);
+      setHeroEmail('');
+      setTimeout(() => setHeroSuccess(false), 4000);
+    } finally {
+      setHeroSubmitting(false);
+    }
+  };
+
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 4000);
+
+    setFormSubmitting(true);
+    setFormError(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setFormSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to deliver message');
+      }
+    } catch (err) {
+      console.warn("Contact form transmission error:", err);
+      setFormError(err.message || 'Transmission error. Click fallback button below to send via your mail client.');
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   const generateTailoredResume = () => {
@@ -122,6 +187,14 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
   return (
     <div className="relative min-h-screen w-full bg-[#080C14] font-sans text-white antialiased selection:bg-cyan-500 selection:text-white overflow-x-hidden">
       
+      {/* Priority 2 Accessibility: Skip to Main Content Link */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:px-6 focus:py-3 focus:bg-cyan-500 focus:text-white font-bold rounded-xl m-3 shadow-2xl outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* Scroll-Driven Evolving Background Video Engine */}
       <ScrollDrivenVideoBg />
 
@@ -131,23 +204,23 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         {/* iOS Liquid Glass Top Navigation Bar */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-5 py-4 sm:px-8 sm:py-5 lg:px-12 backdrop-blur-2xl bg-white/10 border-b border-white/20 shadow-lg">
           {/* Logo with Lohith Image Avatar */}
-          <a href="#" className="flex items-center gap-3 text-white no-underline group">
+          <a href="#" aria-label="Lohith R C Portfolio Home" className="flex items-center gap-3 text-white no-underline group">
             <img 
               src={lohithImg} 
-              alt="Lohith R C" 
+              alt="Headshot of Lohith R C" 
               className="w-10 h-10 rounded-full object-cover border-2 border-cyan-400 shadow-md group-hover:scale-105 transition-transform" 
             />
             <div className="flex flex-col">
               <span className="text-lg font-bold tracking-tight text-white drop-shadow-sm">
                 Lohith<span className="text-cyan-400">.dev</span>
               </span>
-              <span className="text-[10px] font-mono text-white/70">VTU '27 • CS Engineer</span>
+              <span className="text-[10px] font-mono text-white/80">VTU '27 • CS Engineer</span>
             </div>
           </a>
 
           {/* Desktop Nav Cluster & Role Switcher */}
           <div className="hidden md:flex md:items-center md:gap-4">
-            <nav className="flex items-center gap-1 rounded-full liquid-pill px-2 py-1.5 border border-white/30">
+            <nav aria-label="Main Navigation" className="flex items-center gap-1 rounded-full liquid-pill px-2 py-1.5 border border-white/30">
               <a href="#projects" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Projects</a>
               <a href="#skills" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Skills</a>
               <a href="#experience" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Experience</a>
@@ -156,15 +229,16 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
             </nav>
 
             {/* Role Switcher Pills */}
-            <div className="flex items-center gap-1 liquid-pill p-1 border border-white/25">
+            <div aria-label="Target Role Switcher" className="flex items-center gap-1 liquid-pill p-1 border border-white/25">
               {resumeData.roleModes.map((role) => (
                 <button
                   key={role.id}
                   onClick={() => setActiveRole(role.id)}
+                  aria-label={`Switch target role perspective to ${role.label}`}
                   className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
                     activeRole === role.id 
                       ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md border border-white/30' 
-                      : 'text-white/70 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                 >
                   {role.id === 'fullstack' && '⚡ Full-Stack'}
@@ -183,8 +257,10 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation-menu"
+            aria-label="Toggle Navigation Menu"
             className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full liquid-pill text-white transition-colors md:hidden border border-white/30"
-            aria-label="Toggle menu"
           >
             <Menu className={`h-5 w-5 transition-all duration-300 ${mobileOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'}`} />
             <X className={`absolute h-5 w-5 transition-all duration-300 ${mobileOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'}`} />
@@ -193,8 +269,8 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
         {/* Mobile Slide-in Drawer */}
         <div className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-xl transition-opacity duration-300 md:hidden ${mobileOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}`} onClick={() => setMobileOpen(false)} />
-        <div className={`fixed right-0 top-0 z-40 flex h-full w-72 flex-col bg-black/90 backdrop-blur-2xl transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <nav className="flex flex-col gap-2 px-6 pt-24">
+        <div id="mobile-navigation-menu" className={`fixed right-0 top-0 z-40 flex h-full w-72 flex-col bg-black/90 backdrop-blur-2xl transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <nav aria-label="Mobile Navigation" className="flex flex-col gap-2 px-6 pt-24">
             <a href="#projects" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Projects</a>
             <a href="#skills" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Skills</a>
             <a href="#experience" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Experience</a>
@@ -209,7 +285,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         </div>
 
         {/* HERO SECTION - Single Canvas Viewport */}
-        <section className="relative min-h-[calc(100vh-76px)] flex flex-col justify-end px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 pt-10">
+        <section id="main-content" className="relative min-h-[calc(100vh-76px)] flex flex-col justify-end px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 pt-10">
           <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
             
             {/* Left Column: Headline + Email CTA */}
@@ -223,25 +299,38 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                 Lohith R C • BE Computer Science and engineering
               </h1>
 
-              {/* Email Form CTA */}
-              <form onSubmit={(e) => e.preventDefault()} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:inline-flex sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:liquid-pill sm:p-1.5 sm:border-white/30">
+              {/* Priority 1 Item 2: Hero Lead Email Form */}
+              <form onSubmit={handleHeroEmailSubmit} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:inline-flex sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:liquid-pill sm:p-1.5 sm:border-white/30">
                 <input
                   type="email"
-                  placeholder="Type your email"
+                  required
+                  placeholder="Enter your email to connect"
+                  value={heroEmail}
+                  onChange={(e) => setHeroEmail(e.target.value)}
+                  aria-label="Enter your email address to get in touch"
                   className="w-full rounded-full bg-white/20 backdrop-blur-md px-5 py-3 text-sm text-white placeholder-white/70 outline-none sm:w-64 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-2"
                 />
                 <button
                   type="submit"
-                  className="liquid-button-primary w-full px-6 py-3 text-sm font-bold sm:w-auto sm:py-2.5"
+                  disabled={heroSubmitting}
+                  aria-label="Submit email to get started"
+                  className="liquid-button-primary w-full px-6 py-3 text-sm font-bold sm:w-auto sm:py-2.5 disabled:opacity-50"
                 >
-                  Get started
+                  {heroSubmitting ? 'Sending...' : 'Get started'}
                 </button>
               </form>
+
+              {heroSuccess && (
+                <div className="mt-2 text-xs font-mono text-emerald-300 font-bold flex items-center gap-1.5">
+                  <Check size={14} className="text-emerald-400" /> Email received! Lohith will get back to you shortly.
+                </div>
+              )}
 
               {/* Quick AI Bot Launcher */}
               <button 
                 onClick={() => setAiBotOpen(true)} 
-                className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-purple-300 hover:text-purple-200 transition-colors drop-shadow"
+                aria-label="Open Lohith AI Chat Assistant"
+                className="mt-4 flex items-center gap-2 text-xs font-semibold text-purple-300 hover:text-purple-200 transition-colors drop-shadow"
               >
                 <Sparkles size={14} className="text-purple-400" /> Ask Lohith's AI Assistant questions directly
               </button>
@@ -254,14 +343,14 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex flex-col gap-4 sm:flex-row lg:w-auto lg:gap-5"
             >
-              {/* Stats Card */}
+              {/* Priority 4 Item 11: Replaced 42,500 LOC with Credible Credentials Signal */}
               <div className="liquid-glass p-5 sm:w-64 sm:p-6 flex flex-col justify-between border-white/30">
                 <div>
                   <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-white drop-shadow-sm">
-                    42,500+
+                    15+
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-white/90 sm:mt-4">
-                    Lines of production code written. <strong>8.6 CGPA</strong> in BE CS with 15+ verified certifications.
+                    Verified Industry Credentials & Shipped AI/Full-Stack Systems. <strong>8.6 CGPA</strong> in BE CS.
                   </p>
                 </div>
               </div>
@@ -283,7 +372,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                 <div className="mt-4 sm:mt-5 flex items-center gap-3 pt-3 border-t border-white/20">
                   <img
                     src={lohithImg}
-                    alt="Lohith R C"
+                    alt="Lohith R C Headshot"
                     className="h-11 w-11 rounded-full object-cover border-2 border-cyan-400 shadow-md"
                   />
                   <div>
@@ -314,7 +403,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
                 Architected & Shipped Systems
               </h2>
-              <p className="text-white/80 text-sm sm:text-base mt-3">
+              <p className="text-white/85 text-sm sm:text-base mt-3">
                 Drag or use arrow keys to rotate through 3D project screens. Click any card to inspect architecture & live feature demos.
               </p>
 
@@ -322,23 +411,25 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-4 border-t border-white/10">
                 
                 {/* 3D Flow vs Grid Layout Toggle */}
-                <div className="flex items-center gap-1 liquid-pill p-1 border border-white/30">
+                <div aria-label="Portfolio View Mode" className="flex items-center gap-1 liquid-pill p-1 border border-white/30">
                   <button
                     onClick={() => setViewMode('3d')}
+                    aria-label="Switch portfolio view to 3D Carousel Flow"
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
                       viewMode === '3d'
                         ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
-                        : 'text-white/70 hover:text-white'
+                        : 'text-white/80 hover:text-white'
                     }`}
                   >
                     <Box size={14} /> 3D Carousel Flow
                   </button>
                   <button
                     onClick={() => setViewMode('grid')}
+                    aria-label="Switch portfolio view to Grid Layout"
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
                       viewMode === 'grid'
                         ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
-                        : 'text-white/70 hover:text-white'
+                        : 'text-white/80 hover:text-white'
                     }`}
                   >
                     <LayoutGrid size={14} /> Grid Layout
@@ -346,15 +437,16 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                 </div>
 
                 {/* Category Filter Pills */}
-                <div className="flex flex-wrap gap-1.5">
+                <div aria-label="Filter Projects by Category" className="flex flex-wrap gap-1.5">
                   {categories.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setProjectFilter(cat)}
+                      aria-label={`Filter projects by ${cat}`}
                       className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
                         projectFilter === cat 
                           ? 'bg-cyan-500 text-white shadow-md border border-cyan-400' 
-                          : 'liquid-pill text-white/70 hover:text-white'
+                          : 'liquid-pill text-white/80 hover:text-white'
                       }`}
                     >
                       {cat}
@@ -364,35 +456,39 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               </div>
             </motion.div>
 
-            {/* Render 3D Carousel Flow OR Grid View */}
-            {viewMode === '3d' ? (
-              <Carousel3D
-                projects={filteredProjects}
-                activeRole={activeRole}
-                onOpenArchitecture={setArchProject}
-                onOpenSimulator={setSimProject}
-                onOpenCaseStudy={() => setCaseStudyOpen(true)}
-              />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                {filteredProjects.map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    activeRole={activeRole}
-                    onOpenArchitecture={setArchProject}
-                    onOpenSimulator={setSimProject}
-                    onOpenCaseStudy={() => setCaseStudyOpen(true)}
-                  />
-                ))}
-              </div>
-            )}
+            {/* Code-Split 3D Carousel or Grid View with Suspense */}
+            <Suspense fallback={<div className="p-12 text-center text-xs font-mono text-cyan-300">Loading 3D Spatial Canvas...</div>}>
+              {viewMode === '3d' ? (
+                <Carousel3D
+                  projects={filteredProjects}
+                  activeRole={activeRole}
+                  onOpenArchitecture={setArchProject}
+                  onOpenSimulator={setSimProject}
+                  onOpenCaseStudy={() => setCaseStudyOpen(true)}
+                />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                  {filteredProjects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      activeRole={activeRole}
+                      onOpenArchitecture={setArchProject}
+                      onOpenSimulator={setSimProject}
+                      onOpenCaseStudy={() => setCaseStudyOpen(true)}
+                    />
+                  ))}
+                </div>
+              )}
+            </Suspense>
 
           </div>
         </section>
 
         {/* SCROLL-DRIVEN SECTION 2: TECHNICAL SKILLS MATRIX WITH 3D R3F SHADER CONSTELLATION */}
-        <SkillsMatrix activeRole={activeRole} />
+        <Suspense fallback={<div className="p-12 text-center text-xs font-mono text-purple-300">Loading R3F Shader Constellation...</div>}>
+          <SkillsMatrix activeRole={activeRole} />
+        </Suspense>
 
         {/* SCROLL-DRIVEN SECTION 3: WORK EXPERIENCE, HACKATHONS & CERTIFICATIONS */}
         <section id="experience" className="px-5 py-24 sm:px-8 lg:px-12 relative">
@@ -417,6 +513,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setLiquidDrawerOpen(true)}
+                aria-label="Open 3D Physical Emerging Liquid Glass Achievement Drawer"
                 className="mt-6 inline-flex items-center gap-3 px-6 py-3.5 rounded-full text-xs font-bold text-white shadow-[0_12px_40px_rgba(6,182,212,0.35)] liquid-glass border border-white/40 hover:border-cyan-300 transition-all group"
               >
                 <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-cyan-500 flex items-center justify-center text-white shadow-md">
@@ -433,14 +530,16 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               
-              {/* Left Column: Refactored Accordion Component for Hackathons & Certifications */}
+              {/* Left Column: Refactored Accordion Component */}
               <div className="flex flex-col gap-8">
-                <AchievementAccordion 
-                  onSelectAchievement={(item, type) => { 
-                    setDrawerItem(item); 
-                    setDrawerType(type); 
-                  }} 
-                />
+                <Suspense fallback={<div className="p-6 text-xs font-mono text-amber-300">Loading Accordion...</div>}>
+                  <AchievementAccordion 
+                    onSelectAchievement={(item, type) => { 
+                      setDrawerItem(item); 
+                      setDrawerType(type); 
+                    }} 
+                  />
+                </Suspense>
               </div>
 
               {/* Right Column: Work Experience & Academic Education */}
@@ -462,14 +561,14 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                       <div className="flex justify-between items-start flex-wrap gap-2">
                         <div>
                           <h4 className="text-lg font-bold text-white">{exp.role}</h4>
-                          <div className="text-sm font-semibold text-cyan-300">{exp.company} • <span className="text-white/75">{exp.location}</span></div>
+                          <div className="text-sm font-semibold text-cyan-300">{exp.company} • <span className="text-white/85">{exp.location}</span></div>
                         </div>
                         <span className="text-xs font-mono liquid-pill px-3 py-1 text-cyan-200 border-cyan-400/40 font-semibold">
                           {exp.period}
                         </span>
                       </div>
 
-                      <ul className="mt-4 space-y-2 text-sm text-white/85 list-disc list-inside leading-relaxed font-normal">
+                      <ul className="mt-4 space-y-2 text-sm text-white/90 list-disc list-inside leading-relaxed font-normal">
                         {exp.highlights.map((h, hIdx) => (
                           <li key={hIdx}>{h}</li>
                         ))}
@@ -478,7 +577,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                   ))}
                 </motion.div>
 
-                {/* Education */}
+                {/* Academic Education */}
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -501,7 +600,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                             {edu.grade}
                           </span>
                         </div>
-                        <div className="text-xs text-white/60 mt-1 font-mono">{edu.period}</div>
+                        <div className="text-xs text-white/80 mt-1 font-mono">{edu.period}</div>
                       </div>
                     ))}
                   </div>
@@ -545,11 +644,15 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                       <Mail size={20} />
                     </div>
                     <div>
-                      <div className="text-xs text-white/60 uppercase font-semibold">Email Address</div>
+                      <div className="text-xs text-white/80 uppercase font-semibold">Email Address</div>
                       <div className="text-sm font-bold text-white">{resumeData.personalInfo.email}</div>
                     </div>
                   </div>
-                  <button onClick={() => copyToClipboard(resumeData.personalInfo.email, 'email')} className="text-xs text-cyan-300 hover:underline flex items-center gap-1 font-bold">
+                  <button 
+                    onClick={() => copyToClipboard(resumeData.personalInfo.email, 'email')} 
+                    aria-label="Copy email address to clipboard"
+                    className="text-xs text-cyan-300 hover:underline flex items-center gap-1 font-bold"
+                  >
                     {copiedEmail ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
                     {copiedEmail ? 'Copied' : 'Copy'}
                   </button>
@@ -561,11 +664,15 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                       <Phone size={20} />
                     </div>
                     <div>
-                      <div className="text-xs text-white/60 uppercase font-semibold">Phone / WhatsApp</div>
+                      <div className="text-xs text-white/80 uppercase font-semibold">Phone / WhatsApp</div>
                       <div className="text-sm font-bold text-white">{resumeData.personalInfo.phone}</div>
                     </div>
                   </div>
-                  <button onClick={() => copyToClipboard(resumeData.personalInfo.phone, 'phone')} className="text-xs text-purple-300 hover:underline flex items-center gap-1 font-bold">
+                  <button 
+                    onClick={() => copyToClipboard(resumeData.personalInfo.phone, 'phone')} 
+                    aria-label="Copy phone number to clipboard"
+                    className="text-xs text-purple-300 hover:underline flex items-center gap-1 font-bold"
+                  >
                     {copiedPhone ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
                     {copiedPhone ? 'Copied' : 'Copy'}
                   </button>
@@ -579,70 +686,91 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                     </div>
                     <button 
                       onClick={() => copyToClipboard(generateTailoredResume(), 'resume')}
+                      aria-label="Copy plain text CV to clipboard"
                       className="text-xs text-cyan-300 hover:underline flex items-center gap-1 font-bold"
                     >
                       {copiedResume ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
                       {copiedResume ? 'Copied CV' : 'Copy Plain CV'}
                     </button>
                   </div>
-                  <pre className="p-4 rounded-xl bg-black/70 border border-white/20 font-mono text-xs text-white/85 max-h-48 overflow-y-auto whitespace-pre-wrap">
+                  <pre className="p-4 rounded-xl bg-black/70 border border-white/20 font-mono text-xs text-white/90 max-h-48 overflow-y-auto whitespace-pre-wrap">
                     {generateTailoredResume()}
                   </pre>
                 </div>
 
               </div>
 
-              {/* Right: Contact Form */}
+              {/* Priority 1 Item 1: Real Contact Form Submission */}
               <div className="liquid-glass p-8 border-white/25">
                 {formSubmitted ? (
                   <div className="text-center py-12">
                     <div className="w-14 h-14 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 inline-flex items-center justify-center mb-4 shadow-lg">
                       <Check size={28} />
                     </div>
-                    <h3 className="text-xl font-bold text-white">Message Sent!</h3>
-                    <p className="text-sm text-white/80 mt-2">Lohith will get back to you shortly.</p>
+                    <h3 className="text-xl font-bold text-white">Message Delivered!</h3>
+                    <p className="text-sm text-white/90 mt-2">Thank you! Lohith will get back to you shortly.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleContactSubmit} className="flex flex-col gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-white/80 mb-1">Your Name</label>
+                      <label className="block text-xs font-semibold text-white/90 mb-1">Your Name</label>
                       <input
                         type="text"
                         required
                         placeholder="John Doe"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        aria-label="Your Name"
                         className="w-full rounded-xl bg-white/10 border border-white/25 px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-cyan-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-white/80 mb-1">Your Email</label>
+                      <label className="block text-xs font-semibold text-white/90 mb-1">Your Email</label>
                       <input
                         type="email"
                         required
                         placeholder="john@example.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        aria-label="Your Email Address"
                         className="w-full rounded-xl bg-white/10 border border-white/25 px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-cyan-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-white/80 mb-1">Message</label>
+                      <label className="block text-xs font-semibold text-white/90 mb-1">Message</label>
                       <textarea
                         rows={4}
                         required
                         placeholder="Hello Lohith, I'd like to discuss a software engineering opportunity..."
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        aria-label="Your Message"
                         className="w-full rounded-xl bg-white/10 border border-white/25 px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-cyan-400"
                       />
                     </div>
 
+                    {formError && (
+                      <div className="p-3 rounded-xl bg-red-500/20 border border-red-400/40 text-red-200 text-xs font-medium flex flex-col gap-2">
+                        <div className="flex items-center gap-1.5 font-bold text-red-300">
+                          <AlertCircle size={15} /> Submission Error
+                        </div>
+                        <div>{formError}</div>
+                        <a 
+                          href={`mailto:lohithraj9090@gmail.com?subject=Contact%20from%20${encodeURIComponent(formData.name)}&body=${encodeURIComponent(formData.message)}`}
+                          className="liquid-pill px-3 py-1 text-[11px] font-bold text-cyan-200 hover:text-white inline-block text-center border-cyan-400/40"
+                        >
+                          Fallback: Send directly via Email Client →
+                        </a>
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="liquid-button-primary w-full py-3.5 text-sm font-bold mt-2"
+                      disabled={formSubmitting}
+                      aria-label="Send Contact Form Message"
+                      className="liquid-button-primary w-full py-3.5 text-sm font-bold mt-2 disabled:opacity-50"
                     >
-                      Send Message
+                      {formSubmitting ? 'Sending Message...' : 'Send Message'}
                     </button>
                   </form>
                 )}
@@ -654,12 +782,12 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         </section>
 
         {/* Footer */}
-        <footer className="py-8 px-5 sm:px-8 lg:px-12 backdrop-blur-2xl bg-white/5 border-t border-white/15 text-xs text-white/70 flex flex-wrap justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Lohith R C. Single-Page Scroll Architecture & Achievement Slide-out Review Drawers.</div>
+        <footer className="py-8 px-5 sm:px-8 lg:px-12 backdrop-blur-2xl bg-white/5 border-t border-white/15 text-xs text-white/80 flex flex-wrap justify-between items-center gap-4">
+          <div>© {new Date().getFullYear()} Lohith R C. Single-Page Scroll Architecture.</div>
           <div className="flex gap-4 font-semibold">
-            <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
-            <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">LinkedIn</a>
-            <a href={`mailto:${resumeData.personalInfo.email}`} className="hover:text-cyan-400 transition-colors">Email</a>
+            <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" aria-label="Lohith GitHub Profile" className="hover:text-cyan-400 transition-colors">GitHub</a>
+            <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" aria-label="Lohith LinkedIn Profile" className="hover:text-cyan-400 transition-colors">LinkedIn</a>
+            <a href={`mailto:${resumeData.personalInfo.email}`} aria-label="Send Email to Lohith" className="hover:text-cyan-400 transition-colors">Email</a>
           </div>
         </footer>
 
@@ -670,6 +798,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         whileHover={{ scale: 1.08, y: -4 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setAiBotOpen(true)}
+        aria-label="Open Ask Lohith AI Chat Assistant"
         className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 rounded-full px-5 py-3.5 text-xs font-bold text-white shadow-[0_10px_35px_rgba(6,182,212,0.4)] liquid-button-primary border border-white/40 animate-float"
       >
         <Sparkles size={17} className="text-cyan-200 animate-spin" style={{ animationDuration: '6s' }} /> 
@@ -677,13 +806,15 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10B981]" />
       </motion.button>
 
-      {/* Modals & Drawers */}
-      <AiChatModal isOpen={aiBotOpen} onClose={() => setAiBotOpen(false)} />
-      <ArchitectureModal project={archProject} isOpen={Boolean(archProject)} onClose={() => setArchProject(null)} />
-      <ProjectSimulatorModal project={simProject} isOpen={Boolean(simProject)} onClose={() => setSimProject(null)} />
-      <LinkFlowCaseStudyModal isOpen={caseStudyOpen} onClose={() => setCaseStudyOpen(false)} />
-      <AchievementDrawer item={drawerItem} type={drawerType} isOpen={Boolean(drawerItem)} onClose={() => setDrawerItem(null)} />
-      <LiquidGlassAchievementDrawer isOpen={liquidDrawerOpen} onClose={() => setLiquidDrawerOpen(false)} />
+      {/* Code-Split Modals & Drawers */}
+      <Suspense fallback={null}>
+        <AiChatModal isOpen={aiBotOpen} onClose={() => setAiBotOpen(false)} />
+        <ArchitectureModal project={archProject} isOpen={Boolean(archProject)} onClose={() => setArchProject(null)} />
+        <ProjectSimulatorModal project={simProject} isOpen={Boolean(simProject)} onClose={() => setSimProject(null)} />
+        <LinkFlowCaseStudyModal isOpen={caseStudyOpen} onClose={() => setCaseStudyOpen(false)} />
+        <AchievementDrawer item={drawerItem} type={drawerType} isOpen={Boolean(drawerItem)} onClose={() => setDrawerItem(null)} />
+        <LiquidGlassAchievementDrawer isOpen={liquidDrawerOpen} onClose={() => setLiquidDrawerOpen(false)} />
+      </Suspense>
 
     </div>
   );

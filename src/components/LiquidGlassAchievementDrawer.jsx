@@ -54,7 +54,7 @@ export default function LiquidGlassAchievementDrawer({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10" role="dialog" aria-modal="true" aria-label="3D Liquid Glass Achievement Matrix Drawer">
         
         {/* Optical Glass Blur Backdrop Overlay */}
         <motion.div

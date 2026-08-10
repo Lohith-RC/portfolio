@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Send, X, Sparkles, User, RefreshCw, CheckCircle, Zap, MessageSquare, Terminal } from 'lucide-react';
+import { Bot, Send, X, User, RefreshCw, Zap, CheckCircle } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
 export default function AiChatModal({ isOpen, onClose }) {
@@ -13,12 +13,29 @@ export default function AiChatModal({ isOpen, onClose }) {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
-
-  const apiKey = import.meta.env.VITE_GROK_API_KEY;
+  const modalRef = useRef(null);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+      // Focus modal on open for accessibility
+      setTimeout(() => modalRef.current?.focus(), 50);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -31,7 +48,7 @@ export default function AiChatModal({ isOpen, onClose }) {
     if (!textToSend) setInput('');
     setIsTyping(true);
 
-    let botAnswer = "Lohith is a final-year CS student (CGPA 8.6) proficient in both Java & Python as primary languages, React/Redux, FastAPI, Spring Boot, LangGraph, and RAG architectures. Check out his projects like AI-First CRM or DisasterLens for more details!";
+    let botAnswer = "";
 
     const systemPrompt = `You are Lohith's Portfolio AI Assistant representing Lohith R C (B.E. CS student, CGPA 8.6 at Kalpataru Institute of Technology VTU, graduating 2027).
 Primary languages: Java and Python.
@@ -40,53 +57,44 @@ Projects: AI-First CRM (LangGraph + Groq), DisasterLens (Random Forest + DBSCAN 
 Experience: CodeAlpha Full Stack Development Intern.
 Provide clear, professional, concise, and enthusiastic responses highlighting Lohith's skills and projects.`;
 
-    if (apiKey) {
-      try {
-        let endpoint = "https://api.groq.com/openai/v1/chat/completions";
-        let model = "llama-3.3-70b-versatile";
+    try {
+      // Call secure serverless API endpoint (holds GROQ_API_KEY server-side)
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...newMessages.map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }))
+          ]
+        })
+      });
 
-        if (apiKey.startsWith("xai-")) {
-          endpoint = "https://api.x.ai/v1/chat/completions";
-          model = "grok-2-latest";
-        } else if (apiKey.startsWith("gsk_")) {
-          endpoint = "https://api.groq.com/openai/v1/chat/completions";
-          model = "llama-3.3-70b-versatile";
+      if (res.ok) {
+        const data = await res.json();
+        if (data.choices && data.choices[0]?.message?.content) {
+          botAnswer = data.choices[0].message.content;
         }
-
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey.trim()}`
-          },
-          body: JSON.stringify({
-            model: model,
-            messages: [
-              { role: "system", content: systemPrompt },
-              ...newMessages.map(m => ({ role: m.sender === "user" ? "user" : "assistant", content: m.text }))
-            ],
-            temperature: 0.7
-          })
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.choices && data.choices[0]?.message?.content) {
-            botAnswer = data.choices[0].message.content;
-          }
-        } else {
-          console.warn("AI API response not OK:", res.status);
-        }
-      } catch (err) {
-        console.warn("AI API call failed, falling back to local KB:", err);
       }
-    } else {
+    } catch (err) {
+      console.warn("Serverless AI route unavailable, falling back to local Knowledge Base:", err);
+    }
+
+    // Fallback to local Knowledge Base if API call fails or is unavailable
+    if (!botAnswer) {
       const lowerQuery = query.toLowerCase();
-      for (const kb of resumeData.aiKnowledgeBase) {
-        if (kb.keywords.some(kw => lowerQuery.includes(kw))) {
-          botAnswer = kb.answer;
-          break;
+      let matched = false;
+      if (resumeData.aiKnowledgeBase) {
+        for (const kb of resumeData.aiKnowledgeBase) {
+          if (kb.keywords.some(kw => lowerQuery.includes(kw))) {
+            botAnswer = kb.answer;
+            matched = true;
+            break;
+          }
         }
+      }
+      if (!matched) {
+        botAnswer = "Lohith is a final-year CS student (CGPA 8.6) proficient in both Java & Python as primary languages, React/Redux, FastAPI, Spring Boot, LangGraph, and RAG architectures. Check out his projects like AI-First CRM or DisasterLens for more details!";
       }
     }
 
@@ -102,13 +110,15 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
   ];
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Ask Lohith's AI Assistant Modal">
       <motion.div 
+        ref={modalRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.92, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: 20 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="modal-content relative overflow-hidden" 
+        className="modal-content relative overflow-hidden outline-none" 
         onClick={(e) => e.stopPropagation()}
         style={{ 
           maxWidth: '680px', 
@@ -118,8 +128,8 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
           padding: '0', 
           overflow: 'hidden',
           background: 'rgba(10, 15, 26, 0.92)',
-          backdropFilter: 'blur(36px) saturate(210%)',
-          WebkitBackdropFilter: 'blur(36px) saturate(210%)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
           border: '1px solid rgba(255, 255, 255, 0.35)',
           boxShadow: '0 30px 80px rgba(0, 0, 0, 0.75), inset 0 1.5px 2px rgba(255, 255, 255, 0.5), 0 0 50px rgba(6, 182, 212, 0.2)'
         }}
@@ -140,13 +150,13 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10B981]" />
               </h3>
               <div className="text-xs font-semibold text-cyan-300 flex items-center gap-1.5 mt-0.5">
-                {apiKey ? <Zap size={13} className="text-cyan-400" /> : <CheckCircle size={13} className="text-emerald-400" />} 
-                {apiKey ? (apiKey.startsWith('gsk_') ? 'Powered by Groq AI (Llama 3.3 70B)' : 'Powered by Grok AI (xAI)') : 'Resume Knowledge Base Active'}
+                <Zap size={13} className="text-cyan-400" /> Secure Serverless API Endpoint Active
               </div>
             </div>
           </div>
           <button 
             onClick={onClose} 
+            aria-label="Close AI Chat Modal"
             className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all border border-white/20"
           >
             <X size={18} />
@@ -159,6 +169,7 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
             <button
               key={idx}
               onClick={() => handleSend(q)}
+              aria-label={`Ask sample question: ${q}`}
               className="liquid-pill px-3.5 py-1.5 text-xs font-semibold text-cyan-200 whitespace-nowrap border-cyan-400/30 hover:border-cyan-400/60 hover:text-white transition-all shadow-sm"
             >
               {q}
@@ -216,10 +227,12 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
             placeholder="Ask Lohith's AI about projects, skills, or experience..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            aria-label="Type your message to Lohith's AI"
             className="flex-1 rounded-2xl bg-white/15 border border-white/30 px-5 py-3 text-sm text-white placeholder-white/60 outline-none focus:border-cyan-400 focus:bg-white/20 transition-all"
           />
           <button 
             type="submit"
+            aria-label="Send message to AI assistant"
             className="liquid-button-primary px-5 py-3 rounded-2xl text-sm font-bold flex items-center justify-center"
           >
             <Send size={18} />

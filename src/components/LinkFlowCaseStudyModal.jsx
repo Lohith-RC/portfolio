@@ -129,7 +129,7 @@ export default function BoomerangVideoBg({ src, className }: { src: string; clas
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="LinkFlow Cinematic Boomerang Engine Case Study Modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.94, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -159,15 +159,16 @@ export default function BoomerangVideoBg({ src, className }: { src: string; clas
               <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
                 LinkFlow — Cinematic Boomerang Engine Case Study
               </h3>
-              <div className="text-xs font-mono text-emerald-300">
-                HTML5 Canvas Frame-Capture & Zero-Dependency CSS Motion Architecture
+              <div className="text-xs font-semibold text-emerald-300">
+                React • TypeScript • HTML5 Canvas • Boomerang Video Engine
               </div>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all border border-white/20"
+            aria-label="Close LinkFlow Case Study Modal"
+            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all border border-white/20 shrink-0"
           >
             <X size={18} />
           </button>
