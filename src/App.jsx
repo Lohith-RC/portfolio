@@ -20,6 +20,7 @@ import SkillsMatrix from './components/SkillsMatrix';
 import ScrollDrivenVideoBg from './components/ScrollDrivenVideoBg';
 import AchievementDrawer from './components/AchievementDrawer';
 import LiquidGlassAchievementDrawer from './components/LiquidGlassAchievementDrawer';
+import AchievementAccordion from './components/AchievementAccordion';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -441,12 +442,22 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               
-              {/* Left Column: Work Experience & Hackathons */}
+              {/* Left Column: Refactored Accordion Component for Hackathons & Certifications */}
               <div className="flex flex-col gap-8">
-                
-                {/* Internship */}
+                <AchievementAccordion 
+                  onSelectAchievement={(item, type) => { 
+                    setDrawerItem(item); 
+                    setDrawerType(type); 
+                  }} 
+                />
+              </div>
+
+              {/* Right Column: Work Experience & Academic Education */}
+              <div id="certifications" className="flex flex-col gap-8">
+
+                {/* Professional Internship */}
                 <motion.div
-                  initial={{ opacity: 0, x: -30 }}
+                  initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
@@ -456,7 +467,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                   </h3>
 
                   {resumeData.experience.map((exp, idx) => (
-                    <div key={idx} className="liquid-glass p-6 border-l-4 border-l-cyan-400 border-white/25">
+                    <div key={idx} className="liquid-glass p-6 border-l-4 border-l-cyan-400 border-white/25 shadow-lg">
                       <div className="flex justify-between items-start flex-wrap gap-2">
                         <div>
                           <h4 className="text-lg font-bold text-white">{exp.role}</h4>
@@ -467,90 +478,13 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                         </span>
                       </div>
 
-                      <ul className="mt-4 space-y-2 text-sm text-white/85 list-disc list-inside leading-relaxed">
+                      <ul className="mt-4 space-y-2 text-sm text-white/85 list-disc list-inside leading-relaxed font-normal">
                         {exp.highlights.map((h, hIdx) => (
                           <li key={hIdx}>{h}</li>
                         ))}
                       </ul>
                     </div>
                   ))}
-                </motion.div>
-
-                {/* Hackathons Drawer Interactive Cards */}
-                <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  <h3 className="text-xl font-bold text-amber-300 mb-4 flex items-center gap-2 drop-shadow">
-                    <Trophy size={20} /> Hackathons & State Competitions
-                  </h3>
-
-                  <div className="space-y-4">
-                    {resumeData.hackathons.map((h, idx) => (
-                      <div 
-                        key={idx} 
-                        onClick={() => { setDrawerItem(h); setDrawerType('hackathon'); }}
-                        className="liquid-glass-interactive p-5 border-l-4 border-l-amber-400 border-white/25 cursor-pointer group hover:border-amber-300 transition-all"
-                      >
-                        <div className="flex justify-between items-start gap-2">
-                          <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">{h.title}</h4>
-                          <span className="text-[11px] font-bold text-amber-200 bg-amber-500/30 border border-amber-400/50 px-2.5 py-0.5 rounded-full shrink-0">
-                            {h.award}
-                          </span>
-                        </div>
-                        <div className="text-xs font-semibold text-cyan-300 mt-1">{h.role} ({h.location})</div>
-                        <p className="text-xs text-white/80 mt-2 leading-relaxed">{h.desc}</p>
-                        
-                        <div className="mt-3 text-[11px] font-mono font-bold text-amber-300/80 group-hover:text-amber-300 flex items-center gap-1 transition-colors">
-                          <span>Inspect Deep Dive & Tech Specs</span> <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-
-              </div>
-
-              {/* Right Column: Verified Certifications & Education */}
-              <div id="certifications" className="flex flex-col gap-8">
-                
-                {/* Certifications Drawer Interactive Cards */}
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <h3 className="text-xl font-bold text-emerald-300 mb-4 flex items-center gap-2 drop-shadow">
-                    <ShieldCheck size={20} /> Verified Industry Certifications
-                  </h3>
-
-                  <div className="grid grid-cols-1 gap-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-                    {resumeData.certifications.map((cert, idx) => (
-                      <div 
-                        key={idx} 
-                        onClick={() => { setDrawerItem(cert); setDrawerType('certification'); }}
-                        className="liquid-glass-interactive p-4 border-white/25 flex items-start justify-between gap-3 hover:border-emerald-400/60 transition-all cursor-pointer group"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shrink-0 shadow-sm group-hover:scale-105 transition-transform">
-                            <ShieldCheck size={20} />
-                          </div>
-                          <div>
-                            <h4 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">{cert.title}</h4>
-                            <div className="text-xs font-bold text-emerald-300">{cert.issuer}</div>
-                            <p className="text-xs text-white/75 mt-1 font-medium line-clamp-2">{cert.desc}</p>
-                          </div>
-                        </div>
-
-                        <div className="shrink-0 text-[11px] font-mono font-bold text-emerald-300/80 group-hover:text-emerald-300 flex items-center gap-0.5 transition-colors self-center">
-                          <span>Review</span> <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </motion.div>
 
                 {/* Education */}
