@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Bot, Send, X, Sparkles, User, RefreshCw, CheckCircle } from 'lucide-react';
+import { Bot, Send, X, Sparkles, User, RefreshCw, CheckCircle, Zap } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
 export default function AiChatModal({ isOpen, onClose }) {
@@ -13,13 +13,15 @@ export default function AiChatModal({ isOpen, onClose }) {
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
+  const grokApiKey = import.meta.env.VITE_GROK_API_KEY;
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
   if (!isOpen) return null;
 
-  const handleSend = (textToSend) => {
+  const handleSend = async (textToSend) => {
     const query = textToSend || input;
     if (!query.trim()) return;
 
@@ -28,9 +30,47 @@ export default function AiChatModal({ isOpen, onClose }) {
     if (!textToSend) setInput('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      let botAnswer = "Lohith is a final-year CS student (CGPA 8.6) proficient in both Java & Python as primary languages, React/Redux, FastAPI, Spring Boot, LangGraph, and RAG architectures. Check out his projects like AI-First CRM or DisasterLens for more details!";
-      
+    let botAnswer = "Lohith is a final-year CS student (CGPA 8.6) proficient in both Java & Python as primary languages, React/Redux, FastAPI, Spring Boot, LangGraph, and RAG architectures. Check out his projects like AI-First CRM or DisasterLens for more details!";
+
+    // Check if Grok API Key is present in .env
+    if (grokApiKey && grokApiKey.startsWith('xai-')) {
+      try {
+        const systemPrompt = `You are Lohith's Portfolio AI Assistant representing Lohith R C (B.E. CS student, CGPA 8.6 at Kalpataru Institute of Technology VTU, graduating 2027).
+Primary languages: Java and Python.
+Technical Skills: React, Redux, FastAPI, Spring Boot, LangGraph, RAG, FAISS, TensorFlow (CNN Ensembles), scikit-learn (Random Forest, DBSCAN), Grad-CAM & SHAP Explainability, PostgreSQL, MongoDB, Cisco CCNA Series, Cisco CyberOps Associate, IBM AI, AlgoUniversity Graph Theory.
+Projects: AI-First CRM (LangGraph + Groq), DisasterLens (Random Forest + DBSCAN + SHAP), Visionary Diagnostics (CNN Ensemble + Grad-CAM), Personal Knowledge Engine (PKE RAG), ModalBridge (ResNet + InfoNCE).
+Experience: CodeAlpha Full Stack Development Intern.
+Provide clear, professional, concise, and enthusiastic responses highlighting Lohith's skills and projects.`;
+
+        const res = await fetch("https://api.x.ai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${grokApiKey}`
+          },
+          body: JSON.stringify({
+            model: "grok-2-latest",
+            messages: [
+              { role: "system", content: systemPrompt },
+              ...newMessages.map(m => ({ role: m.sender === "user" ? "user" : "assistant", content: m.text }))
+            ],
+            temperature: 0.7
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.choices && data.choices[0]?.message?.content) {
+            botAnswer = data.choices[0].message.content;
+          }
+        } else {
+          console.warn("Grok API response not OK, using pre-seeded knowledge base.");
+        }
+      } catch (err) {
+        console.warn("Grok API call failed, falling back to local KB:", err);
+      }
+    } else {
+      // Pre-seeded local fallback logic
       const lowerQuery = query.toLowerCase();
       for (const kb of resumeData.aiKnowledgeBase) {
         if (kb.keywords.some(kw => lowerQuery.includes(kw))) {
@@ -38,10 +78,10 @@ export default function AiChatModal({ isOpen, onClose }) {
           break;
         }
       }
+    }
 
-      setMessages(prev => [...prev, { sender: 'bot', text: botAnswer }]);
-      setIsTyping(false);
-    }, 700);
+    setMessages(prev => [...prev, { sender: 'bot', text: botAnswer }]);
+    setIsTyping(false);
   };
 
   const sampleQuestions = [
@@ -80,8 +120,9 @@ export default function AiChatModal({ isOpen, onClose }) {
               <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#FFF' }}>
                 Ask Lohith's AI Assistant
               </h3>
-              <div style={{ fontSize: '0.75rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <CheckCircle size={12} /> Sourced from Verified Resume Knowledge Base
+              <div style={{ fontSize: '0.75rem', color: grokApiKey ? '#06B6D4' : '#10B981', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                {grokApiKey ? <Zap size={12} className="text-cyan-400" /> : <CheckCircle size={12} />} 
+                {grokApiKey ? 'Powered by Grok AI (xAI)' : 'Sourced from Verified Resume Knowledge Base'}
               </div>
             </div>
           </div>
@@ -120,7 +161,7 @@ export default function AiChatModal({ isOpen, onClose }) {
               key={idx}
               style={{
                 display: 'flex',
-                justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                justify: msg.sender === 'user' ? 'flex-end' : 'flex-start',
                 alignItems: 'flex-start',
                 gap: '10px'
               }}
