@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Code, Cpu, Database, Wrench, Search, CheckCircle, Star } from 'lucide-react';
+import { Cpu, Search, Sparkles } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
+import SkillsNetworkBackground from './SkillsNetworkBackground';
 
 export default function SkillsMatrix({ activeRole }) {
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredSkill, setHoveredSkill] = useState(null);
 
   const categories = ['All', ...resumeData.skillsCategory.map(c => c.category)];
 
@@ -25,43 +27,40 @@ export default function SkillsMatrix({ activeRole }) {
   }).filter(Boolean);
 
   return (
-    <section id="skills" style={{ padding: '80px 24px', position: 'relative' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+    <section id="skills" className="relative px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/70 backdrop-blur-xl overflow-hidden">
+      
+      {/* 3D R3F Skills Network Constellation Background */}
+      <SkillsNetworkBackground hoveredSkill={hoveredSkill} />
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         
         {/* Section Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ fontSize: '0.85rem', color: '#06B6D4', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
-            Technical Proficiency Matrix
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-widest mb-2 drop-shadow flex items-center justify-center gap-2">
+            <Sparkles size={14} className="text-cyan-400" /> Interactive 3D Neural Constellation
           </div>
-          <h2 style={{ fontSize: '2.4rem', fontWeight: '800', color: '#FFF', marginTop: '6px' }}>
-            Skills & Software Mastery
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
+            Software & Systems Mastery
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1rem', marginTop: '10px' }}>
-            Extracted from verified project implementations, open-source repositories, and coursework.
+          <p className="text-white/80 text-sm sm:text-base mt-3">
+            Hover over any skill to trigger real-time WebGL shader pulse waves across connected technology domains in 3D space.
           </p>
         </div>
 
         {/* Filter Controls & Search */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+        <div className="flex flex-wrap gap-4 justify-between items-center mb-8">
           
           {/* Category Tabs */}
-          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }}>
+          <div className="flex gap-2 overflow-x-auto pb-1 max-w-full">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveTab(cat)}
-                style={{
-                  background: activeTab === cat ? 'linear-gradient(135deg, #06B6D4 0%, #2563EB 100%)' : 'rgba(255, 255, 255, 0.05)',
-                  border: activeTab === cat ? '1px solid #38BDF8' : '1px solid var(--border-glass)',
-                  color: activeTab === cat ? '#FFF' : 'var(--text-muted)',
-                  borderRadius: '10px',
-                  padding: '8px 16px',
-                  fontSize: '0.85rem',
-                  fontWeight: activeTab === cat ? '600' : '500',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
+                className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all whitespace-nowrap ${
+                  activeTab === cat
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md border border-cyan-400'
+                    : 'liquid-pill text-white/70 hover:text-white'
+                }`}
               >
                 {cat}
               </button>
@@ -69,69 +68,57 @@ export default function SkillsMatrix({ activeRole }) {
           </div>
 
           {/* Search Input */}
-          <div style={{ position: 'relative', minWidth: '240px' }}>
-            <Search size={16} color="var(--text-dim)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+          <div className="relative min-w-[240px]">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
             <input 
               type="text"
-              placeholder="Search skill (e.g. Java, FastAPI)..."
+              placeholder="Search skill (e.g. Java, Python, React)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                width: '100%',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid var(--border-glass)',
-                borderRadius: '10px',
-                padding: '8px 12px 8px 36px',
-                color: '#FFF',
-                fontSize: '0.85rem',
-                outline: 'none'
-              }}
+              className="w-full rounded-xl bg-white/10 border border-white/25 pl-9 pr-4 py-2 text-xs text-white placeholder-white/50 outline-none focus:border-cyan-400"
             />
           </div>
 
         </div>
 
         {/* Skills Cards Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCategories.map((group, idx) => (
-            <div key={idx} className="glass-panel" style={{ padding: '24px' }}>
+            <div key={idx} className="liquid-glass p-6 border-white/25 hover:border-cyan-400/50 transition-all">
               
-              <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#06B6D4', marginBottom: '16px', borderBottom: '1px solid var(--border-glass)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Cpu size={18} color="#8B5CF6" /> {group.category}
+              <h3 className="text-lg font-bold text-cyan-300 mb-4 pb-2 border-b border-white/20 flex items-center gap-2">
+                <Cpu size={18} className="text-purple-300" /> {group.category}
               </h3>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div className="flex flex-col gap-3">
                 {group.skills.map((skill, sIdx) => (
                   <div 
-                    key={sIdx} 
-                    style={{
-                      background: skill.highlight ? 'rgba(6, 182, 212, 0.06)' : 'rgba(255, 255, 255, 0.02)',
-                      border: skill.highlight ? '1px solid rgba(6, 182, 212, 0.25)' : '1px solid var(--border-glass)',
-                      borderRadius: '12px',
-                      padding: '12px 14px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '4px'
-                    }}
+                    key={sIdx}
+                    onMouseEnter={() => setHoveredSkill(skill.name)}
+                    onMouseLeave={() => setHoveredSkill(null)}
+                    className={`p-3 rounded-xl border transition-all cursor-pointer ${
+                      hoveredSkill === skill.name
+                        ? 'bg-cyan-500/30 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-[1.02]'
+                        : skill.highlight 
+                        ? 'bg-cyan-500/15 border-cyan-400/30' 
+                        : 'bg-white/10 border-white/15 hover:bg-white/20'
+                    }`}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontWeight: '600', color: '#FFF', fontSize: '0.95rem' }}>
-                        {skill.name}
-                      </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-white">{skill.name}</span>
 
-                      <span style={{
-                        fontSize: '0.725rem',
-                        fontWeight: '600',
-                        padding: '2px 8px',
-                        borderRadius: '6px',
-                        background: skill.level === 'Primary' ? 'rgba(245, 158, 11, 0.2)' : skill.level === 'Advanced' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.1)',
-                        color: skill.level === 'Primary' ? '#F59E0B' : skill.level === 'Advanced' ? '#10B981' : 'var(--text-muted)'
-                      }}>
+                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
+                        skill.level === 'Primary' 
+                          ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' 
+                          : skill.level === 'Advanced' 
+                          ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50' 
+                          : 'liquid-pill text-white/80'
+                      }`}>
                         {skill.level}
                       </span>
                     </div>
 
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    <div className="text-xs text-white/75 mt-1 font-medium">
                       {skill.note}
                     </div>
                   </div>

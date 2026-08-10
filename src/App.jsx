@@ -16,6 +16,7 @@ import ProjectSimulatorModal from './components/ProjectSimulatorModal';
 import ProjectCard from './components/ProjectCard';
 import LinkFlowCaseStudyModal from './components/LinkFlowCaseStudyModal';
 import Carousel3D from './components/Carousel3D';
+import SkillsMatrix from './components/SkillsMatrix';
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -401,75 +402,8 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
           </div>
         </section>
 
-        {/* SCROLL-DRIVEN SECTION 2: TECHNICAL SKILLS MATRIX */}
-        <section id="skills" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/60 backdrop-blur-xl">
-          <div className="max-w-7xl mx-auto">
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto mb-12"
-            >
-              <div className="text-xs font-mono text-purple-300 font-bold uppercase tracking-widest mb-2 drop-shadow">
-                Technical Proficiency Matrix
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
-                Software & Systems Mastery
-              </h2>
-              <p className="text-white/80 text-sm sm:text-base mt-3">
-                Extracted from verified project implementations, open-source repositories, and coursework.
-              </p>
-            </motion.div>
-
-            {/* Skills Categories Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {resumeData.skillsCategory.map((group, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  className="liquid-glass p-6 border-white/25 hover:border-cyan-400/50 transition-all"
-                >
-                  <h3 className="text-lg font-bold text-cyan-300 mb-4 pb-2 border-b border-white/20 flex items-center gap-2">
-                    <Cpu size={18} className="text-purple-300" /> {group.category}
-                  </h3>
-
-                  <div className="flex flex-col gap-3">
-                    {group.skills.map((skill, sIdx) => (
-                      <div
-                        key={sIdx}
-                        className={`p-3 rounded-xl border transition-all ${
-                          skill.highlight 
-                            ? 'bg-cyan-500/20 border-cyan-400/40 shadow-sm' 
-                            : 'bg-white/10 border-white/15'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-white">{skill.name}</span>
-                          <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
-                            skill.level === 'Primary' 
-                              ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' 
-                              : skill.level === 'Advanced' 
-                              ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50' 
-                              : 'liquid-pill text-white/80'
-                          }`}>
-                            {skill.level}
-                          </span>
-                        </div>
-                        <div className="text-xs text-white/75 mt-1 font-medium">{skill.note}</div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-          </div>
-        </section>
+        {/* SCROLL-DRIVEN SECTION 2: TECHNICAL SKILLS MATRIX WITH 3D R3F SHADER CONSTELLATION */}
+        <SkillsMatrix activeRole={activeRole} />
 
         {/* SCROLL-DRIVEN SECTION 3: WORK EXPERIENCE, HACKATHONS & CERTIFICATIONS */}
         <section id="experience" className="px-5 py-20 sm:px-8 lg:px-12 border-t border-white/20 bg-black/40 backdrop-blur-xl">
