@@ -1,6 +1,6 @@
 # Lohith R C — Full-Stack & Agentic AI Software Engineer Portfolio
 
-> Single-Page Scroll Architecture featuring a Persistent Video Background Engine, 3D Spatial Project Carousel, R3F Interactive Skills Constellation, and iOS Liquid Glass Achievement Drawers.
+> Single-Page Scroll Architecture featuring a Persistent Video Background Engine, 3D Spatial Project Carousel, R3F Interactive Skills Constellation, iOS Liquid Glass Achievement Drawers, and Vercel Serverless API Routes.
 
 ![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat&logo=react)
 ![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?style=flat&logo=vite)
@@ -8,6 +8,7 @@
 ![Three.js](https://img.shields.io/badge/Three.js-R3F-black?style=flat&logo=three.js)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.4-FF0055?style=flat&logo=framer)
 ![Groq AI](https://img.shields.io/badge/Groq_API-Llama_3.3_70B-f50537?style=flat)
+![Vercel Serverless](https://img.shields.io/badge/Vercel-Serverless_API-000000?style=flat&logo=vercel)
 
 ---
 
@@ -15,23 +16,34 @@
 
 ### 1. Persistent Scroll-Driven Background Video Engine (`ScrollDrivenVideoBg.jsx`)
 - A continuous, full-screen high-definition background video that persists across the entire single-page layout.
-- Utilizes Framer Motion `useScroll()` & `useTransform()` to dynamically alter scale ($1.05\times \to 1.25\times$), hue rotation ($-12^\circ \to +12^\circ$), brightness, contrast, and backdrop blur based on scroll position.
+- Utilizes Framer Motion `useScroll()` & `useTransform()` to dynamically alter scale ($1.05\times \to 1.20\times$), y-parallax shift, and contrast.
+- Fully respects `prefers-reduced-motion: reduce` and features a high-contrast dark overlay floor ($0.65\to 0.92$) for WCAG AA text compliance.
 
 ### 2. Interactive 3D Spatial Carousel Flow (`Carousel3D.jsx`)
 - Custom 3D cylindrical card ring allowing drag/swipe rotation and keyboard navigation (`←` / `→`).
 - Interactive modal deep dives for system architecture diagrams, live interactive project simulators (e.g., LinkFlow Boomerang canvas, AI CRM agent logger, DisasterLens triage), and technical case studies.
 
-### 3. R3F Skills Constellation Shader (`SkillsMatrix.jsx`)
+### 3. R3F Skills Constellation Shader (`SkillsMatrix.jsx` & `SkillsNetworkBackground.jsx`)
 - Built with React Three Fiber, custom GLSL shaders, and instanced mesh particles.
 - Dynamic domain-matching pulse wave highlights connecting technology nodes when hovered over.
+- Includes `IntersectionObserver` pause-when-offscreen logic to eliminate unnecessary WebGL render loops when out of view.
 
 ### 4. iOS Liquid Glass Accordions & 3D Emerging Drawer (`AchievementAccordion.jsx` & `LiquidGlassAchievementDrawer.jsx`)
 - Collapsed-by-default primary headers (*Hackathons & State Competitions* & *Verified Industry Certifications*).
 - Cascading vertical flow lines connecting cards sequentially.
 - 3D physical emerging motion drawer (`scale: 0.82, rotateX: 15deg` $\to$ `scale: 1, rotateX: 0deg`) displaying verified Cisco Cert IDs, Credly badges, and deep-dive technical reviews.
 
-### 5. Ask Lohith's AI Assistant (`AiChatModal.jsx`)
-- Groq Llama-3.3-70B conversational AI assistant answering questions about Lohith's experience, hackathon awards, verified certifications, and project architectures.
+### 5. Secure Serverless AI Assistant & Contact Route (`api/chat.js` & `api/contact.js`)
+- Server-side Groq Llama-3.3-70B API route (`/api/chat.js`) ensuring zero client-side API key exposure.
+- Serverless contact transmission route (`/api/contact.js`) with complete request state management (`idle → submitting → success/error`) and mailto fallback.
+
+---
+
+## ⚡ Performance & Accessibility Optimizations
+
+- **Dynamic Code-Splitting**: All heavy modals and 3D scenes are lazy-loaded using `React.lazy()` and `<Suspense>`, reducing initial JS bundle size from **1.36 MB** down to **395 kB**.
+- **WCAG Accessibility**: Full `aria-label` coverage, screen-reader skip-to-content link (`#main-content`), keyboard focus trapping on modals, and `role="dialog"` attributes.
+- **Reduced Motion Support**: Integrated `useReducedMotion()` hooks across background transforms and spatial motion effects.
 
 ---
 
@@ -54,7 +66,7 @@ npm install
 ### Environment Variables
 Create a `.env` file in the root directory:
 ```env
-VITE_GROK_API_KEY=gsk_your_groq_api_key_here
+GROQ_API_KEY=gsk_your_groq_api_key_here
 ```
 
 ### Running Locally
@@ -89,7 +101,7 @@ npm run build
 
 ### Vercel (One-Click)
 1. Import `Lohith-RC/portfolio` on [Vercel](https://vercel.com/new).
-2. Set Environment Variable `VITE_GROK_API_KEY`.
+2. Set Environment Variable `GROQ_API_KEY`.
 3. Click **Deploy**.
 
 ---
