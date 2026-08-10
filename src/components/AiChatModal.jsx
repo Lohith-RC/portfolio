@@ -13,7 +13,7 @@ export default function AiChatModal({ isOpen, onClose }) {
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
-  const grokApiKey = import.meta.env.VITE_GROK_API_KEY;
+  const apiKey = import.meta.env.VITE_GROK_API_KEY;
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,24 +32,34 @@ export default function AiChatModal({ isOpen, onClose }) {
 
     let botAnswer = "Lohith is a final-year CS student (CGPA 8.6) proficient in both Java & Python as primary languages, React/Redux, FastAPI, Spring Boot, LangGraph, and RAG architectures. Check out his projects like AI-First CRM or DisasterLens for more details!";
 
-    // Check if Grok API Key is present in .env
-    if (grokApiKey && grokApiKey.startsWith('xai-')) {
-      try {
-        const systemPrompt = `You are Lohith's Portfolio AI Assistant representing Lohith R C (B.E. CS student, CGPA 8.6 at Kalpataru Institute of Technology VTU, graduating 2027).
+    const systemPrompt = `You are Lohith's Portfolio AI Assistant representing Lohith R C (B.E. CS student, CGPA 8.6 at Kalpataru Institute of Technology VTU, graduating 2027).
 Primary languages: Java and Python.
 Technical Skills: React, Redux, FastAPI, Spring Boot, LangGraph, RAG, FAISS, TensorFlow (CNN Ensembles), scikit-learn (Random Forest, DBSCAN), Grad-CAM & SHAP Explainability, PostgreSQL, MongoDB, Cisco CCNA Series, Cisco CyberOps Associate, IBM AI, AlgoUniversity Graph Theory.
 Projects: AI-First CRM (LangGraph + Groq), DisasterLens (Random Forest + DBSCAN + SHAP), Visionary Diagnostics (CNN Ensemble + Grad-CAM), Personal Knowledge Engine (PKE RAG), ModalBridge (ResNet + InfoNCE).
 Experience: CodeAlpha Full Stack Development Intern.
 Provide clear, professional, concise, and enthusiastic responses highlighting Lohith's skills and projects.`;
 
-        const res = await fetch("https://api.x.ai/v1/chat/completions", {
+    if (apiKey) {
+      try {
+        let endpoint = "https://api.groq.com/openai/v1/chat/completions";
+        let model = "llama-3.3-70b-versatile";
+
+        if (apiKey.startsWith("xai-")) {
+          endpoint = "https://api.x.ai/v1/chat/completions";
+          model = "grok-2-latest";
+        } else if (apiKey.startsWith("gsk_")) {
+          endpoint = "https://api.groq.com/openai/v1/chat/completions";
+          model = "llama-3.3-70b-versatile";
+        }
+
+        const res = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${grokApiKey}`
+            "Authorization": `Bearer ${apiKey.trim()}`
           },
           body: JSON.stringify({
-            model: "grok-2-latest",
+            model: model,
             messages: [
               { role: "system", content: systemPrompt },
               ...newMessages.map(m => ({ role: m.sender === "user" ? "user" : "assistant", content: m.text }))
@@ -64,10 +74,10 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
             botAnswer = data.choices[0].message.content;
           }
         } else {
-          console.warn("Grok API response not OK, using pre-seeded knowledge base.");
+          console.warn("AI API response not OK:", res.status, await res.text());
         }
       } catch (err) {
-        console.warn("Grok API call failed, falling back to local KB:", err);
+        console.warn("AI API call failed, falling back to local KB:", err);
       }
     } else {
       // Pre-seeded local fallback logic
@@ -112,7 +122,7 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
             <div style={{
               width: '36px', height: '36px', borderRadius: '10px',
               background: 'linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF'
+              display: 'flex', alignItems: 'center', justifyCenter: 'center', color: '#FFF'
             }}>
               <Bot size={20} />
             </div>
@@ -120,9 +130,9 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
               <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#FFF' }}>
                 Ask Lohith's AI Assistant
               </h3>
-              <div style={{ fontSize: '0.75rem', color: grokApiKey ? '#06B6D4' : '#10B981', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                {grokApiKey ? <Zap size={12} className="text-cyan-400" /> : <CheckCircle size={12} />} 
-                {grokApiKey ? 'Powered by Grok AI (xAI)' : 'Sourced from Verified Resume Knowledge Base'}
+              <div style={{ fontSize: '0.75rem', color: apiKey ? '#06B6D4' : '#10B981', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                {apiKey ? <Zap size={12} className="text-cyan-400" /> : <CheckCircle size={12} />} 
+                {apiKey ? (apiKey.startsWith('gsk_') ? 'Powered by Groq AI (Llama 3.3 70B)' : 'Powered by Grok AI (xAI)') : 'Sourced from Verified Resume Knowledge Base'}
               </div>
             </div>
           </div>
@@ -167,7 +177,7 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
               }}
             >
               {msg.sender === 'bot' && (
-                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#8B5CF6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', flexShrink: 0 }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#8B5CF6', display: 'flex', alignItems: 'center', justifyCenter: 'center', color: '#FFF', flexShrink: 0 }}>
                   <Bot size={14} />
                 </div>
               )}
@@ -186,7 +196,7 @@ Provide clear, professional, concise, and enthusiastic responses highlighting Lo
                 {msg.text}
               </div>
               {msg.sender === 'user' && (
-                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#06B6D4', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', flexShrink: 0 }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#06B6D4', display: 'flex', alignItems: 'center', justifyCenter: 'center', color: '#FFF', flexShrink: 0 }}>
                   <User size={14} />
                 </div>
               )}

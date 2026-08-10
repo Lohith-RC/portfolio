@@ -8,6 +8,7 @@ import {
 
 import { resumeData } from './data/resumeData';
 import { GithubIcon, LinkedinIcon } from './components/BrandIcons';
+import lohithImg from './assets/lohith.jpg';
 
 import AiChatModal from './components/AiChatModal';
 import ArchitectureModal from './components/ArchitectureModal';
@@ -116,7 +117,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4"
       />
 
-      {/* Subtle Dark Ambient Tint for 100% High Contrast Text Readability */}
+      {/* Ambient Tint Layer */}
       <div className="fixed inset-0 bg-gradient-to-b from-[#080C14]/40 via-[#080C14]/60 to-[#080C14]/90 z-0 pointer-events-none" />
 
       {/* Content Wrapper */}
@@ -124,11 +125,13 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
         
         {/* iOS Liquid Glass Top Navigation Bar */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-5 py-4 sm:px-8 sm:py-5 lg:px-12 backdrop-blur-2xl bg-white/10 border-b border-white/20 shadow-lg">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 text-white no-underline group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md group-hover:scale-105 transition-transform">
-              <Terminal size={18} />
-            </div>
+          {/* Logo with Lohith Image Avatar */}
+          <a href="#" className="flex items-center gap-3 text-white no-underline group">
+            <img 
+              src={lohithImg} 
+              alt="Lohith R C" 
+              className="w-10 h-10 rounded-full object-cover border-2 border-cyan-400 shadow-md group-hover:scale-105 transition-transform" 
+            />
             <div className="flex flex-col">
               <span className="text-lg font-bold tracking-tight text-white drop-shadow-sm">
                 Lohith<span className="text-cyan-400">.dev</span>
@@ -267,24 +270,29 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                 </div>
               </div>
 
-              {/* Experience Highlight Card */}
-              <div className="liquid-glass p-5 sm:w-64 sm:p-6 border-white/30">
-                <div className="mb-3 sm:mb-4 flex items-center gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-xs font-bold text-white shadow-sm">
-                    <Code2 size={14} />
+              {/* Profile Card with Lohith Image */}
+              <div className="liquid-glass p-5 sm:w-64 sm:p-6 border-white/30 flex flex-col justify-between">
+                <div>
+                  <div className="mb-3 sm:mb-4 flex items-center gap-2">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-xs font-bold text-white shadow-sm">
+                      <Code2 size={14} />
+                    </div>
+                    <span className="text-sm font-semibold text-white drop-shadow-sm">CodeAlpha Intern</span>
                   </div>
-                  <span className="text-sm font-semibold text-white drop-shadow-sm">CodeAlpha Intern</span>
+                  <p className="text-sm leading-relaxed text-white/90">
+                    "Shipped end-to-end full-stack web applications with React UI, state management, and Python REST APIs."
+                  </p>
                 </div>
-                <p className="text-sm leading-relaxed text-white/90">
-                  "Shipped end-to-end full-stack web applications with React UI, state management, and Python REST APIs."
-                </p>
-                <div className="mt-4 sm:mt-5 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow">
-                    LRC
-                  </div>
+                
+                <div className="mt-4 sm:mt-5 flex items-center gap-3 pt-3 border-t border-white/20">
+                  <img
+                    src={lohithImg}
+                    alt="Lohith R C"
+                    className="h-11 w-11 rounded-full object-cover border-2 border-cyan-400 shadow-md"
+                  />
                   <div>
-                    <div className="text-sm font-semibold text-white">Lohith R C</div>
-                    <div className="text-xs text-white/70">Full-Stack & AI Engineer</div>
+                    <div className="text-sm font-bold text-white">Lohith R C</div>
+                    <div className="text-xs text-cyan-300 font-medium">Full-Stack & AI Engineer</div>
                   </div>
                 </div>
               </div>
