@@ -15,6 +15,7 @@ import ArchitectureModal from './components/ArchitectureModal';
 import ProjectSimulatorModal from './components/ProjectSimulatorModal';
 import AchievementDrawer from './components/AchievementDrawer';
 import PlaintextResumeModal from './components/PlaintextResumeModal';
+import ProjectCaseStudyModal from './components/ProjectCaseStudyModal';
 
 export default function App() {
   const { personalInfo, roleModes, stats, genesisTimeline, skillsCategory, projects, experience, hackathons, certifications } = resumeData;
@@ -34,6 +35,7 @@ export default function App() {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [architectureModalProject, setArchitectureModalProject] = useState(null);
+  const [caseStudyModalProject, setCaseStudyModalProject] = useState(null);
   const [simulatorModalProject, setSimulatorModalProject] = useState(null);
   const [drawerItem, setDrawerItem] = useState(null);
   const [drawerType, setDrawerType] = useState(null);
@@ -169,14 +171,34 @@ export default function App() {
            ======================================================== */}
         <section id="top" className="space-y-8">
           
-          {/* Status Bar */}
-          <div className="flex items-center gap-3 text-[#78716C] font-mono text-xs">
-            <span className="text-blue-700 font-serif-editorial italic text-lg">Developer & Engineer</span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5 text-emerald-700 font-medium">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              IST {currentTime || "11:30 PM"} • Available for Full-Time Roles
-            </span>
+          {/* Status Bar & Credibility Monogram Badge */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/[0.08] pb-4">
+            <div className="flex items-center gap-3">
+              <div className="relative group">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-900 via-stone-800 to-stone-950 text-white flex items-center justify-center font-serif-editorial text-xl font-bold shadow-md border border-stone-700">
+                  LRC
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white ring-1 ring-emerald-300" title="Active & Available" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-sm sm:text-base text-[#0C0A09]">Lohith R C</span>
+                  <span className="font-mono text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                    VTU '27 • 8.6 CGPA
+                  </span>
+                </div>
+                <span className="text-xs text-[#78716C] font-mono">
+                  Frontend Lead & TPM @ SkillForge • SDE & Systems
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 text-[#78716C] font-mono text-xs">
+              <span className="flex items-center gap-1.5 text-emerald-800 font-medium bg-emerald-50/90 px-3 py-1.5 rounded-full border border-emerald-200">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                IST {currentTime || "11:30 PM"} • Open to SWE & AI Roles
+              </span>
+            </div>
           </div>
 
           {/* Large Hero Title */}
@@ -412,6 +434,9 @@ export default function App() {
                   <span className="text-xs font-mono text-[#78716C] hidden sm:inline">
                     {currentProject?.category}
                   </span>
+                  <span className="text-[11px] font-mono text-stone-400 sm:hidden">
+                    (Swipe card or use arrows)
+                  </span>
                 </div>
 
                 {/* Arrow Buttons */}
@@ -433,26 +458,42 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Animated Carousel Card Showcase */}
+              {/* Animated Carousel Card Showcase with Drag Support */}
               <div className="relative overflow-hidden min-h-[440px]">
                 <AnimatePresence mode="wait" custom={carouselDirection}>
                   <motion.div
                     key={currentProject.id}
                     custom={carouselDirection}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(_, info) => {
+                      const swipeThreshold = 50;
+                      if (info.offset.x < -swipeThreshold) {
+                        handleNextSlide();
+                      } else if (info.offset.x > swipeThreshold) {
+                        handlePrevSlide();
+                      }
+                    }}
                     initial={{ opacity: 0, x: carouselDirection > 0 ? 80 : -80 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: carouselDirection > 0 ? -80 : 80 }}
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full story-bento-card p-7 sm:p-9 flex flex-col justify-between space-y-6 border-black/[0.12] shadow-lg"
+                    className="w-full story-bento-card p-7 sm:p-9 flex flex-col justify-between space-y-6 border-black/[0.12] shadow-lg cursor-grab active:cursor-grabbing select-none"
                   >
                     <div className="space-y-4">
                       
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                         <div className="space-y-1">
-                          <div className="flex items-center gap-2">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="font-mono text-xs uppercase tracking-widest text-blue-700 font-semibold">
                               {currentProject.category}
                             </span>
+                            {currentProject.latencyBenchmark && (
+                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                                ⚡ {currentProject.latencyBenchmark}
+                              </span>
+                            )}
                             {currentProject.featured && (
                               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1">
                                 <Sparkles className="w-3 h-3 text-amber-600" /> Featured
@@ -518,6 +559,15 @@ export default function App() {
                         >
                           <Play className="w-3.5 h-3.5 fill-white text-white" />
                           <span>Try Interactive Demo</span>
+                        </button>
+
+                        <button
+                          onClick={() => setCaseStudyModalProject(currentProject)}
+                          className="btn-glass-tactile text-xs py-2.5 px-4"
+                          title="View In-Depth System Case Study & Tradeoffs"
+                        >
+                          <BookOpen className="w-3.5 h-3.5 text-blue-700" />
+                          <span>Case Study & Tradeoffs</span>
                         </button>
 
                         <button
@@ -596,9 +646,16 @@ export default function App() {
                   <div className="space-y-3">
                     <div className="flex items-start justify-between gap-3">
                       <div className="space-y-1">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-blue-700 font-semibold">
-                          {project.category}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="font-mono text-[10px] uppercase tracking-widest text-blue-700 font-semibold">
+                            {project.category}
+                          </span>
+                          {project.latencyBenchmark && (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                              ⚡ {project.latencyBenchmark}
+                            </span>
+                          )}
+                        </div>
                         <h3 className="text-xl sm:text-2xl font-bold font-display text-[#0C0A09]">
                           {project.title}
                         </h3>
@@ -662,6 +719,15 @@ export default function App() {
                       >
                         <Play className="w-3.5 h-3.5 fill-white text-white" />
                         <span>Try Demo</span>
+                      </button>
+
+                      <button
+                        onClick={() => setCaseStudyModalProject(project)}
+                        className="btn-glass-tactile text-xs py-2 px-3.5"
+                        title="View Architecture & Tradeoffs"
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-blue-700" />
+                        <span>Case Study</span>
                       </button>
 
                       <button
@@ -1009,6 +1075,14 @@ export default function App() {
           project={architectureModalProject}
           isOpen={!!architectureModalProject}
           onClose={() => setArchitectureModalProject(null)}
+        />
+      )}
+
+      {caseStudyModalProject && (
+        <ProjectCaseStudyModal
+          project={caseStudyModalProject}
+          isOpen={!!caseStudyModalProject}
+          onClose={() => setCaseStudyModalProject(null)}
         />
       )}
 
