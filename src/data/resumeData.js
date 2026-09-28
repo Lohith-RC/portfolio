@@ -549,8 +549,8 @@ def make_gradcam_heatmap(img_array, model, last_conv_layer_name, pred_index=None
     pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
     heatmap = conv_outputs[0] @ pooled_grads[..., tf.newaxis]
     return tf.squeeze(tf.maximum(heatmap, 0)).numpy()`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
+      github: "https://github.com/Lohith-RC/Oral-Cancer-Detection",
+      demoUrl: "https://github.com/Lohith-RC/Oral-Cancer-Detection"
     },
     {
       id: "pke-rag",
@@ -580,8 +580,8 @@ from langchain_openai import OpenAIEmbeddings
 vectorstore = FAISS.from_documents(chunks, OpenAIEmbeddings())
 retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
 qa_chain = RetrievalQA.from_chain_type(llm=OpenAI(temperature=0), retriever=retriever)`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
+      github: "https://github.com/Lohith-RC/Oral-Cancer-Detection",
+      demoUrl: "https://github.com/Lohith-RC/Oral-Cancer-Detection"
     }
   ],
 

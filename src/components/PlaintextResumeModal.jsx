@@ -3,15 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Copy, Check, Download, FileText, Sparkles, Terminal } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
-export default function PlaintextResumeModal({ isOpen, onClose }) {
-  const [copied, setCopied] = useState(false);
-
-  if (!isOpen) return null;
-
-  const getAtsResumeText = () => {
-    const { personalInfo, experience, projects, certifications, hackathons, education } = resumeData;
-    
-    return `============================================================
+export function getAtsResumeText(data = resumeData) {
+  const { personalInfo, experience, projects, certifications, hackathons } = data;
+  
+  return `============================================================
 ${personalInfo.name.toUpperCase()}
 ${personalInfo.title}
 Email: ${personalInfo.email} | Phone: ${personalInfo.phone}
@@ -43,7 +38,7 @@ ${projects.map(p => `${p.title.toUpperCase()}
 Category: ${p.category} | Stack: ${p.stack.join(', ')}
 Link: ${p.demoUrl || p.github}
 • Overview: ${p.description}
-• Key Architecture: ${p.architectureNodes.map(n => n.name).join(' -> ')}
+• Key Architecture: ${p.architectureNodes ? p.architectureNodes.map(n => n.name).join(' -> ') : 'N/A'}
 `).join('\n')}
 
 NATIONAL HACKATHONS & COMPETITIONS
@@ -58,26 +53,20 @@ INDUSTRY CERTIFICATIONS & CREDENTIALS
 ------------------------------------------------------------
 ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c.certId})` : ''}`).join('\n')}
 `;
-  };
+}
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(getAtsResumeText());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handlePrintPdf = () => {
-    const printWindow = window.open('', '_blank');
-    if (!printWindow) {
-      window.print();
-      return;
-    }
-    const { personalInfo, experience, projects, certifications, hackathons } = resumeData;
-    printWindow.document.write(`<!DOCTYPE html>
+export function printPdfResume(data = resumeData) {
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    window.print();
+    return;
+  }
+  const { personalInfo, experience, projects, certifications, hackathons } = data;
+  printWindow.document.write(`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>${personalInfo.name} - Executive Technical Resume</title>
+  <title>${personalInfo.name} - Technical Resume</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -146,7 +135,7 @@ ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c
         </div>
         <div class="item-sub">
           <span>${exp.company} • ${exp.location}</span>
-          <span>${exp.mode || 'Technical Leadership'}</span>
+          <span>${exp.type || 'Technical Leadership'}</span>
         </div>
         <ul>
           ${exp.highlights.map(h => `<li>${h}</li>`).join('')}
@@ -165,7 +154,7 @@ ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c
         </div>
         <div class="tech-stack"><strong>Stack:</strong> ${p.stack.join(', ')}</div>
         <p style="font-size: 11.5px; color: #334155; margin: 3px 0;">${p.description}</p>
-        <div style="font-size: 10.5px; color: #475569; font-style: italic;">Architecture: ${p.architectureNodes.map(n => n.name).join(' → ')}</div>
+        <div style="font-size: 10.5px; color: #475569; font-style: italic;">Architecture: ${p.architectureNodes ? p.architectureNodes.map(n => n.name).join(' → ') : 'N/A'}</div>
       </div>
     `).join('')}
   </div>
@@ -205,7 +194,28 @@ ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c
   </script>
 </body>
 </html>`);
-    printWindow.document.close();
+  printWindow.document.close();
+}
+
+export default function PlaintextResumeModal({ isOpen, onClose }) {
+  const [copied, setCopied] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(getAtsResumeText());
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    const element = document.createElement('a');
+    const file = new Blob([getAtsResumeText()], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'Lohith_RC_Resume.txt';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   };
 
   return (
@@ -245,7 +255,7 @@ ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-stone-400 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+              className="p-2 rounded-xl text-stone-400 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -264,8 +274,8 @@ ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <button
-                onClick={handlePrintPdf}
-                className="btn-radiant-primary text-xs py-2 px-3.5"
+                onClick={() => printPdfResume(resumeData)}
+                className="btn-radiant-primary text-xs py-2 px-3.5 cursor-pointer"
                 title="Print or Save as Formatted PDF"
               >
                 <Download className="w-4 h-4" />
@@ -273,17 +283,17 @@ ${certifications.map(c => `• ${c.title} — ${c.issuer} ${c.certId ? `(ID: ${c
               </button>
               <button
                 onClick={handleCopy}
-                className="btn-glass-tactile text-xs py-2 px-3.5"
+                className="btn-glass-tactile text-xs py-2 px-3.5 cursor-pointer"
               >
                 {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                <span>{copied ? "Copied!" : "Copy TXT"}</span>
+                <span>{copied ? 'Copied!' : 'Copy TXT'}</span>
               </button>
               <button
                 onClick={handleDownload}
-                className="btn-cyber-glow text-xs py-2 px-3.5"
+                className="btn-cyber-glow text-xs py-2 px-3.5 cursor-pointer"
               >
                 <Download className="w-4 h-4" />
-                <span>.TXT</span>
+                <span>Download .TXT</span>
               </button>
             </div>
           </div>

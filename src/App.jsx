@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Terminal, Shield, Cpu, Code2, Sparkles, ExternalLink, 
+  Terminal, Download, Shield, Cpu, Code2, Sparkles, ExternalLink, 
   Mail, Phone, FileText, ChevronRight, ChevronLeft, CheckCircle2, ArrowUpRight, 
   Layers, Trophy, Award, Search, Copy, Check, Play, BookOpen, Compass, 
   Send, Bot, CornerDownRight, Database, Server, Smartphone, MonitorSmartphone,
@@ -14,7 +14,7 @@ import AiChatModal from './components/AiChatModal';
 import ArchitectureModal from './components/ArchitectureModal';
 import ProjectSimulatorModal from './components/ProjectSimulatorModal';
 import AchievementDrawer from './components/AchievementDrawer';
-import PlaintextResumeModal from './components/PlaintextResumeModal';
+import PlaintextResumeModal, { printPdfResume } from './components/PlaintextResumeModal';
 import ProjectCaseStudyModal from './components/ProjectCaseStudyModal';
 
 export default function App() {
@@ -153,11 +153,12 @@ export default function App() {
               <span className="hidden sm:inline font-semibold">Ask AI</span>
             </button>
             <button
-              onClick={() => setIsResumeModalOpen(true)}
-              className="btn-radiant-primary py-1.5 px-3.5 text-xs"
+              onClick={() => printPdfResume(resumeData)}
+              className="btn-radiant-primary py-1.5 px-3.5 text-xs cursor-pointer"
+              title="Download or Print PDF Resume"
             >
-              <FileText className="w-3.5 h-3.5" />
-              <span>Resume</span>
+              <Download className="w-3.5 h-3.5" />
+              <span>Resume (PDF)</span>
             </button>
           </div>
         </div>
@@ -260,8 +261,17 @@ export default function App() {
             </a>
 
             <button
+              onClick={() => printPdfResume(resumeData)}
+              className="btn-radiant-primary bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white shadow-lg shadow-blue-700/20 cursor-pointer"
+              title="1-Click Download or Print Official PDF Resume"
+            >
+              <Download className="w-4 h-4 text-white" />
+              <span>Download Resume (PDF)</span>
+            </button>
+
+            <button
               onClick={() => setIsAiModalOpen(true)}
-              className="btn-cyber-glow"
+              className="btn-cyber-glow cursor-pointer"
             >
               <Bot className="w-4 h-4 text-blue-700" />
               <span>Ask AI Assistant</span>
@@ -269,10 +279,11 @@ export default function App() {
 
             <button
               onClick={() => setIsResumeModalOpen(true)}
-              className="btn-glass-tactile"
+              className="btn-glass-tactile cursor-pointer"
+              title="View Standard Machine-Readable Plaintext ATS Resume"
             >
               <FileText className="w-4 h-4 text-[#44403C]" />
-              <span>Plaintext ATS Resume</span>
+              <span>Plaintext ATS</span>
             </button>
 
             <a
@@ -283,6 +294,16 @@ export default function App() {
             >
               <GithubIcon size={16} />
               <span>GitHub</span>
+            </a>
+
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-glass-tactile text-[#0A66C2]"
+            >
+              <LinkedinIcon size={16} />
+              <span>LinkedIn</span>
             </a>
           </div>
 
