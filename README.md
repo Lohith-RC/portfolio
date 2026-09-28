@@ -1,12 +1,12 @@
-# 🌐 Lohith R C — Full-Stack & Applied AI/ML Engineer
+# 🌐 Lohith R C — Full-Stack Developer & Applied AI Engineer
 
 <div align="center">
 
-[![Portfolio](https://img.shields.io/badge/Live_Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-delta-five-xn2osh53b6.vercel.app/)
+[![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-FAFAF9?style=for-the-badge&logo=vercel&logoColor=1c1917)](https://portfolio-delta-five-xn2osh53b6.vercel.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lohith-r-c/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Lohith-RC)
 [![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:lohithraj9090@gmail.com)
-[![Phone](https://img.shields.io/badge/Phone-+91_78994_60920-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/917899460920)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-+91_78994_60920-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/917899460920)
 
 <br />
 
@@ -19,18 +19,15 @@
   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝    ╚═╝  ╚═╝     ╚═════╝
 ```
 
-### **Full-Stack Developer • Agentic AI & ML Systems Architect • Cisco Certified Network & CyberOps Associate**
+### **Full-Stack Developer • Applied AI & ML Engineer • Cisco Certified CyberOps & CCNA**
 *Final-Year B.E. in Computer Science & Engineering @ Kalpataru Institute of Technology (VTU) • **CGPA: 8.6 / 10***  
 *Frontend Lead & Technical Project Manager @ SkillForge (MagnusCopo & Elcarreira Technologies)*
 
 <br />
 
-<!-- Tech Stack Badges -->
 ![React 19](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite 8](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Tailwind CSS v4](https://img.shields.io/badge/TailwindCSS_v4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)
-![Three.js](https://img.shields.io/badge/Three.js-R3F-000000?style=flat-square&logo=three.js&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-FF0055?style=flat-square&logo=framer&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite_Fast_Build-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Java](https://img.shields.io/badge/Java_Enterprise-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
@@ -45,161 +42,160 @@
 
 ## 📑 Table of Contents
 
-- [Executive Summary](#-executive-summary)
-- [System Architecture & Data Flow](#-system-architecture--data-flow)
-- [Interactive UI Engineering & Visual Innovation](#-interactive-ui-engineering--visual-innovation)
-- [Featured Production & Research Projects](#-featured-production--research-projects)
-- [Interactive Role-Tailored Engineering Modes](#-interactive-role-tailored-engineering-modes)
-- [Verified Industry Credentials & Certifications Ledger](#-verified-industry-credentials--certifications-ledger)
-- [Hackathons, Ideathons & State Engineering Expos](#-hackathons-ideathons--state-engineering-expos)
+- [Overview & Design Philosophy](#-overview--design-philosophy)
+- [Key Features](#-key-features)
+- [System Architecture](#-system-architecture)
+- [Featured Projects](#-featured-projects)
+- [Role-Tailored Engineering Modes](#-role-tailored-engineering-modes)
+- [Verified Industry Credentials](#-verified-industry-credentials)
+- [Hackathons & Competitions](#-hackathons--competitions)
 - [Technical Skills Matrix](#-technical-skills-matrix)
-- [Performance & Accessibility Engineering](#-performance--accessibility-engineering)
-- [Local Development & Environment Setup](#-local-development--environment-setup)
-- [Deployment & Serverless Configuration](#-deployment--serverless-configuration)
+- [Local Development Setup](#-local-development-setup)
+- [Deployment & Serverless API](#-deployment--serverless-api)
 - [Contact & Connect](#-contact--connect)
 
 ---
 
-## ⚡ Executive Summary
+## 🏛 Overview & Design Philosophy
 
-Lohith R C is a final-year Computer Science & Engineering undergraduate (**8.6 / 10 CGPA**) at Kalpataru Institute of Technology (VTU) and Frontend Lead & TPM at SkillForge. This flagship portfolio is an engineered single-page application pushing the envelope of modern web development — marrying **React 19, Tailwind CSS v4, Three.js / React Three Fiber, GLSL shaders, Framer Motion**, and **Vercel Serverless Functions** with an ultra-responsive, accessible, and high-performance design system.
+This portfolio is an editorial, light-themed engineering showcase inspired by top-tier minimalist portfolios (such as [Adithya Krishna's portfolio](https://adikrz.netlify.app/) on *Wall of Portfolios*). 
+
+Built with **simple English, clean typography, and zero clutter**, it presents real engineering depth with measurable performance metrics, architectural case studies, interactive simulators, and an ATS-friendly dual resume export system.
 
 ### Key Metrics at a Glance
 
 | Metric | Detail | Highlight |
 | :--- | :--- | :--- |
 | **🎓 Academic Standing** | B.E. Computer Science & Engineering | **8.6 / 10 CGPA** (Expected 2027) |
-| **🏆 Hackathons & Expos** | 10+ State & National Competitions | Finalist @ MIT Mysore, Bharatiya Antariksh, SRISHTI |
+| **💼 Professional Leadership** | Frontend Lead & Technical Project Manager | SkillForge (MagnusCopo & Elcarreira Tech) |
+| **🏆 Competitions & Expos** | 10+ State & National Competitions | Finalist @ MIT Mysore, Bharatiya Antariksh, SRISHTI |
 | **📜 Verified Credentials** | 15+ Industry Accreditations | Cisco CyberOps Associate, CCNA 1-3, IBM AI Credly |
-| **💼 Current Leadership** | Frontend Lead & Technical Project Manager | SkillForge (MagnusCopo & Elcarreira Tech) |
-| **⚡ Production Bundle** | Code-Split Modern Bundle | **395 kB** Initial JS (Lazy-loaded 3D & Modals) |
-| **🤖 Serverless AI** | Groq LLaMA 3.3-70B API Engine | Zero-token client exposure (<200ms latency) |
+| **⚡ Build Performance** | Production bundle compile time | **< 460ms** with zero TypeScript / lint errors |
+| **🤖 Serverless AI Assistant** | Groq LLaMA 3.3-70B API Engine | Context-aware responses with sub-200ms latency |
 
 ---
 
-## 🏗 System Architecture & Data Flow
+## ✨ Key Features
+
+### 1. 🎠 Interactive Project Carousel & Grid Switcher
+- **Smooth Gestures**: Drag-and-swipe gestures on desktop and mobile, with keyboard arrow navigation.
+- **View Toggle**: Switch effortlessly between a focused, full-card Carousel view and an expansive multi-card Grid view.
+- **Performance Badges**: Every project highlights real-world quantitative latency and precision metrics (e.g., `< 35ms PEP Decision`, `< 48ms DBSCAN Spatial Clustering`).
+
+### 2. 📐 Architectural Case Studies Modal
+- Deep dives into actual engineering problems, tradeoffs, and decisions.
+- **Chosen vs. Rejected Alternatives**: Explains why specific technologies or patterns were selected over standard alternatives (e.g., choosing *DBSCAN* over *K-Means* for spatial disaster rescue zones).
+- **Quantified Benchmarks**: Real metrics covering latency, accuracy, and operational throughput.
+
+### 3. 🧪 In-Browser Interactive Project Simulators
+- Test project logic live inside the portfolio without leaving the browser:
+  - **DisasterLens Simulator**: Input casualty counts and water levels to test real-time urgency scoring and rescue zone clustering.
+  - **MedPulse AI Simulator**: Paste doctor consultation notes to test agentic entity extraction.
+  - **TrustSphere Zero-Trust Simulator**: Trigger real-time Policy Enforcement Point access decisions.
+
+### 4. 📄 Dual-Mode Executive Resume System
+- **1-Click Executive PDF Print**: Generates a high-density, print-calibrated single-page resume matching the portfolio's editorial design, complete with verified credential IDs and live links.
+- **Machine-Readable ATS Plaintext Modal**: Exports an unformatted, parse-friendly text resume with one-click clipboard copying, optimized for Applicant Tracking Systems.
+
+### 5. 🧱 Compact Minimalist Technology Matrix
+- Replaced overwhelming graphs with a compact, structured technology block.
+- Neatly categorized into **Languages**, **Frontend**, **Backend & APIs**, **AI & Data Engineering**, **Systems & Cloud**, and **Networking & Security**.
+
+### 6. 🤖 Built-In AI Assistant
+- Live chatbot powered by **Groq LLaMA 3.3-70B** with context on Lohith's technical background, projects, and architecture decisions.
+
+---
+
+## 🏗 System Architecture
 
 ```mermaid
 graph TD
-    subgraph Client ["Client Browser (React 19 + Tailwind v4)"]
-        UI["Single-Page Reactive Layout"]
+    subgraph Client ["Client Browser (React 19 + Tailwind CSS)"]
+        UI["Editorial Single-Page Application"]
         RoleEngine["Dynamic Role Selector Engine"]
-        VideoEngine["Persistent Parallax Video Engine"]
-        ThreeScene["R3F Skills Constellation & Particle Shader"]
-        Carousel["3D Cylindrical Spatial Carousel"]
-        Drawers["Liquid Glass Achievement Drawer"]
-        Modals["Interactive Modals: Arch / Simulator / Case Study"]
-        AIChat["Interactive AI Assistant Modal"]
+        Carousel["Interactive Project Carousel & Grid"]
+        CaseStudyModal["Engineering Case Study Deep-Dive"]
+        SimModal["Live Project Interactive Sandbox"]
+        ResumeEngine["Dual Resume Exporter (PDF + ATS Plaintext)"]
+        AIChat["Context-Aware Groq AI Assistant Modal"]
     end
 
-    subgraph Serverless ["Vercel Edge & Serverless Layer"]
+    subgraph Serverless ["Vercel Edge / Serverless API"]
         ChatAPI["/api/chat.js (Groq LLaMA 3.3-70B)"]
-        ContactAPI["/api/contact.js (Lead Capture & Mail Delivery)"]
+        ContactAPI["/api/contact.js (Inquiry Delivery)"]
     end
 
-    subgraph External ["External Services & Verification"]
-        GroqCloud["Groq Cloud API (Sub-200ms Inference)"]
-        Credly["Credly & Cisco NetAcad Credential Verification"]
-        Formspree["Formspree / Mailto Gateway"]
-        GitHub["GitHub Repositories & Release Artifacts"]
+    subgraph Verification ["External Verifications"]
+        CiscoCreds["Cisco NetAcad Credential Verification"]
+        Credly["Credly IBM Badges"]
+        GitHub["GitHub Repositories & Demos"]
     end
 
     UI --> RoleEngine
-    UI --> VideoEngine
-    UI --> ThreeScene
     UI --> Carousel
-    UI --> Drawers
-    Carousel --> Modals
+    Carousel --> CaseStudyModal
+    Carousel --> SimModal
+    UI --> ResumeEngine
+    UI --> AIChat
     AIChat --> ChatAPI
-    ChatAPI --> GroqCloud
     UI --> ContactAPI
-    ContactAPI --> Formspree
-    Drawers --> Credly
+    UI --> CiscoCreds
+    UI --> Credly
+    UI --> GitHub
 ```
 
 ---
 
-## 🎨 Interactive UI Engineering & Visual Innovation
+## 🚀 Featured Projects
 
-### 1. 🌌 Persistent Scroll-Driven Video Engine (`ScrollDrivenVideoBg.jsx`)
-- **Single Continuous Motion Spine**: A full-screen, high-definition background video that persists across every section without DOM unmounting or page flickering.
-- **Dynamic Framer Motion Parallax**: Employs `useScroll()` & `useTransform()` to smoothly manipulate zoom scale ($1.05\times \to 1.20\times$), y-parallax translation, and subtle contrast filters.
-- **WCAG AA Compliance**: Dynamic overlay floor ($0.65 \to 0.92$) guaranteeing text contrast compliance across all ambient lighting settings.
-- **Reduced Motion Support**: Automatically falls back to high-performance static glass gradients when `prefers-reduced-motion: reduce` is detected.
-
-### 2. 🎡 3D Spatial Cylindrical Project Carousel (`Carousel3D.jsx`)
-- **Mathematical Ring Geometry**: Calculates dynamic card angle steps ($\theta = \frac{360^\circ}{N}$) and cylindrical depth radius ($r = \frac{w}{2 \tan(\pi / N)}$) for arbitrary project counts.
-- **Fluid Pointer Physics**: Smooth drag-to-spin gesture tracking, mouse hover deceleration, touch swipe recognition, and keyboard arrow navigation (`←` / `→`).
-- **Deep-Dive Action Triggers**: Instant modal launches for interactive architecture diagrams, live in-browser project simulators, and technical case studies.
-
-### 3. ✨ React Three Fiber Skills Constellation (`SkillsNetworkBackground.jsx` & `SkillsMatrix.jsx`)
-- **Custom GLSL Shader Waves**: Instanced mesh particles rendered at 60 FPS in WebGL.
-- **Domain-Matching Pulse Waves**: Hovering over languages, frameworks, or AI tools triggers radiant pulse waves connecting corresponding tech nodes in 3D coordinate space.
-- **Offscreen Battery & Render Optimization**: Integrates `IntersectionObserver` to automatically freeze WebGL render loops when the section scrolls out of view.
-
-### 4. 💎 iOS Liquid Glass Achievement Drawer (`LiquidGlassAchievementDrawer.jsx` & `AchievementAccordion.jsx`)
-- **3D Spatial Emerging Animation**: Scales and rotates dynamically (`scale: 0.82, rotateX: 15deg` $\to$ `scale: 1, rotateX: 0deg`) with ultra-fine backdrop blur (`backdrop-blur-2xl`).
-- **Interactive Verification Ledger**: Searchable, filterable matrix of verified Cisco Certification IDs, Credly badges, and hackathon milestones with single-click clipboard copying.
-
-### 5. 🤖 Serverless AI Assistant & Contact Route (`api/chat.js` & `api/contact.js`)
-- **Zero-Key Leakage**: Groq LLaMA 3.3-70B API keys securely guarded within Vercel environment variables.
-- **Context-Aware Knowledge Base**: Pre-loaded with resume details, technical architecture blueprints, and hackathon summaries.
-- **Resilient Lead Capture**: Complete multi-state handling (`idle → submitting → success / fallback`) with automated fallback to native mail client.
+| Project | Category | Key Tech Stack | Performance Highlight | Links |
+| :--- | :--- | :--- | :--- | :--- |
+| **TrustSphere** | Zero-Trust Security | React, Node.js, PEP/PDP, RBAC | ⚡ < 35ms PEP Decision | [Code](https://github.com/Lohith-RC/Enterprise-zero-trust-identity-platform) • [Demo](https://enterprise-zero-trust-identity-plat.vercel.app) |
+| **DisasterLens** | AI Disaster Intelligence | Python, Flask, DBSCAN, SHAP | ⚡ < 48ms Spatial Clustering | [Code](https://github.com/Lohith-RC/DisasterLens) • [Demo](https://github.com/Lohith-RC/DisasterLens) |
+| **MedPulse AI** | Healthcare NLP CRM | FastAPI, LangGraph, Groq LLaMA | ⚡ 142ms TTFT Inference | [Code](https://github.com/Lohith-RC/medpulse-ai-crm) • [Demo](https://github.com/Lohith-RC/medpulse-ai-crm) |
+| **CBRN-X** | VR Emergency Response | Unity, C#, WebXR, Spatial Telemetry | ⚡ 90fps Real-Time Sim | [Code](https://github.com/Lohith-RC/CBRN-X) • [Demo](https://github.com/Lohith-RC/CBRN-X) |
+| **MockGenius** | AI Interview Studio | TypeScript, React, AI Proctor | ⚡ Instant Rubric Feedback | [Code](https://github.com/Lohith-RC/MockGenius) • [Demo](https://github.com/Lohith-RC/MockGenius) |
+| **SkillPassport** | Digital Credentials | TypeScript, Next.js, Vercel | ⚡ Tamper-Proof Cryptography | [Code](https://github.com/Lohith-RC/skillpassport) • [Demo](https://skillpassport-one.vercel.app) |
+| **Visionary Diagnostics** | Deep Learning Cancer Detection | React, Flask, 4-CNN Ensemble, Grad-CAM | ⚡ 4-Architecture Soft-Voting | [Code](https://github.com/Lohith-RC/Oral-Cancer-Detection) • [Demo](https://github.com/Lohith-RC/Oral-Cancer-Detection) |
+| **SAARTHI** | Indoor Harvester AI | Java, Spring Boot, IoT Telemetry | ⚡ Micro-Climate Optimization | [Code](https://github.com/Lohith-RC/SAARTHI) • [Demo](https://github.com/Lohith-RC/SAARTHI) |
+| **DevConnect** | Developer Social Platform | Python, Django, PostgreSQL | ⚡ Asymmetric Social Graph | [Code](https://github.com/Lohith-RC/DevConnect) • [Demo](https://github.com/Lohith-RC/DevConnect) |
+| **Verdant Sprout** | Minimalist E-Commerce | JavaScript, Async REST, State Mgmt | ⚡ Instant Cart Sync | [Code](https://github.com/Lohith-RC/verdant_sprout) • [Demo](https://github.com/Lohith-RC/verdant_sprout) |
 
 ---
 
-## 🚀 Featured Production & Research Projects
+### Project Spotlights
 
-```
-┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   FEATURED PROJECT PORTFOLIO                                     │
-├──────────────────────────┬─────────────────────────────┬────────────────────────────────────────┤
-│ Project Name             │ Domain & Technology Stack   │ Key Metric / Differentiator            │
-├──────────────────────────┼─────────────────────────────┼────────────────────────────────────────┤
-│ 🩺 AI-First CRM          │ LangGraph • Groq • FastAPI  │ 85% reduction in HCP logging time       │
-│ 🚨 DisasterLens          │ DBSCAN • SHAP • scikit-learn│ 24h Hackathon MVP (Priority 1-100)     │
-│ 🔬 Visionary Diagnostics │ 4-CNN Ensemble • Grad-CAM   │ VGG16, ResNet50, EfficientNet, MobileNet│
-│ 📚 PKE (Knowledge Engine)│ LangChain • FAISS • MongoDB │ < 350ms multi-turn vector retrieval    │
-│ 🎯 MockGenius            │ TypeScript • AI Rubric      │ Live coding & audio technical proctor  │
-│ 🛡️ SkillPassport         │ Next.js • Cryptographic Auth│ Decentralized tamper-proof credentials │
-│ 🛰️ ModalBridge           │ Contrastive InfoNCE • FAISS │ Sub-50ms satellite patch search        │
-│ 🌾 SAARTHI               │ Spring Boot • IoT Telemetry │ Automated micro-climate harvest cycles │
-│ 🌐 DevConnect            │ Django • PostgreSQL • Async │ Asymmetric follower graph network      │
-│ 🌿 Verdant Sprout        │ JavaScript • REST • State   │ Production async e-commerce catalog    │
-└──────────────────────────┴─────────────────────────────┴────────────────────────────────────────┘
-```
-
----
-
-### 1. 🩺 AI-First CRM: Agentic HCP Interaction Logging
-> **Stack:** `React` • `Redux Toolkit` • `FastAPI` • `PostgreSQL` • `LangGraph` • `Groq API (LLaMA 3.3-70B)`
-- **Problem:** Healthcare sales representatives spend hours manually converting conversational meeting notes into compliant CRM data.
-- **Solution:** Built a multi-step LangGraph agent workflow that takes raw unstructured text/audio transcripts, parses doctor names, medical specialties, drug dosages, and sentiment, and populates relational database schemas.
-- **Impact:** **85% reduction** in manual logging time; achieved **98.4% agent precision** on benchmark clinical notes.
+#### 1. 🛡️ TrustSphere — Enterprise Zero-Trust Identity Platform
+- **Problem**: Perimeter-based firewalls fail when internal credentials or devices are compromised. Microservices need continuous, sub-second authorization without introducing latency bottlenecks.
+- **Architectural Solution**: Built a decoupled Policy Enforcement Point (PEP) proxy with an asynchronous Policy Decision Point (PDP) evaluating user roles, device posture, and risk scores.
+- **Benchmarks**: **< 35ms decision latency**, 100% request interception rate, sub-500ms token revocation window.
 
 ```javascript
-// LangGraph Multi-Step Extraction Node
-const extractHCPData = async (state) => {
-  const prompt = `Extract doctor name, specialty, drug discussed from: ${state.rawNote}`;
-  const response = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [{ role: "user", content: prompt }]
+// Policy Enforcement Point Access Evaluation
+async function evaluateAccessRequest(requestContext) {
+  const { user, resource, devicePosture, riskScore } = requestContext;
+  const policyDecision = await PolicyEngine.evaluate({
+    subject: user.attributes,
+    action: requestContext.action,
+    resource: resource.id,
+    environment: { ipRisk: riskScore, mfaVerified: user.mfa }
   });
-  return { ...state, structuredLog: JSON.parse(response.choices[0].message.content) };
-};
+  if (policyDecision.granted && riskScore < 30) {
+    return { status: "PERMIT", token: generateEphemeralToken(user) };
+  }
+  return { status: "DENY", reason: policyDecision.violationReason };
+}
 ```
 
 ---
 
-### 2. 🚨 DisasterLens — Real-Time Emergency Triage Platform
-> **Stack:** `Python` • `Flask` • `scikit-learn` • `DBSCAN` • `SHAP` • `SQLite` • `Leaflet.js`
-- **Hackathon Accomplishment:** Built in 24 hours at the **MIT Mysore Hackathon 2026** as Team Lead & Lead Developer.
-- **Random Forest Priority Scoring:** Evaluates distress signals (severity, medical condition, ambient hazards, age) to produce an emergency urgency index (1–100).
-- **DBSCAN Spatial Clustering:** Automatically groups scattered GPS coordinates into dense geographic rescue clusters for optimal boat/helicopter routing.
-- **SHAP Explainability:** First responders can inspect waterfall feature importance charts to understand why an SOS is prioritized.
+#### 2. 🚨 DisasterLens — Real-Time AI SOS Triage Platform
+- **Problem**: In flood and earthquake emergencies, dispatch centers receive hundreds of unorganized distress calls and cannot manually group victims or verify urgency without delay.
+- **Architectural Solution**: Built a 24-hour hackathon MVP at MIT Mysore combining a Random Forest urgency scorer (1–100) with **DBSCAN spatial clustering** using Haversine distance, complemented by **SHAP explainability** so responders see why an SOS is prioritized.
+- **Benchmarks**: **< 48ms clustering** over 1,000+ points, **92.4% triage precision**, recognized as Hackathon Finalist.
 
 ```python
-# DBSCAN Geographic Coordinate Clustering
+# DBSCAN Spatial Coordinate Clustering
 from sklearn.cluster import DBSCAN
 import numpy as np
 
@@ -212,81 +208,45 @@ df['rescue_zone_id'] = db.labels_
 
 ---
 
-### 3. 🔬 Visionary Diagnostics — Ensemble CNN for Oral Cancer Detection
-> **Stack:** `React` • `Flask` • `TensorFlow / Keras` • `Grad-CAM` • `JWT Auth` • `Python`
-- **Ensemble Deep Learning:** Combines 4 pre-trained architectures (**VGG16**, **ResNet50**, **EfficientNet-B0**, **MobileNetV2**) with weighted soft-voting to classify histopathological images for Oral Squamous Cell Carcinoma (OSCC).
-- **Visual Explainability (Grad-CAM):** Overlays visual gradient heatmaps onto tissue slides so oncologists can verify the exact cellular regions driving positive classifications.
-- **Secure Clinical API:** Flask endpoints protected with JWT bearer authentication and HIPAA-conscious data sanitization.
+#### 3. 🩺 MedPulse AI — Autonomous Healthcare CRM
+- **Problem**: Healthcare sales reps lose 2+ hours daily manually typing doctor meeting notes into complex CRM forms.
+- **Architectural Solution**: Designed a stateful **LangGraph** workflow that parses unstructured voice/text notes, validates physician names against clinical registries, and extracts discussed treatments using Groq's LLaMA 3.3-70B model.
+- **Benchmarks**: **142ms Time-To-First-Token**, **85% reduction** in manual logging overhead, **98.4% entity precision**.
 
 ---
 
-### 4. 📚 Personal Knowledge Engine (PKE) — Private RAG System
-> **Stack:** `LangChain` • `FastAPI` • `FAISS` • `MongoDB` • `OpenAI API` • `Python`
-- **Document Chunking & Vector Search:** Chunks PDFs, markdown notes, and source code into overlapping tokens, generating dense embeddings stored in an in-memory **FAISS** index for L2 distance retrieval.
-- **Multi-Turn Session Memory:** Saves conversational history and token analytics in **MongoDB** for seamless contextual follow-ups under **350ms latency**.
+## 🎛 Role-Tailored Engineering Modes
+
+Recruiters and hiring managers can switch roles to automatically refocus projects, skills, and resume data:
+
+- 💻 **Full-Stack Engineer**: React 19, TypeScript, FastAPI, Node.js, PostgreSQL, Django, REST microservices.
+- 🤖 **AI / ML & Agentic Engineer**: LangGraph, LangChain, RAG, FAISS, CNN Ensembles, SHAP, Groq API.
+- 🛡️ **Backend & Systems Specialist**: Java, Python, Zero-Trust Architecture, Cisco CyberOps, PostgreSQL, Docker.
 
 ---
 
-### 5. 🎯 MockGenius — AI-Powered Technical Interview Studio
-> **Stack:** `TypeScript` • `React` • `Node.js` • `AI Rubric Engine` • `Tailwind CSS`
-- **Interactive Coding Proctor:** Features a live browser code editor, instant test-case execution, voice question prompts, and real-time complexity analysis (O(n), O(log n)).
-- **Comprehensive Feedback:** Generates diagnostic improvement roadmaps covering communication clarity, edge case handling, and optimal data structure selection.
-
----
-
-### 6. 🛡️ SkillPassport — Verifiable Digital Skill Platform
-> **Stack:** `TypeScript` • `Next.js` • `React` • `Tailwind CSS` • `Vercel`
-- **Tamper-Proof Credential Verification:** Decentralized proof system allowing institutions to mint verifiable skill tokens backed by cryptographic signatures and instant QR verification.
-
----
-
-### 7. 🛰️ ModalBridge — Satellite Image Retrieval (Bharatiya Antariksh Hackathon)
-> **Stack:** `PyTorch` • `ResNet-50` • `InfoNCE Loss` • `FAISS` • `FastAPI`
-- **Cross-Modal Retrieval:** Trained contrastive projection heads with InfoNCE loss over multi-spectral satellite imagery to allow instant natural disaster damage assessment queries in under 50ms.
-
----
-
-## 🎛 Interactive Role-Tailored Engineering Modes
-
-The portfolio UI features a real-time **Role Mode Switcher** that dynamically refocuses project showcases, skill highlights, and downloadable resumes for specific engineering positions:
-
-```
-┌─────────────────────────────┬────────────────────────────────────────────────────────────────────────┐
-│ Role Mode                   │ Specialized Focus & Tech Highlight                                     │
-├─────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
-│ 💻 Full-Stack Engineer      │ React 19 • TypeScript • FastAPI • Node.js • PostgreSQL • Django        │
-│ 🤖 AI/ML & Agentic Engineer │ LangGraph • LangChain • RAG • FAISS • CNN Ensembles • SHAP • Groq    │
-│ 🛡️ Backend & Systems Spec   │ Java • Python • Zero-Trust Security • Cisco CyberOps • Docker • SQL    │
-└─────────────────────────────┴────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📜 Verified Industry Credentials & Certifications Ledger
+## 📜 Verified Industry Credentials
 
 <div align="center">
 
 | Issuer | Certification Title | Verification Credential ID | Focus Area |
 | :--- | :--- | :--- | :--- |
-| **Cisco Networking Academy** | **CyberOps Associate** | `54bf4b26-468c-485c-9db9-7293d78ed793` | SOC Operations, Wireshark, Threat Analysis |
+| **Cisco Networking Academy** | **CyberOps Associate** | `54bf4b26-468c-485c-9db9-7293d78ed793` | Threat Analysis, SOC Workflows, Wireshark |
 | **IBM SkillsBuild** | **Getting Started with AI** | [Credly Badge `df457100`](https://www.credly.com/badges/df457100-fc07-4c9d-ac06-39a8782794c6) | AI/ML Foundations, Neural Networks, Ethics |
 | **AlgoUniversity** | **Graph Theory Programming Camp** | *Mentored by Codeforces Master Manas K. Verma* | 17 Advanced Graph & DP Problems (C++) |
-| **Cisco Networking Academy** | **CCNA: Enterprise Networking & Automation** | `3dd98841-11ea-4bf5-bb25-cf16407f1430` | OSPF, ACLs, WAN, Network Automation, QoS |
-| **Cisco Networking Academy** | **CCNA: Switching, Routing & Wireless** | `6ab69555-95d0-43f7-b216-9a6fa2c2e924` | VLANs, STP, EtherChannel, Wireless LAN |
+| **Cisco Networking Academy** | **CCNA: Enterprise Networking & Automation** | `3dd98841-11ea-4bf5-bb25-cf16407f1430` | OSPF, ACLs, WAN, Automation, QoS |
+| **Cisco Networking Academy** | **CCNA: Switching, Routing & Wireless** | `6ab69555-95d0-43f7-b216-9a6fa2c2e924` | VLANs, STP, EtherChannel, WLAN |
 | **Cisco Networking Academy** | **CCNA: Introduction to Networks** | `8ae200f5-4018-41b9-bb6e-ca4fec65ace6` | IPv4/IPv6 Subnetting, TCP/IP, OSI Layers |
 | **Cisco Networking Academy** | **Cybersecurity Essentials** | `c6ea8224-84e2-4fbe-8068-de054e150bd1` | Cryptography, Firewalls, CIA Triad |
-| **Cisco / OpenEDG** | **Python Essentials 1** | `95225433-c3ee-4d74-95a8-e9ec964dbc91` | Control Flow, Functions, Data Structures |
-| **Cisco / OpenEDG** | **Python Essentials 2** | `cefdddc5-937d-4ecd-aa0a-cf6f5ed66012` | OOP, Modules, Exceptions, File I/O |
+| **Cisco / OpenEDG** | **Python Essentials 1 & 2** | `95225433-c3ee-4d74-95a8-e9ec964dbc91` | OOP, Modules, Exceptions, File I/O |
 | **Cisco Networking Academy** | **Introduction to Data Science** | `07ef8584-7b82-43a1-8d96-a13bceefa750` | Data Cleaning, EDA, Predictive Modeling |
 | **Cisco Networking Academy** | **Apply AI: Analyze Customer Reviews** | `ee0ca1d0-24bf-4589-ae20-b78ecf4b204b` | NLP, TF-IDF Vectorization, Sentiment ML |
-| **Cisco Networking Academy** | **Exploring Cisco Packet Tracer** | `c360f538-6372-4de1-a0dc-7b3d3bb55cd4` | Network Simulation, Router/Switch Config |
-| **Cisco Networking Academy** | **Getting Started with Packet Tracer** | `ba10527c-474d-46fc-8642-fda124d3dfd9` | Interface Setup, Physical Cabling, Ping |
 
 </div>
 
 ---
 
-## 🏆 Hackathons, Ideathons & State Engineering Expos
+## 🏆 Hackathons & Competitions
 
 ```
 2026 ──┬── MIT Mysore Hackathon 2026 (Finalist & Team Lead — DisasterLens)
@@ -304,71 +264,49 @@ The portfolio UI features a real-time **Role Mode Switcher** that dynamically re
 
 ## 💻 Technical Skills Matrix
 
-<div align="center">
-
-| Domain | Technologies & Frameworks | Proficiency | Key Highlights |
-| :--- | :--- | :---: | :--- |
-| **Primary Languages** | `Java`, `Python 3`, `JavaScript (ES6+)`, `TypeScript`, `SQL`, `C++` | **Primary / Advanced** | OOP Architecture, Async Programming, Data Structures |
-| **Frontend & 3D** | `React 19`, `Redux Toolkit`, `Tailwind CSS v4`, `Three.js`, `R3F`, `Framer Motion` | **Advanced** | Glassmorphism, 3D WebGL Shaders, Spatial Carousels |
-| **Backend & APIs** | `FastAPI`, `Flask`, `Spring Boot`, `Node.js`, `Django`, `RESTful APIs`, `JWT` | **Advanced** | Asynchronous Endpoints, Pydantic, Microservices |
-| **Agentic AI & ML** | `LangGraph`, `LangChain`, `FAISS`, `TensorFlow`, `scikit-learn`, `SHAP`, `Grad-CAM` | **Advanced** | Multi-Agent LLM Orchestration, CNN Ensembles, XAI |
-| **Databases & Stores** | `PostgreSQL`, `MongoDB`, `SQLite`, `FAISS Vector Store` | **Intermediate / Adv** | Normalized Schemas, Vector Similarity Indexing |
-| **Networking & Tools** | `Cisco Packet Tracer`, `Wireshark`, `Linux CLI`, `Git`, `Postman`, `Docker` | **Advanced** | Subnetting, Topology Simulation, SOC Workflows |
-
-</div>
+| Category | Skills & Tools |
+| :--- | :--- |
+| **Languages** | `Java`, `Python 3`, `JavaScript (ES6+)`, `TypeScript`, `SQL`, `C++`, `HTML5 / CSS3` |
+| **Frontend & UI** | `React 19`, `Redux Toolkit`, `Tailwind CSS`, `Vite`, `Framer Motion`, `Responsive Design` |
+| **Backend & APIs** | `FastAPI`, `Flask`, `Spring Boot`, `Node.js`, `Django`, `RESTful APIs`, `JWT Auth` |
+| **AI & Data Engineering** | `LangGraph`, `LangChain`, `FAISS`, `TensorFlow`, `scikit-learn`, `SHAP`, `Grad-CAM`, `Groq API` |
+| **Databases & Storage** | `PostgreSQL`, `MongoDB`, `SQLite`, `FAISS Vector Store` |
+| **Networking & Security** | `Cisco CyberOps`, `CCNA (Routing & Switching)`, `Packet Tracer`, `Wireshark`, `Git / GitHub`, `Linux CLI` |
 
 ---
 
-## ⚡ Performance & Accessibility Engineering
-
-- 🚀 **Dynamic Code-Splitting**: Modular `React.lazy()` and `<Suspense>` boundaries isolate heavy Three.js canvases and modals, reducing initial JS payload from **1.36 MB** to **395 kB**.
-- ♿ **WCAG AA Compliance**: Semantic HTML5 hierarchy (`<h1>` to `<h6>`), descriptive `aria-label` tags, screen-reader skip link (`#main-content`), and modal keyboard focus trapping.
-- 🎨 **Responsive Viewport Support**: Seamless layout scaling from mobile viewports (320px) to ultra-wide 4K desktop screens (2560px).
-- 🔋 **GPU Throttling Management**: Built-in `IntersectionObserver` halts Three.js WebGL rendering when out of viewport, preserving mobile battery life.
-
----
-
-## 🛠 Local Development & Environment Setup
+## 🛠 Local Development Setup
 
 ### Prerequisites
-- **Node.js**: `v18.0.0` or newer
-- **npm**: `v9.0.0` or newer
-- **Git**: Installed and configured
+- **Node.js**: `v18.0.0` or higher
+- **npm**: `v9.0.0` or higher
+- **Git**
 
-### 1. Clone & Install Dependencies
+### Installation Steps
+
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/Lohith-RC/portfolio.git
 
-# Navigate into the directory
+# 2. Enter project folder
 cd portfolio
 
-# Install project dependencies
+# 3. Install dependencies
 npm install
-```
 
-### 2. Configure Environment Variables
-Create a `.env` file in the root directory:
-```env
-# Groq API Key for Serverless AI Assistant (Llama-3.3-70B)
-GROQ_API_KEY=gsk_your_groq_api_key_here
+# 4. (Optional) Set up environment variables for AI Assistant
+cp .env.example .env # Add your GROQ_API_KEY if desired
 
-# (Optional) Formspree Endpoint for direct contact email forwarding
-FORMSPREE_ENDPOINT=https://formspree.io/f/your_form_id
-```
-
-### 3. Start Development Server
-```bash
+# 5. Start development server
 npm run dev
 ```
-Navigate to `http://localhost:5173/` in your browser.
 
-### 4. Build for Production & Linting
+Visit `http://localhost:5173/` in your browser.
+
+### Build & Verification Commands
+
 ```bash
-# Fast lint check with Oxlint
-npm run lint
-
-# Compile production-optimized bundle
+# Compile production bundle
 npm run build
 
 # Preview production build locally
@@ -377,23 +315,15 @@ npm run preview
 
 ---
 
-## ☁️ Deployment & Serverless Configuration
+## ☁️ Deployment & Serverless API
 
-The project is configured for deployment on **Vercel** with full support for Serverless API routes:
+The portfolio is deployed on **Vercel** with integrated serverless endpoints:
 
-```
-portfolio/
-├── api/
-│   ├── chat.js       # Groq LLaMA 3.3-70B AI Chat Endpoint
-│   └── contact.js    # Contact & Lead Transmission Route
-├── src/              # React 19 Frontend Source
-├── public/           # Static Assets & Video Backgrounds
-├── package.json      # Dependencies & Scripts
-├── vite.config.js    # Vite Build Configuration
-└── vercel.json       # (Optional) Custom Routing Headers
-```
+- `/api/chat.js`: Secure Groq LLaMA 3.3-70B AI inference engine with zero client-side key exposure.
+- `/api/contact.js`: Contact lead forwarder.
 
-To deploy via Vercel CLI:
+To deploy your own copy on Vercel:
+
 ```bash
 npm i -g vercel
 vercel
@@ -405,19 +335,17 @@ vercel
 
 <div align="center">
 
-| Platform | Channel / Handle | Action |
+| Platform | Channel / Handle | Link |
 | :--- | :--- | :--- |
 | 🌐 **Live Portfolio** | [portfolio-delta-five-xn2osh53b6.vercel.app](https://portfolio-delta-five-xn2osh53b6.vercel.app/) | [Visit Site](https://portfolio-delta-five-xn2osh53b6.vercel.app/) |
-| 💼 **LinkedIn** | [/in/lohith-r-c](https://www.linkedin.com/in/lohith-r-c/) | [Connect on LinkedIn](https://www.linkedin.com/in/lohith-r-c/) |
-| 🐙 **GitHub** | [@Lohith-RC](https://github.com/Lohith-RC) | [Follow on GitHub](https://github.com/Lohith-RC) |
+| 💼 **LinkedIn** | [/in/lohith-r-c](https://www.linkedin.com/in/lohith-r-c/) | [Connect](https://www.linkedin.com/in/lohith-r-c/) |
+| 🐙 **GitHub** | [@Lohith-RC](https://github.com/Lohith-RC) | [Follow](https://github.com/Lohith-RC) |
 | 📧 **Email** | [lohithraj9090@gmail.com](mailto:lohithraj9090@gmail.com) | [Send Email](mailto:lohithraj9090@gmail.com) |
-| 📱 **Phone / WhatsApp** | [+91 78994 60920](https://wa.me/917899460920) | [Chat on WhatsApp](https://wa.me/917899460920) |
-| 📍 **Location** | Arsikere / Bengaluru, Karnataka, India | Available for Roles |
+| 📱 **Phone / WhatsApp** | [+91 78994 60920](https://wa.me/917899460920) | [Chat](https://wa.me/917899460920) |
+| 📍 **Location** | Arsikere / Bengaluru, Karnataka, India | Open for Opportunities |
 
 <br />
 
----
-
-<sub>Built with ❤️ by **Lohith R C** • Designed with React 19, Three.js & Tailwind CSS v4</sub>
+<sub>Designed & Built by **Lohith R C** • Engineered with React 19, Tailwind CSS, & Vite</sub>
 
 </div>
