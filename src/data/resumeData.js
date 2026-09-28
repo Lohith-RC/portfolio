@@ -43,6 +43,49 @@ export const resumeData = {
     { label: "Industry Credentials", value: "15", suffix: "+" }
   ],
 
+  genesisTimeline: [
+    {
+      year: "2004",
+      phase: "Spawn",
+      location: "Arsikere, Karnataka, India",
+      icon: "seed",
+      title: "Origins & Mathematical Curiosity",
+      desc: "First spark for computation, logical puzzles, and structured problem solving."
+    },
+    {
+      year: "2021 – 23",
+      phase: "Warm Up & Core Foundry",
+      location: "Karnataka, India",
+      icon: "code",
+      title: "Algorithmic Foundations",
+      desc: "Deep-dive into Object-Oriented Java, C++ algorithmic thinking, and modern Python data structures."
+    },
+    {
+      year: "2023 – 27",
+      phase: "Academic Forge",
+      location: "Kalpataru Institute of Technology (VTU)",
+      icon: "academic",
+      title: "B.E. in Computer Science & Engineering",
+      desc: "Maintaining an 8.6 CGPA while mastering distributed operating systems, database internals, and computer networks."
+    },
+    {
+      year: "2025 – 26",
+      phase: "Battle-Tested Arenas",
+      location: "National & State Hackathons",
+      icon: "trophy",
+      title: "Hackathon Finalist & Arena Victories",
+      desc: "Prototyped DisasterLens 24h MVP at MIT Mysore, competed in Bharatiya Antariksh Hackathon '26, and IEEE Code Breakers."
+    },
+    {
+      year: "2026 – Present",
+      phase: "Industry Leadership",
+      location: "SkillForge & Beyond",
+      icon: "zap",
+      title: "Frontend Lead & TPM @ SkillForge",
+      desc: "Leading frontend engineering sprints, architecting Zero-Trust platforms, and building applied agentic AI systems."
+    }
+  ],
+
   skillsCategory: [
     {
       category: "Languages",
@@ -114,7 +157,7 @@ export const resumeData = {
       roles: ["backend", "fullstack"],
       category: "Zero-Trust Security & Systems",
       featured: true,
-      description: "Structured layered reference architecture where every access request from a user or device passes through a Policy Enforcement Point (PEP) before reaching enterprise resources. Combines role- and attribute-based rules with real-time contextual trust calculations.",
+      description: "An enterprise security platform that enforces zero-trust access control. Every request is checked by a Policy Enforcement Point (PEP) against user roles, device health, and risk score before granting access to internal databases and APIs.",
       stack: ["JavaScript", "React", "Node.js", "Zero-Trust Architecture", "RBAC / ABAC", "Vercel"],
       metrics: [
         { label: "Deployment", val: "Live on Vercel" },
@@ -122,10 +165,10 @@ export const resumeData = {
         { label: "Trust Engine", val: "Real-Time ABAC" }
       ],
       architectureNodes: [
-        { name: "Client / Device Agent", desc: "Captures contextual device telemetry, IP posture, and session signatures." },
-        { name: "Policy Enforcement Point (PEP)", desc: "Gatekeeper intercepting 100% of incoming resource access requests." },
-        { name: "Policy Decision Engine (PDP)", desc: "Evaluates multi-attribute RBAC/ABAC rules against real-time risk scores." },
-        { name: "Enterprise Resource Layer", desc: "Protected backend microservices and databases granted just-in-time access." }
+        { name: "Client / Device Agent", desc: "Collects device health, IP risk, and user session data." },
+        { name: "Policy Enforcement Point (PEP)", desc: "Gatekeeper that intercepts 100% of incoming access requests." },
+        { name: "Policy Decision Engine (PDP)", desc: "Evaluates user permissions and risk rules in real time." },
+        { name: "Enterprise Resource Layer", desc: "Internal databases and APIs granted just-in-time access." }
       ],
       simulatorType: "generic",
       codeSnippet: `// Policy Enforcement Point Access Evaluation
@@ -152,19 +195,19 @@ async function evaluateAccessRequest(requestContext) {
       roles: ["aiml", "fullstack", "backend"],
       category: "Machine Learning & Rescue Analytics",
       featured: true,
-      description: "A two-sided emergency intelligence platform connecting rescue teams with victims during disasters. Features a Random Forest priority scoring engine for SOS signals, DBSCAN spatial clustering to group victims into rescue-optimized zones, and SHAP explainability so first responders understand priority decisions.",
+      description: "An emergency disaster platform that connects first responders with victims. It prioritizes incoming SOS distress signals based on injury severity and clusters victims on a map into rescue zones so boats and helicopters know where to go first.",
       stack: ["TypeScript", "Python", "Flask", "scikit-learn", "DBSCAN", "SHAP", "SQLite"],
       metrics: [
-        { label: "Hackathon MVP", val: "Shipped in 24 hrs" },
-        { label: "Clustering Algo", val: "DBSCAN Spatial" },
-        { label: "XAI Method", val: "SHAP Values" }
+        { label: "Hackathon MVP", val: "Built in 24 hrs" },
+        { label: "Clustering", val: "DBSCAN Spatial" },
+        { label: "Explainability", val: "SHAP Feature Values" }
       ],
       architectureNodes: [
-        { name: "Victim / Responder UI", desc: "Dual dashboard with offline PWA mode for low-connectivity environments." },
-        { name: "Flask Backend", desc: "Processes incoming distress telemetry and updates rescue queues." },
-        { name: "Random Forest Scoring", desc: "Calculates emergency priority (1-100) based on severity, age, medical status." },
-        { name: "DBSCAN Clustering Engine", desc: "Groups GPS distress signals into geographic rescue zones automatically." },
-        { name: "SHAP Explainability Visualizer", desc: "Generates waterfall charts showing feature impact on priority score." }
+        { name: "Victim / Responder UI", desc: "Dual dashboard with offline support for low-connectivity disaster areas." },
+        { name: "Flask Backend", desc: "Receives distress signals and organizes the live emergency queue." },
+        { name: "Random Forest Scoring", desc: "Calculates an urgency score (1-100) based on injuries, water level, and age." },
+        { name: "DBSCAN Clustering Engine", desc: "Groups GPS distress signals into rescue zones automatically." },
+        { name: "SHAP Explainability", desc: "Shows first responders why a particular signal was prioritized." }
       ],
       simulatorType: "disaster-lens",
       codeSnippet: `# DBSCAN Spatial Signal Clustering

@@ -42,202 +42,145 @@ export default function ProjectSimulatorModal({ project, isOpen, onClose }) {
     }, 800);
   };
 
-  const cases = [
-    { title: "Sample Histopathology Slide #104", diagnosis: "OSCC Positive (High Grade)", confidence: "96.4%", vggScore: "95%", resnetScore: "97%", effScore: "96%" },
-    { title: "Sample Histopathology Slide #218", diagnosis: "OSCC Positive (Moderate Grade)", confidence: "89.1%", vggScore: "87%", resnetScore: "91%", effScore: "89%" }
-  ];
-
   return (
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={`Interactive Feature Simulator for ${project.title}`}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '850px' }}>
+      <div className="modal-content max-w-3xl bg-white border border-stone-200 text-stone-900 shadow-2xl" onClick={(e) => e.stopPropagation()}>
         
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '16px', marginBottom: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Activity size={22} color="#8B5CF6" />
+        <div className="flex items-center justify-between pb-4 mb-5 border-b border-stone-100">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700">
+              <Activity size={18} />
+            </div>
             <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#FFF' }}>
-                Interactive Feature Simulator
+              <h3 className="text-base font-bold text-stone-900 tracking-tight">
+                Interactive Simulator
               </h3>
-              <div style={{ fontSize: '0.825rem', color: '#C084FC' }}>
-                Live Demo for: {project.title}
+              <div className="text-xs font-mono text-blue-700">
+                {project.title}
               </div>
             </div>
           </div>
-          <button onClick={onClose} aria-label="Close feature simulator modal" style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-            <X size={20} />
+
+          <button onClick={onClose} aria-label="Close feature simulator modal" className="p-1.5 rounded-lg text-stone-400 hover:text-stone-900 hover:bg-stone-100 transition-colors">
+            <X size={18} />
           </button>
         </div>
 
         {/* 1. DISASTER LENS SIMULATOR */}
         {project.simulatorType === 'disaster-lens' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-              Adjust victim distress metrics to see real-time <strong>Random Forest SOS Priority Scoring</strong> and <strong>SHAP Feature Explainability</strong> calculations:
-            </div>
+          <div className="space-y-5">
+            <p className="text-xs text-stone-600">
+              Adjust distress signals to evaluate real-time <strong>Random Forest Priority Scoring</strong> and <strong>SHAP Feature Attribution</strong>:
+            </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-              
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Sliders Controls */}
-              <div style={{ background: 'rgba(255,255,255,0.03)', padding: '18px', borderRadius: '14px', border: '1px solid var(--border-glass)' }}>
-                <h4 style={{ color: '#FFF', fontSize: '0.95rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Sliders size={16} color="#06B6D4" /> Telemetry Inputs
+              <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-3.5">
+                <h4 className="text-xs font-mono font-semibold text-stone-900 flex items-center gap-2">
+                  <Sliders size={14} className="text-blue-700" /> Distress Signals
                 </h4>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '0.85rem' }}>
+                <div className="space-y-3 text-xs">
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#FFF', marginBottom: '4px' }}>
-                      <span>Injury Severity (1-10):</span>
-                      <strong style={{ color: '#06B6D4' }}>{injurySeverity}</strong>
+                    <div className="flex justify-between text-stone-700 mb-1">
+                      <span>Injury Severity:</span>
+                      <span className="font-mono text-blue-700 font-semibold">{injurySeverity}/10</span>
                     </div>
-                    <input type="range" min="1" max="10" value={injurySeverity} onChange={(e) => setInjurySeverity(Number(e.target.value))} style={{ width: '100%' }} />
+                    <input type="range" min="1" max="10" value={injurySeverity} onChange={(e) => setInjurySeverity(Number(e.target.value))} className="w-full accent-stone-900" />
                   </div>
 
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#FFF', marginBottom: '4px' }}>
-                      <span>Water / Flood Depth (Meters):</span>
-                      <strong style={{ color: '#06B6D4' }}>{waterLevel}m</strong>
+                    <div className="flex justify-between text-stone-700 mb-1">
+                      <span>Flood Depth:</span>
+                      <span className="font-mono text-blue-700 font-semibold">{waterLevel}m</span>
                     </div>
-                    <input type="range" min="0" max="10" value={waterLevel} onChange={(e) => setWaterLevel(Number(e.target.value))} style={{ width: '100%' }} />
+                    <input type="range" min="0" max="10" value={waterLevel} onChange={(e) => setWaterLevel(Number(e.target.value))} className="w-full accent-stone-900" />
                   </div>
 
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#FFF', marginBottom: '4px' }}>
+                    <div className="flex justify-between text-stone-700 mb-1">
                       <span>Victim Age:</span>
-                      <strong style={{ color: '#06B6D4' }}>{ageGroup} yrs</strong>
+                      <span className="font-mono text-blue-700 font-semibold">{ageGroup} yrs</span>
                     </div>
-                    <input type="range" min="5" max="90" value={ageGroup} onChange={(e) => setAgeGroup(Number(e.target.value))} style={{ width: '100%' }} />
+                    <input type="range" min="5" max="90" value={ageGroup} onChange={(e) => setAgeGroup(Number(e.target.value))} className="w-full accent-stone-900" />
                   </div>
                 </div>
               </div>
 
-              {/* Priority Output & SHAP Graph */}
-              <div style={{ background: 'rgba(15, 23, 42, 0.9)', padding: '18px', borderRadius: '14px', border: '1px solid rgba(6, 182, 212, 0.3)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              {/* Output Score Card */}
+              <div className="p-4 rounded-xl bg-stone-50/70 border border-stone-200 flex flex-col justify-between">
                 <div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', textTransform: 'uppercase' }}>Calculated Priority Score</div>
-                  <div style={{ fontSize: '3rem', fontWeight: '800', color: calculatePriority() > 70 ? '#EF4444' : '#F59E0B', fontFamily: 'var(--font-mono)' }}>
-                    {calculatePriority()} <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>/ 100</span>
+                  <span className="text-[11px] font-mono text-stone-500 uppercase">Triage Evaluation</span>
+                  <div className="text-4xl font-mono font-bold text-stone-900 mt-2">
+                    {calculatePriority()} <span className="text-xs text-stone-500 font-normal">/ 100</span>
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
-                    <AlertTriangle size={14} /> Assigned Zone: Rescue Sector Beta (DBSCAN Clustered)
-                  </div>
-                </div>
-
-                <div style={{ marginTop: '16px', borderTop: '1px solid var(--border-glass)', paddingTop: '12px' }}>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '8px' }}>SHAP Feature Contribution:</div>
-                  <div style={{ fontSize: '0.75rem', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>+ Injury Severity</span>
-                      <span style={{ color: '#EF4444' }}>+{injurySeverity * 4} pts</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>+ Flood Level</span>
-                      <span style={{ color: '#F59E0B' }}>+{waterLevel * 3} pts</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>+ Vulnerability (Age)</span>
-                      <span style={{ color: '#8B5CF6' }}>+{ageGroup > 60 ? 15 : 5} pts</span>
-                    </div>
+                  <div className={`mt-2 inline-flex items-center gap-1 text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full border ${
+                    calculatePriority() > 70 ? 'bg-red-50 text-red-700 border-red-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+                  }`}>
+                    {calculatePriority() > 70 ? 'High Priority Zone (Helicopter / Boat)' : 'Standard Triage Queue'}
                   </div>
                 </div>
 
+                <div className="mt-4 pt-3 border-t border-stone-200 text-[11px] font-mono text-stone-500">
+                  SHAP Key Drivers: Severity ({injurySeverity * 4}pts), Depth ({waterLevel * 3}pts)
+                </div>
               </div>
-
             </div>
           </div>
         )}
 
-        {/* 2. VISIONARY DIAGNOSTICS SIMULATOR */}
-        {project.simulatorType === 'visionary-diagnostics' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-              Test clinical CNN ensemble predictions and toggle <strong>Grad-CAM explainability heatmaps</strong>:
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-              {/* Image Preview Box */}
-              <div style={{ background: '#090D16', padding: '16px', borderRadius: '14px', border: '1px solid var(--border-glass)', textAlign: 'center' }}>
-                <div style={{ height: '200px', borderRadius: '10px', background: showGradCam ? 'radial-gradient(circle at 40% 40%, rgba(239, 68, 68, 0.7) 0%, rgba(245, 158, 11, 0.4) 40%, rgba(37, 99, 235, 0.2) 70%, #1E293B 100%)' : '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 'bold', border: '1px dashed #38BDF8' }}>
-                  {showGradCam ? '🔥 Grad-CAM Heatmap Active' : '🔬 Raw Histopathology Slide'}
-                </div>
-
-                <button 
-                  onClick={() => setShowGradCam(!showGradCam)} 
-                  className="btn-secondary" 
-                  style={{ marginTop: '14px', width: '100%', justifyContent: 'center', fontSize: '0.85rem' }}
-                >
-                  <Eye size={16} /> {showGradCam ? 'Hide Grad-CAM Overlay' : 'Show Grad-CAM Overlay'}
-                </button>
-              </div>
-
-              {/* Prediction Details */}
-              <div style={{ background: 'rgba(15, 23, 42, 0.9)', padding: '18px', borderRadius: '14px', border: '1px solid rgba(139, 92, 246, 0.3)', fontSize: '0.875rem' }}>
-                <div style={{ color: '#8B5CF6', fontWeight: '700', fontSize: '1.05rem', marginBottom: '8px' }}>
-                  {cases[selectedCase].diagnosis}
-                </div>
-                <div style={{ color: '#10B981', fontWeight: '600', marginBottom: '14px' }}>
-                  Ensemble Confidence: {cases[selectedCase].confidence}
-                </div>
-
-                <div style={{ borderTop: '1px solid var(--border-glass)', paddingTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Individual Model Votes:</div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>ResNet50:</span> <strong>{cases[selectedCase].resnetScore}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>EfficientNet-B0:</span> <strong>{cases[selectedCase].effScore}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>VGG16:</span> <strong>{cases[selectedCase].vggScore}</strong>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        )}
-
-        {/* 3. AI CRM SIMULATOR */}
+        {/* 2. AI CRM SIMULATOR */}
         {project.simulatorType === 'ai-crm' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-              Enter unstructured doctor interaction notes and trigger the <strong>LangGraph Multi-Step Agent Workflow</strong>:
-            </div>
+          <div className="space-y-4">
+            <p className="text-xs text-stone-600">
+              Test the <strong>LangGraph multi-step agent</strong> extracting structured doctor records from raw unstructured text:
+            </p>
 
             <textarea 
               rows={3}
               value={hcpText}
               onChange={(e) => setHcpText(e.target.value)}
-              style={{
-                width: '100%',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid var(--border-glass)',
-                borderRadius: '12px',
-                padding: '12px',
-                color: '#FFF',
-                fontSize: '0.875rem',
-                outline: 'none'
-              }}
+              className="w-full p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 font-mono outline-none focus:border-stone-900"
             />
 
-            <button onClick={handleRunCrmAgent} disabled={isProcessingCrm} className="btn-primary" style={{ alignSelf: 'flex-start' }}>
-              <Play size={16} /> {isProcessingCrm ? 'Running Agent State Machine...' : 'Execute LangGraph Agent Workflow'}
+            <button
+              onClick={handleRunCrmAgent}
+              disabled={isProcessingCrm}
+              className="btn-radiant-primary text-xs py-2 px-4"
+            >
+              {isProcessingCrm ? 'Extracting via LangGraph Agent...' : 'Run Extraction Agent ▶'}
             </button>
 
             {crmResult && (
-              <div style={{ background: '#090D16', padding: '16px', borderRadius: '12px', border: '1px solid #10B981', marginTop: '10px' }}>
-                <div style={{ color: '#10B981', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
-                  <CheckCircle2 size={16} /> {crmResult.agentStatus}
+              <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-200 text-xs space-y-2 font-mono text-stone-800">
+                <div className="text-blue-800 font-bold">{crmResult.agentStatus}</div>
+                <div className="grid grid-cols-2 gap-2 text-stone-700 mt-2">
+                  <div><strong>Doctor:</strong> {crmResult.hcpName}</div>
+                  <div><strong>Specialty:</strong> {crmResult.specialty}</div>
+                  <div><strong>Institution:</strong> {crmResult.institution}</div>
+                  <div><strong>Follow-up:</strong> {crmResult.followUpDate}</div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.85rem', color: '#FFF' }}>
-                  <div>Doctor: <strong>{crmResult.hcpName}</strong></div>
-                  <div>Specialty: <strong>{crmResult.specialty}</strong></div>
-                  <div>Hospital: <strong>{crmResult.institution}</strong></div>
-                  <div>Follow-up: <strong>{crmResult.followUpDate}</strong></div>
-                  <div style={{ gridColumn: 'span 2', color: '#38BDF8' }}>Topic: {crmResult.topic}</div>
-                </div>
+                <div className="text-stone-700"><strong>Topic:</strong> {crmResult.topic}</div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* 3. GENERIC SIMULATOR FALLBACK */}
+        {(project.simulatorType === 'generic' || !['disaster-lens', 'ai-crm'].includes(project.simulatorType)) && (
+          <div className="p-6 rounded-xl bg-stone-50 border border-stone-200 text-center space-y-3">
+            <p className="text-xs text-stone-600">
+              Explore the full implementation details directly in the official GitHub repository.
+            </p>
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-radiant-primary text-xs py-2 px-4 inline-flex items-center gap-1.5"
+            >
+              View on GitHub ↗
+            </a>
           </div>
         )}
 

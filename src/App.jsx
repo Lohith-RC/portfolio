@@ -1,833 +1,1031 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ChevronDown, Menu, X, Terminal, Sparkles, Network, Play, 
-  Mail, Phone, MapPin, Copy, Check, Download, ExternalLink, 
-  Cpu, Briefcase, Trophy, GraduationCap, ShieldCheck, FileText, Send, ArrowRight, Code2, Layers, LayoutGrid, Box, AlertCircle
+  Terminal, Shield, Cpu, Code2, Sparkles, ExternalLink, 
+  Mail, Phone, FileText, ChevronRight, ChevronLeft, CheckCircle2, ArrowUpRight, 
+  Layers, Trophy, Award, Search, Copy, Check, Play, BookOpen, Compass, 
+  Send, Bot, CornerDownRight, Database, Server, Smartphone, MonitorSmartphone,
+  CheckCheck, Globe, Lock, ShieldCheck, Zap, Laptop, ArrowRight, UserCheck,
+  PenTool, Code, Flame, Star, LayoutGrid, SlidersHorizontal
 } from 'lucide-react';
-
-import { resumeData } from './data/resumeData';
 import { GithubIcon, LinkedinIcon } from './components/BrandIcons';
-import lohithImg from './assets/lohith.jpg';
-
-import ProjectCard from './components/ProjectCard';
-import ScrollDrivenVideoBg from './components/ScrollDrivenVideoBg';
-
-// Code-split heavy dependencies & modals for performance optimization
-const SkillsMatrix = lazy(() => import('./components/SkillsMatrix'));
-const Carousel3D = lazy(() => import('./components/Carousel3D'));
-const AiChatModal = lazy(() => import('./components/AiChatModal'));
-const ArchitectureModal = lazy(() => import('./components/ArchitectureModal'));
-const ProjectSimulatorModal = lazy(() => import('./components/ProjectSimulatorModal'));
-const LinkFlowCaseStudyModal = lazy(() => import('./components/LinkFlowCaseStudyModal'));
-const AchievementDrawer = lazy(() => import('./components/AchievementDrawer'));
-const LiquidGlassAchievementDrawer = lazy(() => import('./components/LiquidGlassAchievementDrawer'));
-const AchievementAccordion = lazy(() => import('./components/AchievementAccordion'));
+import { resumeData } from './data/resumeData';
+import AiChatModal from './components/AiChatModal';
+import ArchitectureModal from './components/ArchitectureModal';
+import ProjectSimulatorModal from './components/ProjectSimulatorModal';
+import AchievementDrawer from './components/AchievementDrawer';
+import PlaintextResumeModal from './components/PlaintextResumeModal';
 
 export default function App() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeRole, setActiveRole] = useState('fullstack');
-  const [aiBotOpen, setAiBotOpen] = useState(false);
-  const [archProject, setArchProject] = useState(null);
-  const [simProject, setSimProject] = useState(null);
-  const [caseStudyOpen, setCaseStudyOpen] = useState(false);
-  const [drawerItem, setDrawerItem] = useState(null);
-  const [drawerType, setDrawerType] = useState('certification');
-  const [liquidDrawerOpen, setLiquidDrawerOpen] = useState(false);
-  const [projectFilter, setProjectFilter] = useState('All');
-  const [viewMode, setViewMode] = useState('3d');
+  const { personalInfo, roleModes, stats, genesisTimeline, skillsCategory, projects, experience, hackathons, certifications } = resumeData;
+
+  // State
+  const [selectedRole, setSelectedRole] = useState(roleModes[0].id);
+  const [activeProjectCategory, setActiveProjectCategory] = useState("All");
+  const [currentTime, setCurrentTime] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedPhone, setCopiedPhone] = useState(false);
-  const [copiedResume, setCopiedResume] = useState(false);
+  // Carousel State
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselDirection, setCarouselDirection] = useState(1);
+  const [viewMode, setViewMode] = useState("carousel"); // "carousel" | "grid"
+  
+  // Modals & Drawers
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [architectureModalProject, setArchitectureModalProject] = useState(null);
+  const [simulatorModalProject, setSimulatorModalProject] = useState(null);
+  const [drawerItem, setDrawerItem] = useState(null);
+  const [drawerType, setDrawerType] = useState(null);
 
-  // Hero Lead Form State
-  const [heroEmail, setHeroEmail] = useState('');
-  const [heroSubmitting, setHeroSubmitting] = useState(false);
-  const [heroSuccess, setHeroSuccess] = useState(false);
-  const [heroError, setHeroError] = useState(null);
-
-  // Main Contact Form State
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [formSubmitting, setFormSubmitting] = useState(false);
+  // Form State
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', roleInterest: 'Full-Stack Engineering' });
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formError, setFormError] = useState(null);
+  const [formSending, setFormSending] = useState(false);
 
+  // Clock in IST
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
+    const updateTime = () => {
+      const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+      setCurrentTime(new Intl.DateTimeFormat('en-US', options).format(new Date()));
     };
-  }, [mobileOpen]);
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const activeRoleInfo = resumeData.roleModes.find(r => r.id === activeRole) || resumeData.roleModes[0];
+  // Filter Projects
+  const projectCategories = ["All", "Security & Systems", "AI & Healthcare", "Full-Stack Web", "AI & Search", "Simulation"];
+  
+  const filteredProjects = projects.filter(p => {
+    let matchesCategory = true;
+    if (activeProjectCategory === "Security & Systems") {
+      matchesCategory = p.category.includes("Zero-Trust") || p.roles.includes("backend");
+    } else if (activeProjectCategory === "AI & Healthcare") {
+      matchesCategory = p.category.includes("Medical") || p.category.includes("Deep Learning") || p.category.includes("Machine Learning");
+    } else if (activeProjectCategory === "Full-Stack Web") {
+      matchesCategory = p.category.includes("Full-Stack") || p.roles.includes("fullstack");
+    } else if (activeProjectCategory === "AI & Search") {
+      matchesCategory = p.category.includes("RAG") || p.category.includes("LLM") || p.category.includes("Agent");
+    } else if (activeProjectCategory === "Simulation") {
+      matchesCategory = p.category.includes("VR") || p.category.includes("Simulation");
+    }
 
-  const filteredProjects = resumeData.projects.filter(p => {
-    if (projectFilter === 'All') return true;
-    return p.category === projectFilter;
+    const matchesRole = selectedRole === "all" || p.roles.includes(selectedRole);
+    const matchesSearch = searchQuery === "" || 
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.stack.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    return matchesCategory && matchesRole && matchesSearch;
   });
 
-  const categories = [
-    'All',
-    'Zero-Trust Security & Systems',
-    'Agentic AI & Full-Stack',
-    'Machine Learning & Rescue Analytics',
-    'Immersive VR & Spatial Systems',
-    'Full-Stack Web Applications',
-    'Deep Learning & Diagnostic Web App'
-  ];
+  // Keep carouselIndex in bounds when category changes
+  useEffect(() => {
+    setCarouselIndex(0);
+  }, [activeProjectCategory, selectedRole, searchQuery]);
 
-  const copyToClipboard = (text, type) => {
-    navigator.clipboard.writeText(text);
-    if (type === 'email') {
-      setCopiedEmail(true);
-      setTimeout(() => setCopiedEmail(false), 2000);
-    } else if (type === 'phone') {
-      setCopiedPhone(true);
-      setTimeout(() => setCopiedPhone(false), 2000);
-    } else if (type === 'resume') {
-      setCopiedResume(true);
-      setTimeout(() => setCopiedResume(false), 2000);
-    }
+  const activeRoleData = roleModes.find(r => r.id === selectedRole) || roleModes[0];
+
+  const handlePrevSlide = () => {
+    setCarouselDirection(-1);
+    setCarouselIndex(prev => (prev === 0 ? filteredProjects.length - 1 : prev - 1));
   };
 
-  const handleHeroEmailSubmit = async (e) => {
+  const handleNextSlide = () => {
+    setCarouselDirection(1);
+    setCarouselIndex(prev => (prev === filteredProjects.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleContactSubmit = (e) => {
     e.preventDefault();
-    if (!heroEmail || !heroEmail.includes('@')) return;
-
-    setHeroSubmitting(true);
-    setHeroError(null);
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: heroEmail, type: 'hero_lead' })
-      });
-
-      if (res.ok) {
-        setHeroSuccess(true);
-        setHeroEmail('');
-        setTimeout(() => setHeroSuccess(false), 4000);
-      } else {
-        throw new Error('API server unavailable');
-      }
-    } catch (err) {
-      console.warn("Serverless contact lead API error, falling back to mailto:", err);
-      // Fallback mailto trigger
-      window.location.href = `mailto:lohithraj9090@gmail.com?subject=Portfolio%20Inquiry&body=Contact%20email:%20${encodeURIComponent(heroEmail)}`;
-      setHeroSuccess(true);
-      setHeroEmail('');
-      setTimeout(() => setHeroSuccess(false), 4000);
-    } finally {
-      setHeroSubmitting(false);
-    }
+    setFormSending(true);
+    setTimeout(() => {
+      setFormSending(false);
+      setFormSubmitted(true);
+      setTimeout(() => setFormSubmitted(false), 6000);
+    }, 1000);
   };
 
-  const handleContactSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-
-    setFormSubmitting(true);
-    setFormError(null);
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      if (res.ok) {
-        setFormSubmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Failed to deliver message');
-      }
-    } catch (err) {
-      console.warn("Contact form transmission error:", err);
-      setFormError(err.message || 'Transmission error. Click fallback button below to send via your mail client.');
-    } finally {
-      setFormSubmitting(false);
-    }
-  };
-
-  const generateTailoredResume = () => {
-    return `====================================================
-LOHITH R C
-Arsikere, Karnataka, India | lohithraj9090@gmail.com | +91 78994 60920
-GitHub: ${resumeData.personalInfo.github}
-
-TARGET ROLE: ${activeRoleInfo.label.toUpperCase()}
-EDUCATION: B.E. in Computer Science & Engineering (VTU - Kalpataru Institute of Technology) - CGPA: 8.6 / 10 (Expected 2027)
-
-SUMMARY:
-Final-year CS student with hands-on full-stack experience across Java and Python (both primary), Spring Boot, FastAPI, and React/Redux. Specializing in AI-integrated architectures, LangGraph agentic workflows, RAG systems, and explainable ML models.
-
-TECHNICAL SKILLS:
-- Languages: Java (Primary), Python (Primary), JavaScript (ES6+), C++, C, SQL
-- Frontend: React.js, Redux Toolkit, HTML5, CSS3, Tailwind CSS, Responsive Design
-- Backend: FastAPI, Flask, Spring Boot fundamentals, REST APIs, JWT Auth
-- AI/ML & Agentic: LangChain, LangGraph, Groq LLM, FAISS Vector Search, TensorFlow (CNN Ensembles), Grad-CAM & SHAP Explainability
-- Security & Cloud: Cisco CyberOps Associate, CCNA Series, Cybersecurity Essentials, Docker, Linux
-- Databases: PostgreSQL, MongoDB, SQLite, FAISS Vector DB
-
-EXPERIENCE & INTERNSHIP:
-Full Stack Development Intern | CodeAlpha (Jul 2026 - Aug 2026)
-- Built production full-stack web features using React UI and REST APIs with structured Git code reviews.
-
-FLAGSHIP PROJECTS:
-1. LinkFlow — Boomerang Video Engine (React, TypeScript, HTML5 Canvas, Tailwind CSS)
-2. AI-First CRM Module (React, Redux, FastAPI, PostgreSQL, LangGraph, Groq)
-3. DisasterLens — Disaster Intelligence Platform (Python, Flask, SQLite, scikit-learn, DBSCAN, SHAP)
-4. Visionary Diagnostics — Ensemble CNN OSCC Platform (React, Flask, TensorFlow, Grad-CAM, JWT)
-5. Personal Knowledge Engine (LangChain, FAISS, OpenAI API, FastAPI, MongoDB)
-
-VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
-- Cisco CyberOps Associate & CCNA Series (3 Modules)
-- IBM SkillsBuild AI Credly Badge (credly.com/badges/df457100-fc07-4c9d-ac06-39a8782794c6)
-- AlgoUniversity Graph Theory Programming Camp (Codeforces Master mentorship)
-- National & State Hackathons: GAT Code Breaker 1.0, BGSCET ADVAYA 2k25, Acharya SRISHTI 2025, MIT Mysore HACKVERSE & Ideathon
-====================================================`;
-  };
+  const currentProject = filteredProjects[carouselIndex] || filteredProjects[0];
 
   return (
-    <div className="relative min-h-screen w-full bg-[#080C14] font-sans text-white antialiased selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#FAFAF9] text-[#1C1917] font-sans selection:bg-neutral-900 selection:text-white relative">
       
-      {/* Priority 2 Accessibility: Skip to Main Content Link */}
-      <a 
-        href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:px-6 focus:py-3 focus:bg-cyan-500 focus:text-white font-bold rounded-xl m-3 shadow-2xl outline-none"
-      >
-        Skip to main content
-      </a>
+      {/* Background Ambient Glow & Grid Lines */}
+      <div className="fixed inset-0 bg-cyber-grid pointer-events-none opacity-50 z-0" />
+      <div className="ambient-glow-cyan top-[-120px] left-[15%] w-[550px] h-[550px]" />
+      <div className="ambient-glow-indigo top-[35%] right-[8%] w-[650px] h-[650px]" />
 
-      {/* Scroll-Driven Evolving Background Video Engine */}
-      <ScrollDrivenVideoBg />
-
-      {/* Main Single-Page Content Canvas */}
-      <div className="relative z-10 flex flex-col min-h-screen">
-        
-        {/* iOS Liquid Glass Top Navigation Bar */}
-        <header className="sticky top-0 z-50 flex items-center justify-between px-5 py-4 sm:px-8 sm:py-5 lg:px-12 backdrop-blur-2xl bg-white/10 border-b border-white/20 shadow-lg">
-          {/* Logo with Lohith Image Avatar */}
-          <a href="#" aria-label="Lohith R C Portfolio Home" className="flex items-center gap-3 text-white no-underline group">
-            <img 
-              src={lohithImg} 
-              alt="Headshot of Lohith R C" 
-              className="w-10 h-10 rounded-full object-cover border-2 border-cyan-400 shadow-md group-hover:scale-105 transition-transform" 
-            />
-            <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-white drop-shadow-sm">
-                Lohith<span className="text-cyan-400">.dev</span>
+      {/* Top Editorial Navigation Bar */}
+      <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#FAFAF9]/90 border-b border-black/[0.08] transition-all">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          
+          {/* Brand Tag */}
+          <div className="flex items-center gap-3">
+            <a href="#top" className="flex items-center gap-2 group">
+              <span className="font-serif-editorial italic text-2xl text-[#0C0A09] group-hover:text-blue-700 transition-colors">
+                Lohith R C
               </span>
-              <span className="text-[10px] font-mono text-white/80">VTU '27 • CS Engineer</span>
-            </div>
-          </a>
-
-          {/* Desktop Nav Cluster & Role Switcher */}
-          <div className="hidden md:flex md:items-center md:gap-4">
-            <nav aria-label="Main Navigation" className="flex items-center gap-1 rounded-full liquid-pill px-2 py-1.5 border border-white/30">
-              <a href="#projects" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Projects</a>
-              <a href="#skills" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Skills</a>
-              <a href="#experience" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Experience</a>
-              <a href="#certifications" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Certifications</a>
-              <a href="#contact" className="rounded-full px-4 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/20 hover:text-white transition-all">Contact</a>
-            </nav>
-
-            {/* Role Switcher Pills */}
-            <div aria-label="Target Role Switcher" className="flex items-center gap-1 liquid-pill p-1 border border-white/25">
-              {resumeData.roleModes.map((role) => (
-                <button
-                  key={role.id}
-                  onClick={() => setActiveRole(role.id)}
-                  aria-label={`Switch target role perspective to ${role.label}`}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
-                    activeRole === role.id 
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md border border-white/30' 
-                      : 'text-white/80 hover:text-white'
-                  }`}
-                >
-                  {role.id === 'fullstack' && '⚡ Full-Stack'}
-                  {role.id === 'aiml' && '🧠 AI / ML'}
-                  {role.id === 'backend' && '⚙️ Backend'}
-                </button>
-              ))}
-            </div>
-
-            {/* Liquid Primary Button */}
-            <a href="#contact" className="liquid-button-primary px-5 py-2 text-xs font-bold no-underline">
-              Hire Me
             </a>
           </div>
 
-          {/* Mobile Hamburger Button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-navigation-menu"
-            aria-label="Toggle Navigation Menu"
-            className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full liquid-pill text-white transition-colors md:hidden border border-white/30"
-          >
-            <Menu className={`h-5 w-5 transition-all duration-300 ${mobileOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'}`} />
-            <X className={`absolute h-5 w-5 transition-all duration-300 ${mobileOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'}`} />
-          </button>
-        </header>
-
-        {/* Mobile Slide-in Drawer */}
-        <div className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-xl transition-opacity duration-300 md:hidden ${mobileOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}`} onClick={() => setMobileOpen(false)} />
-        <div id="mobile-navigation-menu" className={`fixed right-0 top-0 z-40 flex h-full w-72 flex-col bg-black/90 backdrop-blur-2xl transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <nav aria-label="Mobile Navigation" className="flex flex-col gap-2 px-6 pt-24">
-            <a href="#projects" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Projects</a>
-            <a href="#skills" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Skills</a>
-            <a href="#experience" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Experience</a>
-            <a href="#certifications" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Certifications</a>
-            <a href="#contact" onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-white/90 hover:bg-white/20">Contact</a>
+          {/* Clean Navigation Links */}
+          <nav className="hidden md:flex items-center gap-7 font-mono text-xs text-[#57534E]">
+            <a href="#top" className="hover:text-[#0C0A09] transition-colors">Home</a>
+            <a href="#work" className="hover:text-[#0C0A09] transition-colors">Work</a>
+            <a href="#timeline" className="hover:text-[#0C0A09] transition-colors">Timeline</a>
+            <a href="#skills" className="hover:text-[#0C0A09] transition-colors">Skills</a>
+            <a href="#hackathons" className="hover:text-[#0C0A09] transition-colors">Hackathons</a>
+            <a href="#atelier" className="hover:text-blue-700 transition-colors uppercase tracking-wider font-semibold">Contact</a>
           </nav>
-          <div className="mt-auto px-6 pb-10">
-            <a href="#contact" onClick={() => setMobileOpen(false)} className="liquid-button-primary flex w-full justify-center py-3.5 text-base font-bold no-underline">
-              Hire Me
-            </a>
+
+          {/* Action CTAs */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsAiModalOpen(true)}
+              className="btn-action-pill border-blue-600/30 text-blue-700 bg-blue-50 hover:bg-blue-100/80"
+              title="Ask AI Assistant"
+            >
+              <Bot className="w-3.5 h-3.5 text-blue-600" />
+              <span className="hidden sm:inline font-semibold">Ask AI</span>
+            </button>
+            <button
+              onClick={() => setIsResumeModalOpen(true)}
+              className="btn-radiant-primary py-1.5 px-3.5 text-xs"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Resume</span>
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* HERO SECTION - Single Canvas Viewport */}
-        <section id="main-content" className="relative min-h-[calc(100vh-76px)] flex flex-col justify-end px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 pt-10">
-          <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
+      {/* Main Editorial Container */}
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-16 sm:pt-24 pb-28 space-y-28">
+
+        {/* ========================================================
+            HERO SECTION
+           ======================================================== */}
+        <section id="top" className="space-y-8">
+          
+          {/* Status Bar */}
+          <div className="flex items-center gap-3 text-[#78716C] font-mono text-xs">
+            <span className="text-blue-700 font-serif-editorial italic text-lg">Developer & Engineer</span>
+            <span>•</span>
+            <span className="flex items-center gap-1.5 text-emerald-700 font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              IST {currentTime || "11:30 PM"} • Available for Full-Time Roles
+            </span>
+          </div>
+
+          {/* Large Hero Title */}
+          <div className="space-y-4 max-w-4xl">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-normal font-serif-editorial text-[#0C0A09] leading-[1.12] tracking-tight">
+              Hi, I’m <strong className="font-normal font-serif-editorial italic text-[#0C0A09] underline decoration-black/30 decoration-1 underline-offset-8">{personalInfo.name}</strong>. I build reliable web apps, security systems & applied AI tools.
+            </h1>
+            <p className="text-[#44403C] text-base sm:text-lg md:text-xl font-normal leading-relaxed">
+              I am a final-year Computer Science student at Kalpataru Institute of Technology (VTU) with an <span className="font-mono text-[#0C0A09] font-semibold bg-[#F5F5F4] px-2 py-0.5 rounded-md border border-[#E7E5E4]">8.6 CGPA</span>. Currently working as <strong className="text-[#0C0A09] font-semibold">Frontend Lead & Technical Project Manager</strong> at <a href="https://github.com/Lohith-RC" target="_blank" rel="noreferrer" className="text-blue-700 font-medium hover:underline">SkillForge</a>. I enjoy solving real problems with clean code and solid architecture.
+            </p>
+          </div>
+
+          {/* Role Filter Tabs */}
+          <div className="p-4 rounded-2xl bg-white border border-black/[0.08] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] max-w-3xl space-y-3">
+            <div className="flex items-center justify-between text-xs font-mono text-[#78716C]">
+              <span className="flex items-center gap-1.5 text-blue-700 font-semibold">
+                <Compass className="w-3.5 h-3.5" /> SELECT FOCUS AREA
+              </span>
+              <span className="text-[11px] text-[#A8A29E]">Filter projects by your interest</span>
+            </div>
             
-            {/* Left Column: Headline + Email CTA */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full liquid-pill text-xs font-mono text-cyan-300 mb-3 border-cyan-400/40">
-                <Sparkles size={12} className="text-cyan-400 animate-pulse" /> Frontend Lead & TPM @ SkillForge
-              </div>
-              <h1 className="font-chillax text-4xl sm:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] tracking-tight text-white drop-shadow-md">
-                Lohith R C • Full-Stack Developer & Applied AI Engineer
-              </h1>
-              <p className="mt-3 text-sm sm:text-base text-white/90 leading-relaxed font-normal">
-                Final-year CSE student maintaining an <strong className="text-cyan-300">8.6 CGPA</strong> at KIT Tiptur (VTU). Architect of zero-trust identity engines, explainable AI triage platforms, VR emergency simulators, and medical ML web applications.
-              </p>
-
-              {/* Hero Lead Email Form */}
-              <form onSubmit={handleHeroEmailSubmit} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:inline-flex sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:liquid-pill sm:p-1.5 sm:border-white/30">
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your email to connect"
-                  value={heroEmail}
-                  onChange={(e) => setHeroEmail(e.target.value)}
-                  aria-label="Enter your email address to get in touch"
-                  className="w-full rounded-full bg-white/20 backdrop-blur-md px-5 py-3 text-sm text-white placeholder-white/70 outline-none sm:w-64 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-2"
-                />
-                <button
-                  type="submit"
-                  disabled={heroSubmitting}
-                  aria-label="Submit email to get started"
-                  className="liquid-button-primary w-full px-6 py-3 text-sm font-bold sm:w-auto sm:py-2.5 disabled:opacity-50"
-                >
-                  {heroSubmitting ? 'Sending...' : 'Get started'}
-                </button>
-              </form>
-
-              {heroSuccess && (
-                <div className="mt-2 text-xs font-mono text-emerald-300 font-bold flex items-center gap-1.5">
-                  <Check size={14} className="text-emerald-400" /> Email received! Lohith will get back to you shortly.
-                </div>
-              )}
-
-              {/* Quick AI Bot Launcher */}
-              <button 
-                onClick={() => setAiBotOpen(true)} 
-                aria-label="Open Lohith AI Chat Assistant"
-                className="mt-4 flex items-center gap-2 text-xs font-semibold text-purple-300 hover:text-purple-200 transition-colors drop-shadow"
-              >
-                <Sparkles size={14} className="text-purple-400" /> Ask Lohith's AI Assistant questions directly
-              </button>
-            </motion.div>
-
-            {/* Right Column: Two iOS Liquid Glass Cards */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex flex-col gap-4 sm:flex-row lg:w-auto lg:gap-5"
-            >
-              <div className="liquid-glass p-5 sm:w-64 sm:p-6 flex flex-col justify-between border-white/30">
-                <div>
-                  <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-white drop-shadow-sm">
-                    10+
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-white/90 sm:mt-4">
-                    Open-Source Repositories & Shipped AI/Full-Stack Systems. <strong>8.6 CGPA</strong> in BE CSE.
-                  </p>
-                </div>
-              </div>
-
-              {/* Profile Card with Lohith Headshot */}
-              <div className="liquid-glass p-5 sm:w-64 sm:p-6 border-white/30 flex flex-col justify-between">
-                <div>
-                  <div className="mb-3 sm:mb-4 flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-xs font-bold text-white shadow-sm">
-                      <Code2 size={14} />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {roleModes.map((role) => {
+                const isActive = selectedRole === role.id;
+                return (
+                  <button
+                    key={role.id}
+                    onClick={() => setSelectedRole(role.id)}
+                    className={`p-3 rounded-xl text-left transition-all relative border ${
+                      isActive
+                        ? 'bg-neutral-900 text-white border-neutral-900 shadow-md'
+                        : 'bg-[#FAFAF9] border-black/[0.06] text-[#57534E] hover:bg-[#F5F5F4] hover:text-[#0C0A09]'
+                    }`}
+                  >
+                    <div className="font-semibold text-xs flex items-center justify-between">
+                      <span>{role.label}</span>
+                      {isActive && <CheckCircle2 className="w-3 h-3 text-white" />}
                     </div>
-                    <span className="text-sm font-semibold text-white drop-shadow-sm">Lead & Core Builder</span>
-                  </div>
-                  <p className="text-sm leading-relaxed text-white/90">
-                    "Architecting production full-stack systems, zero-trust reference platforms, and explainable AI pipelines."
-                  </p>
+                    <p className={`text-[10px] mt-1 line-clamp-2 leading-snug ${isActive ? 'text-neutral-300' : 'text-[#78716C]'}`}>
+                      {role.description}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="p-2.5 rounded-lg bg-[#FAFAF9] border border-black/[0.06] font-mono text-[11px] text-[#44403C] flex items-center gap-2">
+              <Terminal className="w-3 h-3 text-blue-600 shrink-0" />
+              <span className="text-[#0C0A09] font-semibold">{activeRoleData.label}:</span>
+              <span className="text-[#57534E] truncate">{activeRoleData.badge}</span>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#work" className="btn-radiant-primary">
+              <span>View Projects</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+
+            <button
+              onClick={() => setIsAiModalOpen(true)}
+              className="btn-cyber-glow"
+            >
+              <Bot className="w-4 h-4 text-blue-700" />
+              <span>Ask AI Assistant</span>
+            </button>
+
+            <button
+              onClick={() => setIsResumeModalOpen(true)}
+              className="btn-glass-tactile"
+            >
+              <FileText className="w-4 h-4 text-[#44403C]" />
+              <span>Plaintext ATS Resume</span>
+            </button>
+
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-glass-tactile"
+            >
+              <GithubIcon size={16} />
+              <span>GitHub</span>
+            </a>
+          </div>
+
+          {/* Stats Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="story-bento-card p-4 flex flex-col justify-between">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#78716C]">{stat.label}</span>
+                <div className="mt-1 flex items-baseline gap-1">
+                  <span className="font-display text-2xl sm:text-3xl font-extrabold text-[#0C0A09]">{stat.value}</span>
+                  <span className="font-mono text-xs text-blue-700 font-semibold">{stat.suffix}</span>
                 </div>
-                
-                <div className="mt-4 sm:mt-5 flex items-center gap-3 pt-3 border-t border-white/20">
-                  <img
-                    src={lohithImg}
-                    alt="Lohith R C Headshot"
-                    className="h-11 w-11 rounded-full object-cover border-2 border-cyan-400 shadow-md"
-                  />
+              </div>
+            ))}
+          </div>
+
+        </section>
+
+        {/* ========================================================
+            TIMELINE SECTION (Simple, clean milestones)
+           ======================================================== */}
+        <section id="timeline" className="space-y-6 scroll-mt-20">
+          <div className="flex items-center justify-between border-b border-black/[0.08] pb-4">
+            <div>
+              <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
+                01 // Timeline
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
+                How I Got Here <span className="font-serif-italic text-[#78716C]">(2004 — Present)</span>
+              </h2>
+            </div>
+            <span className="hidden sm:inline font-mono text-xs text-[#78716C]">Milestones</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3.5">
+            {genesisTimeline.map((item, idx) => (
+              <div 
+                key={idx}
+                className="story-bento-card p-4 sm:p-5 flex flex-col justify-between hover:border-black/30 transition-all group relative overflow-hidden"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-[#0C0A09] px-2.5 py-0.5 rounded-full bg-[#F5F5F4] border border-[#E7E5E4]">
+                      {item.year}
+                    </span>
+                    <span className="text-xs text-[#A8A29E] font-mono">0{idx + 1}</span>
+                  </div>
+
                   <div>
-                    <div className="text-sm font-bold text-white">Lohith R C</div>
-                    <div className="text-xs text-cyan-300 font-medium">Frontend Lead & AI Engineer</div>
+                    <h3 className="font-display font-bold text-sm text-[#0C0A09] group-hover:text-blue-700 transition-colors">
+                      {item.phase}
+                    </h3>
+                    <p className="text-[11px] font-mono text-[#78716C] mt-0.5">
+                      📍 {item.location}
+                    </p>
                   </div>
+
+                  <p className="text-xs text-[#57534E] leading-snug mt-1">
+                    {item.desc}
+                  </p>
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-black/[0.06] flex items-center justify-between text-[10px] font-mono text-[#78716C]">
+                  <span>{item.title}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600 group-hover:animate-ping" />
                 </div>
               </div>
-            </motion.div>
-
+            ))}
           </div>
         </section>
 
-        {/* SCROLL-DRIVEN SECTION 1: IMMERSIVE 3D CAROUSEL & PORTFOLIO SHOWCASE */}
-        <section id="projects" className="px-5 py-24 sm:px-8 lg:px-12 relative">
-          <div className="max-w-7xl mx-auto">
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto mb-10"
-            >
-              <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-widest mb-2 drop-shadow flex items-center justify-center gap-2">
-                <Box size={14} className="text-cyan-400" /> Interactive 3D Spatial Portfolio
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
-                Architected & Shipped Systems
+        {/* ========================================================
+            SELECTED PROJECTS CAROUSEL (Interactive Carousel Effect)
+           ======================================================== */}
+        <section id="work" className="space-y-8 scroll-mt-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/[0.08] pb-4">
+            <div>
+              <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
+                02 // Selected Work
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
+                Projects I've Built & Shipped.
               </h2>
-              <p className="text-white/85 text-sm sm:text-base mt-3">
-                Drag or use arrow keys to rotate through 3D project screens. Click any card to inspect architecture & live feature demos.
-              </p>
-
-              {/* View Mode & Category Controls */}
-              <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-4 border-t border-white/10">
-                
-                {/* 3D Flow vs Grid Layout Toggle */}
-                <div aria-label="Portfolio View Mode" className="flex items-center gap-1 liquid-pill p-1 border border-white/30">
-                  <button
-                    onClick={() => setViewMode('3d')}
-                    aria-label="Switch portfolio view to 3D Carousel Flow"
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                      viewMode === '3d'
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
-                        : 'text-white/80 hover:text-white'
-                    }`}
-                  >
-                    <Box size={14} /> 3D Carousel Flow
-                  </button>
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    aria-label="Switch portfolio view to Grid Layout"
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                      viewMode === 'grid'
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
-                        : 'text-white/80 hover:text-white'
-                    }`}
-                  >
-                    <LayoutGrid size={14} /> Grid Layout
-                  </button>
-                </div>
-
-                {/* Category Filter Pills */}
-                <div aria-label="Filter Projects by Category" className="flex flex-wrap gap-1.5">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setProjectFilter(cat)}
-                      aria-label={`Filter projects by ${cat}`}
-                      className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
-                        projectFilter === cat 
-                          ? 'bg-cyan-500 text-white shadow-md border border-cyan-400' 
-                          : 'liquid-pill text-white/80 hover:text-white'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Code-Split 3D Carousel or Grid View with Suspense */}
-            <Suspense fallback={<div className="p-12 text-center text-xs font-mono text-cyan-300">Loading 3D Spatial Canvas...</div>}>
-              {viewMode === '3d' ? (
-                <Carousel3D
-                  projects={filteredProjects}
-                  activeRole={activeRole}
-                  onOpenArchitecture={setArchProject}
-                  onOpenSimulator={setSimProject}
-                  onOpenCaseStudy={() => setCaseStudyOpen(true)}
-                />
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                  {filteredProjects.map((project) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      activeRole={activeRole}
-                      onOpenArchitecture={setArchProject}
-                      onOpenSimulator={setSimProject}
-                      onOpenCaseStudy={() => setCaseStudyOpen(true)}
-                    />
-                  ))}
-                </div>
-              )}
-            </Suspense>
-
-          </div>
-        </section>
-
-        {/* SCROLL-DRIVEN SECTION 2: TECHNICAL SKILLS MATRIX WITH 3D R3F SHADER CONSTELLATION */}
-        <Suspense fallback={<div className="p-12 text-center text-xs font-mono text-purple-300">Loading R3F Shader Constellation...</div>}>
-          <SkillsMatrix activeRole={activeRole} />
-        </Suspense>
-
-        {/* SCROLL-DRIVEN SECTION 3: WORK EXPERIENCE, HACKATHONS & CERTIFICATIONS */}
-        <section id="experience" className="px-5 py-24 sm:px-8 lg:px-12 relative">
-          <div className="max-w-7xl mx-auto">
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto mb-16"
-            >
-              <div className="text-xs font-mono text-emerald-300 font-bold uppercase tracking-widest mb-2 drop-shadow">
-                Proven Track Record
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
-                Work Experience, Hackathons & Verified Certifications
-              </h2>
-
-              {/* 3D Physical Liquid Glass Emerging Drawer Trigger Button */}
-              <motion.button
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setLiquidDrawerOpen(true)}
-                aria-label="Open 3D Physical Emerging Liquid Glass Achievement Drawer"
-                className="mt-6 inline-flex items-center gap-3 px-6 py-3.5 rounded-full text-xs font-bold text-white shadow-[0_12px_40px_rgba(6,182,212,0.35)] liquid-glass border border-white/40 hover:border-cyan-300 transition-all group"
-              >
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-cyan-500 flex items-center justify-center text-white shadow-md">
-                  <Trophy size={14} />
-                </div>
-                <span className="tracking-tight font-sans">
-                  Hackathons & State Competitions, Verified Industry Certifications
-                </span>
-                <span className="liquid-pill px-2.5 py-0.5 text-[10px] font-mono text-cyan-300 border-cyan-400/40 group-hover:bg-cyan-500/30">
-                  Open 3D Glass Drawer →
-                </span>
-              </motion.button>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* View Mode & Category Controls */}
+            <div className="flex flex-wrap items-center gap-2">
               
-              {/* Left Column: Refactored Accordion Component */}
-              <div className="flex flex-col gap-8">
-                <Suspense fallback={<div className="p-6 text-xs font-mono text-amber-300">Loading Accordion...</div>}>
-                  <AchievementAccordion 
-                    onSelectAchievement={(item, type) => { 
-                      setDrawerItem(item); 
-                      setDrawerType(type); 
-                    }} 
-                  />
-                </Suspense>
+              {/* Category Filter Pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                {projectCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveProjectCategory(cat)}
+                    className={`px-3 py-1 rounded-full font-mono text-[11px] whitespace-nowrap transition-all ${
+                      activeProjectCategory === cat
+                        ? 'bg-neutral-900 text-white font-bold'
+                        : 'text-[#57534E] hover:text-[#0C0A09] bg-white border border-black/[0.08]'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
 
-              {/* Right Column: Work Experience & Academic Education */}
-              <div id="certifications" className="flex flex-col gap-8">
-
-                {/* Professional Internship */}
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
+              {/* View Mode Switcher (Carousel / Grid) */}
+              <div className="flex items-center bg-[#F5F5F4] p-1 rounded-xl border border-black/[0.08]">
+                <button
+                  onClick={() => setViewMode("carousel")}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all ${
+                    viewMode === "carousel"
+                      ? "bg-white text-[#0C0A09] font-bold shadow-xs"
+                      : "text-[#78716C] hover:text-[#0C0A09]"
+                  }`}
+                  title="Carousel Slide View"
                 >
-                  <h3 className="text-xl font-bold text-cyan-300 mb-4 flex items-center gap-2 drop-shadow">
-                    <Briefcase size={20} /> Professional Internship
-                  </h3>
-
-                  {resumeData.experience.map((exp, idx) => (
-                    <div key={idx} className="liquid-glass p-6 border-l-4 border-l-cyan-400 border-white/25 shadow-lg">
-                      <div className="flex justify-between items-start flex-wrap gap-2">
-                        <div>
-                          <h4 className="text-lg font-bold text-white">{exp.role}</h4>
-                          <div className="text-sm font-semibold text-cyan-300">{exp.company} • <span className="text-white/85">{exp.location}</span></div>
-                        </div>
-                        <span className="text-xs font-mono liquid-pill px-3 py-1 text-cyan-200 border-cyan-400/40 font-semibold">
-                          {exp.period}
-                        </span>
-                      </div>
-
-                      <ul className="mt-4 space-y-2 text-sm text-white/90 list-disc list-inside leading-relaxed font-normal">
-                        {exp.highlights.map((h, hIdx) => (
-                          <li key={hIdx}>{h}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </motion.div>
-
-                {/* Academic Education */}
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+                  <SlidersHorizontal size={12} />
+                  <span>Carousel</span>
+                </button>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all ${
+                    viewMode === "grid"
+                      ? "bg-white text-[#0C0A09] font-bold shadow-xs"
+                      : "text-[#78716C] hover:text-[#0C0A09]"
+                  }`}
+                  title="Full Grid View"
                 >
-                  <h3 className="text-xl font-bold text-purple-300 mb-4 flex items-center gap-2 drop-shadow">
-                    <GraduationCap size={20} /> Academic Education
-                  </h3>
-
-                  <div className="space-y-4">
-                    {resumeData.education.map((edu, idx) => (
-                      <div key={idx} className="liquid-glass p-5 border-l-4 border-l-purple-400 border-white/25">
-                        <div className="flex justify-between items-start flex-wrap gap-2">
-                          <div>
-                            <h4 className="text-base font-bold text-white">{edu.degree}</h4>
-                            <div className="text-xs text-purple-300 font-bold">{edu.institution}</div>
-                          </div>
-                          <span className="text-xs font-bold text-emerald-200 bg-emerald-500/30 px-3 py-1 rounded-full border border-emerald-400/50">
-                            {edu.grade}
-                          </span>
-                        </div>
-                        <div className="text-xs text-white/80 mt-1 font-mono">{edu.period}</div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-
+                  <LayoutGrid size={12} />
+                  <span>Grid</span>
+                </button>
               </div>
 
             </div>
-
           </div>
-        </section>
 
-        {/* SCROLL-DRIVEN SECTION 4: TAILORED ATS RESUME & CONTACT */}
-        <section id="contact" className="px-5 py-24 sm:px-8 lg:px-12 relative">
-          <div className="max-w-6xl mx-auto">
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto mb-12"
-            >
-              <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-widest mb-2 drop-shadow">
-                Get In Touch
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
-                Let's Build Something Exceptional
-              </h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* ========================================================
+              VIEW 1: INTERACTIVE CAROUSEL
+             ======================================================== */}
+          {viewMode === "carousel" && filteredProjects.length > 0 && (
+            <div className="space-y-6">
               
-              {/* Left: Contact Info & Resume Viewer */}
-              <div className="flex flex-col gap-6">
-                
-                {/* Contact Cards */}
-                <div className="liquid-glass p-6 border-white/25 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-cyan-500/30 text-cyan-300 flex items-center justify-center shadow-sm">
-                      <Mail size={20} />
-                    </div>
-                    <div>
-                      <div className="text-xs text-white/80 uppercase font-semibold">Email Address</div>
-                      <div className="text-sm font-bold text-white">{resumeData.personalInfo.email}</div>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => copyToClipboard(resumeData.personalInfo.email, 'email')} 
-                    aria-label="Copy email address to clipboard"
-                    className="text-xs text-cyan-300 hover:underline flex items-center gap-1 font-bold"
+              {/* Carousel Navigation HUD */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-xs text-[#0C0A09] font-bold bg-[#F5F5F4] px-3 py-1 rounded-full border border-black/[0.08]">
+                    Slide {String(carouselIndex + 1).padStart(2, '0')} / {String(filteredProjects.length).padStart(2, '0')}
+                  </span>
+                  <span className="text-xs font-mono text-[#78716C] hidden sm:inline">
+                    {currentProject?.category}
+                  </span>
+                </div>
+
+                {/* Arrow Buttons */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handlePrevSlide}
+                    className="p-2 rounded-xl bg-white border border-black/[0.12] hover:bg-stone-100 text-[#0C0A09] transition-all shadow-xs active:scale-95 cursor-pointer"
+                    aria-label="Previous project"
                   >
-                    {copiedEmail ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                    {copiedEmail ? 'Copied' : 'Copy'}
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    onClick={handleNextSlide}
+                    className="p-2 rounded-xl bg-[#0C0A09] text-white hover:bg-neutral-800 transition-all shadow-sm active:scale-95 cursor-pointer"
+                    aria-label="Next project"
+                  >
+                    <ChevronRight size={18} />
                   </button>
                 </div>
-
-                <div className="liquid-glass p-6 border-white/25 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/30 text-purple-300 flex items-center justify-center shadow-sm">
-                      <Phone size={20} />
-                    </div>
-                    <div>
-                      <div className="text-xs text-white/80 uppercase font-semibold">Phone / WhatsApp</div>
-                      <div className="text-sm font-bold text-white">{resumeData.personalInfo.phone}</div>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => copyToClipboard(resumeData.personalInfo.phone, 'phone')} 
-                    aria-label="Copy phone number to clipboard"
-                    className="text-xs text-purple-300 hover:underline flex items-center gap-1 font-bold"
-                  >
-                    {copiedPhone ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                    {copiedPhone ? 'Copied' : 'Copy'}
-                  </button>
-                </div>
-
-                {/* ATS Resume Box */}
-                <div className="liquid-glass p-6 border-white/25">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="text-sm font-bold text-white flex items-center gap-2">
-                      <FileText size={16} className="text-cyan-300" /> Tailored Plain Text Resume
-                    </div>
-                    <button 
-                      onClick={() => copyToClipboard(generateTailoredResume(), 'resume')}
-                      aria-label="Copy plain text CV to clipboard"
-                      className="text-xs text-cyan-300 hover:underline flex items-center gap-1 font-bold"
-                    >
-                      {copiedResume ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                      {copiedResume ? 'Copied CV' : 'Copy Plain CV'}
-                    </button>
-                  </div>
-                  <pre className="p-4 rounded-xl bg-black/70 border border-white/20 font-mono text-xs text-white/90 max-h-48 overflow-y-auto whitespace-pre-wrap">
-                    {generateTailoredResume()}
-                  </pre>
-                </div>
-
               </div>
 
-              {/* Priority 1 Item 1: Real Contact Form Submission */}
-              <div className="liquid-glass p-8 border-white/25">
-                {formSubmitted ? (
-                  <div className="text-center py-12">
-                    <div className="w-14 h-14 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 inline-flex items-center justify-center mb-4 shadow-lg">
-                      <Check size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-white">Message Delivered!</h3>
-                    <p className="text-sm text-white/90 mt-2">Thank you! Lohith will get back to you shortly.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleContactSubmit} className="flex flex-col gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-white/90 mb-1">Your Name</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="John Doe"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        aria-label="Your Name"
-                        className="w-full rounded-xl bg-white/10 border border-white/25 px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-cyan-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-white/90 mb-1">Your Email</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="john@example.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        aria-label="Your Email Address"
-                        className="w-full rounded-xl bg-white/10 border border-white/25 px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-cyan-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-white/90 mb-1">Message</label>
-                      <textarea
-                        rows={4}
-                        required
-                        placeholder="Hello Lohith, I'd like to discuss a software engineering opportunity..."
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        aria-label="Your Message"
-                        className="w-full rounded-xl bg-white/10 border border-white/25 px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-cyan-400"
-                      />
+              {/* Animated Carousel Card Showcase */}
+              <div className="relative overflow-hidden min-h-[440px]">
+                <AnimatePresence mode="wait" custom={carouselDirection}>
+                  <motion.div
+                    key={currentProject.id}
+                    custom={carouselDirection}
+                    initial={{ opacity: 0, x: carouselDirection > 0 ? 80 : -80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: carouselDirection > 0 ? -80 : 80 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full story-bento-card p-7 sm:p-9 flex flex-col justify-between space-y-6 border-black/[0.12] shadow-lg"
+                  >
+                    <div className="space-y-4">
+                      
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-xs uppercase tracking-widest text-blue-700 font-semibold">
+                              {currentProject.category}
+                            </span>
+                            {currentProject.featured && (
+                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1">
+                                <Sparkles className="w-3 h-3 text-amber-600" /> Featured
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-2xl sm:text-3xl font-bold font-display text-[#0C0A09]">
+                            {currentProject.title}
+                          </h3>
+                          <p className="text-xs font-mono text-[#78716C]">
+                            {currentProject.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      <p className="text-[#44403C] text-base leading-relaxed max-w-4xl">
+                        {currentProject.description}
+                      </p>
+
+                      {/* Architecture Overview */}
+                      {currentProject.architectureNodes && currentProject.architectureNodes.length > 0 && (
+                        <div className="p-4 rounded-xl bg-[#FAFAF9] border border-black/[0.06] space-y-2">
+                          <span className="text-xs font-mono uppercase tracking-wider text-[#78716C] flex items-center gap-1.5 font-semibold">
+                            <Layers className="w-3.5 h-3.5 text-blue-600" /> System Architecture & Execution Steps:
+                          </span>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+                            {currentProject.architectureNodes.map((node, nIdx) => (
+                              <div key={nIdx} className="p-2 rounded-lg bg-white border border-black/[0.08] text-xs">
+                                <span className="font-mono text-[10px] text-blue-700 block font-semibold">Step 0{nIdx + 1}</span>
+                                <span className="font-semibold text-stone-900 block mt-0.5">{node.name}</span>
+                                <span className="text-[11px] text-stone-500 line-clamp-2 mt-0.5">{node.desc}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Technology Tags */}
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {currentProject.stack.map((tech, tIdx) => (
+                          <span key={tIdx} className="badge-pill text-xs">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    {formError && (
-                      <div className="p-3 rounded-xl bg-red-500/20 border border-red-400/40 text-red-200 text-xs font-medium flex flex-col gap-2">
-                        <div className="flex items-center gap-1.5 font-bold text-red-300">
-                          <AlertCircle size={15} /> Submission Error
-                        </div>
-                        <div>{formError}</div>
-                        <a 
-                          href={`mailto:lohithraj9090@gmail.com?subject=Contact%20from%20${encodeURIComponent(formData.name)}&body=${encodeURIComponent(formData.message)}`}
-                          className="liquid-pill px-3 py-1 text-[11px] font-bold text-cyan-200 hover:text-white inline-block text-center border-cyan-400/40"
+                    {/* Key Metrics & Action Buttons */}
+                    <div className="space-y-4 pt-4 border-t border-black/[0.06]">
+                      <div className="grid grid-cols-3 gap-3 bg-[#FAFAF9] p-3 rounded-xl border border-black/[0.06]">
+                        {currentProject.metrics.map((m, mIdx) => (
+                          <div key={mIdx} className="text-center">
+                            <span className="block text-[10px] font-mono text-[#78716C] uppercase">{m.label}</span>
+                            <span className="block text-xs sm:text-sm font-semibold text-[#0C0A09] mt-0.5 truncate">{m.val}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        <button
+                          onClick={() => setSimulatorModalProject(currentProject)}
+                          className="btn-radiant-primary text-xs py-2.5 px-4"
                         >
-                          Fallback: Send directly via Email Client →
-                        </a>
+                          <Play className="w-3.5 h-3.5 fill-white text-white" />
+                          <span>Try Interactive Demo</span>
+                        </button>
+
+                        <button
+                          onClick={() => setArchitectureModalProject(currentProject)}
+                          className="btn-cyber-glow text-xs py-2.5 px-4"
+                        >
+                          <Layers className="w-3.5 h-3.5" />
+                          <span>View Blueprint Diagram</span>
+                        </button>
+
+                        {currentProject.demoUrl && currentProject.demoUrl.startsWith('http') && (
+                          <a
+                            href={currentProject.demoUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn-glass-tactile text-xs py-2.5 px-4"
+                            title="Live Site"
+                          >
+                            <Globe className="w-3.5 h-3.5 text-emerald-700" />
+                            <span>Live Site</span>
+                            <ArrowUpRight className="w-3 h-3 text-[#78716C]" />
+                          </a>
+                        )}
+
+                        {currentProject.github && (
+                          <a
+                            href={currentProject.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn-glass-tactile text-xs py-2.5 px-4"
+                            title="Source Code"
+                          >
+                            <GithubIcon size={14} />
+                            <span>GitHub Code</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Clickable Pagination Dots */}
+              <div className="flex items-center justify-center gap-2 pt-2">
+                {filteredProjects.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => {
+                      setCarouselDirection(dotIdx > carouselIndex ? 1 : -1);
+                      setCarouselIndex(dotIdx);
+                    }}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${
+                      dotIdx === carouselIndex 
+                        ? 'w-8 bg-[#0C0A09]' 
+                        : 'w-2 bg-stone-300 hover:bg-stone-500'
+                    }`}
+                    aria-label={`Go to slide ${dotIdx + 1}`}
+                  />
+                ))}
+              </div>
+
+            </div>
+          )}
+
+          {/* ========================================================
+              VIEW 2: FULL GRID VIEW FALLBACK
+             ======================================================== */}
+          {viewMode === "grid" && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {filteredProjects.map((project) => (
+                <div 
+                  key={project.id}
+                  className="story-bento-card p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-black/30 transition-all"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-blue-700 font-semibold">
+                          {project.category}
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-bold font-display text-[#0C0A09]">
+                          {project.title}
+                        </h3>
+                        <p className="text-xs font-mono text-[#78716C]">
+                          {project.subtitle}
+                        </p>
+                      </div>
+
+                      {project.featured && (
+                        <span className="shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-amber-600" /> Featured
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="text-[#44403C] text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Architecture Overview */}
+                    {project.architectureNodes && project.architectureNodes.length > 0 && (
+                      <div className="p-3 rounded-xl bg-[#FAFAF9] border border-black/[0.06] space-y-1.5">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#78716C] flex items-center gap-1">
+                          <Layers className="w-3 h-3 text-blue-600" /> How It Works:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.architectureNodes.map((node, nIdx) => (
+                            <span key={nIdx} className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-white text-[#44403C] border border-black/[0.08]">
+                              {node.name}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     )}
 
-                    <button
-                      type="submit"
-                      disabled={formSubmitting}
-                      aria-label="Send Contact Form Message"
-                      className="liquid-button-primary w-full py-3.5 text-sm font-bold mt-2 disabled:opacity-50"
-                    >
-                      {formSubmitting ? 'Sending Message...' : 'Send Message'}
-                    </button>
-                  </form>
-                )}
-              </div>
+                    {/* Technology Tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {project.stack.map((tech, tIdx) => (
+                        <span key={tIdx} className="badge-pill text-[11px]">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
 
+                  {/* Key Metrics & Action Buttons */}
+                  <div className="space-y-4 pt-4 border-t border-black/[0.06]">
+                    <div className="grid grid-cols-3 gap-2 bg-[#FAFAF9] p-2.5 rounded-xl border border-black/[0.06]">
+                      {project.metrics.map((m, mIdx) => (
+                        <div key={mIdx} className="text-center">
+                          <span className="block text-[10px] font-mono text-[#78716C] uppercase">{m.label}</span>
+                          <span className="block text-xs font-semibold text-[#0C0A09] mt-0.5 truncate">{m.val}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={() => setSimulatorModalProject(project)}
+                        className="btn-radiant-primary text-xs py-2 px-3.5"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-white text-white" />
+                        <span>Try Demo</span>
+                      </button>
+
+                      <button
+                        onClick={() => setArchitectureModalProject(project)}
+                        className="btn-cyber-glow text-xs py-2 px-3.5"
+                      >
+                        <Layers className="w-3.5 h-3.5" />
+                        <span>Diagram</span>
+                      </button>
+
+                      {project.demoUrl && project.demoUrl.startsWith('http') && (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn-glass-tactile text-xs py-2 px-3.5"
+                          title="Live Site"
+                        >
+                          <Globe className="w-3.5 h-3.5 text-emerald-700" />
+                          <span>Live Site</span>
+                          <ArrowUpRight className="w-3 h-3 text-[#78716C]" />
+                        </a>
+                      )}
+
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn-glass-tactile text-xs py-2 px-3.5"
+                          title="Source Code"
+                        >
+                          <GithubIcon size={14} />
+                          <span>Code</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          )}
+
+        </section>
+
+        {/* ========================================================
+            SKILLS & TOOLS (Clean, direct categorization)
+           ======================================================== */}
+        <section id="skills" className="space-y-8 scroll-mt-20">
+          <div className="border-b border-black/[0.08] pb-4">
+            <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
+              03 // Skills & Tools
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
+              Technologies I Work With.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {skillsCategory.map((cat, idx) => (
+              <div key={idx} className="story-bento-card p-6 flex flex-col justify-between space-y-4">
+                <div>
+                  <div className="flex items-center justify-between border-b border-black/[0.06] pb-3 mb-4">
+                    <h3 className="font-display font-bold text-base text-[#0C0A09] flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-blue-600" />
+                      {cat.category}
+                    </h3>
+                    <span className="font-mono text-[11px] text-[#78716C]">{cat.skills.length} tools</span>
+                  </div>
+
+                  <div className="space-y-2">
+                    {cat.skills.map((skill, sIdx) => (
+                      <div 
+                        key={sIdx}
+                        className="p-2.5 rounded-xl bg-[#FAFAF9] border border-black/[0.06] hover:border-black/25 transition-all group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-semibold text-xs text-[#1C1917] group-hover:text-blue-700 transition-colors">
+                            {skill.name}
+                          </span>
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                            skill.level === 'Primary' || skill.level === 'Advanced'
+                              ? 'bg-blue-50 text-blue-800 border border-blue-200'
+                              : 'bg-white text-[#78716C] border border-black/[0.08]'
+                          }`}>
+                            {skill.level}
+                          </span>
+                        </div>
+                        {skill.note && (
+                          <p className="text-[10px] text-[#57534E] mt-1 font-mono leading-tight">
+                            {skill.note}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-black/[0.06] flex items-center justify-between text-[11px] font-mono text-[#78716C]">
+                  <span>Hands-On Experience</span>
+                  <CheckCheck className="w-3.5 h-3.5 text-emerald-600" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ========================================================
+            HACKATHONS & CERTIFICATIONS (Direct, clean)
+           ======================================================== */}
+        <section id="hackathons" className="space-y-8 scroll-mt-20">
+          <div className="border-b border-black/[0.08] pb-4">
+            <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
+              04 // Hackathons & Certifications
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
+              Competitions & Verified Credentials.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* Hackathons List */}
+            <div className="lg:col-span-7 space-y-4">
+              <h3 className="font-mono text-xs uppercase tracking-widest text-[#0C0A09] font-semibold flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-amber-600" /> Hackathon Projects
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {hackathons.slice(0, 6).map((hack) => (
+                  <div
+                    key={hack.id}
+                    onClick={() => {
+                      setDrawerItem(hack);
+                      setDrawerType('hackathon');
+                    }}
+                    className="p-4 rounded-xl bg-white border border-black/[0.08] hover:border-black/30 shadow-[0_2px_10px_-2px_rgba(0,0,0,0.03)] cursor-pointer group transition-all flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                          {hack.award}
+                        </span>
+                      </div>
+                      <h4 className="font-display font-bold text-sm text-[#0C0A09] mt-2 group-hover:text-blue-700 transition-colors">
+                        {hack.title}
+                      </h4>
+                      <p className="text-[11px] font-mono text-[#78716C] mt-0.5">{hack.role}</p>
+                      <p className="text-xs text-[#57534E] mt-2 line-clamp-2 leading-relaxed">{hack.desc}</p>
+                    </div>
+
+                    <div className="pt-3 mt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] font-mono text-blue-700">
+                      <span>View Details</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Certifications List */}
+            <div className="lg:col-span-5 space-y-4">
+              <h3 className="font-mono text-xs uppercase tracking-widest text-[#0C0A09] font-semibold flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-blue-700" /> Cisco & Industry Certifications
+              </h3>
+
+              <div className="space-y-3">
+                {certifications.slice(0, 5).map((cert) => (
+                  <div
+                    key={cert.id}
+                    onClick={() => {
+                      setDrawerItem(cert);
+                      setDrawerType('certification');
+                    }}
+                    className="p-3.5 rounded-xl bg-white border border-black/[0.08] hover:border-black/30 shadow-[0_2px_10px_-2px_rgba(0,0,0,0.03)] cursor-pointer group transition-all flex items-center justify-between gap-3"
+                  >
+                    <div>
+                      <h4 className="font-semibold text-xs text-[#0C0A09] group-hover:text-blue-700 transition-colors">
+                        {cert.title}
+                      </h4>
+                      <p className="text-[11px] font-mono text-[#78716C] mt-0.5">{cert.issuer}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#A8A29E] group-hover:text-blue-700 shrink-0" />
+                  </div>
+                ))}
+              </div>
             </div>
 
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-8 px-5 sm:px-8 lg:px-12 backdrop-blur-2xl bg-white/5 border-t border-white/15 text-xs text-white/80 flex flex-wrap justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Lohith R C. Single-Page Scroll Architecture.</div>
-          <div className="flex gap-4 font-semibold">
-            <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" aria-label="Lohith GitHub Profile" className="hover:text-cyan-400 transition-colors">GitHub</a>
-            <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" aria-label="Lohith LinkedIn Profile" className="hover:text-cyan-400 transition-colors">LinkedIn</a>
-            <a href={`mailto:${resumeData.personalInfo.email}`} aria-label="Send Email to Lohith" className="hover:text-cyan-400 transition-colors">Email</a>
+        {/* ========================================================
+            ATELIER / CONTACT (Simple English)
+           ======================================================== */}
+        <section id="atelier" className="space-y-8 scroll-mt-20 pt-8 border-t border-black/[0.08]">
+          <div className="space-y-2">
+            <h2 className="text-3xl sm:text-5xl font-normal font-serif-editorial text-[#0C0A09]">
+              Get In Touch
+            </h2>
+            <p className="text-[#78716C] font-serif-italic text-sm sm:text-base">
+              Feel free to reach out for software engineering roles, project inquiries, or technical collaborations.
+            </p>
           </div>
-        </footer>
 
-      </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
+            
+            {/* Quick Contact & Links */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              <div className="space-y-4">
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#0C0A09] text-white font-semibold text-sm hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 group"
+                >
+                  <PenTool className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                  <span>Send an Email</span>
+                </a>
 
-      {/* Floating High-End Liquid Glass Orb Launcher */}
-      <motion.button
-        whileHover={{ scale: 1.08, y: -4 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setAiBotOpen(true)}
-        aria-label="Open Ask Lohith AI Chat Assistant"
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 rounded-full px-5 py-3.5 text-xs font-bold text-white shadow-[0_10px_35px_rgba(6,182,212,0.4)] liquid-button-primary border border-white/40 animate-float"
-      >
-        <Sparkles size={17} className="text-cyan-200 animate-spin" style={{ animationDuration: '6s' }} /> 
-        <span>Ask Lohith's AI</span>
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10B981]" />
-      </motion.button>
+                <p className="text-xs text-[#57534E] font-mono leading-relaxed">
+                  I typically respond within 24 hours. You can also connect directly on LinkedIn or WhatsApp.
+                </p>
+              </div>
 
-      {/* Code-Split Modals & Drawers */}
-      <Suspense fallback={null}>
-        <AiChatModal isOpen={aiBotOpen} onClose={() => setAiBotOpen(false)} />
-        <ArchitectureModal project={archProject} isOpen={Boolean(archProject)} onClose={() => setArchProject(null)} />
-        <ProjectSimulatorModal project={simProject} isOpen={Boolean(simProject)} onClose={() => setSimProject(null)} />
-        <LinkFlowCaseStudyModal isOpen={caseStudyOpen} onClose={() => setCaseStudyOpen(false)} />
-        <AchievementDrawer item={drawerItem} type={drawerType} isOpen={Boolean(drawerItem)} onClose={() => setDrawerItem(null)} />
-        <LiquidGlassAchievementDrawer isOpen={liquidDrawerOpen} onClose={() => setLiquidDrawerOpen(false)} />
-      </Suspense>
+              {/* Direct Links */}
+              <div className="space-y-2 pt-2 border-t border-black/[0.08]">
+                <div className="flex flex-col gap-2 font-mono text-xs text-[#44403C]">
+                  <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-blue-700 flex items-center justify-between py-1.5 border-b border-black/[0.05]">
+                    <span className="flex items-center gap-2"><LinkedinIcon size={14} color="#0284C7" /> LinkedIn</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E]" />
+                  </a>
+                  <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-blue-700 flex items-center justify-between py-1.5 border-b border-black/[0.05]">
+                    <span className="flex items-center gap-2"><GithubIcon size={14} /> GitHub (@Lohith-RC)</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E]" />
+                  </a>
+                  <a href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`} className="hover:text-blue-700 flex items-center justify-between py-1.5 border-b border-black/[0.05]">
+                    <span className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-emerald-700" /> Phone / WhatsApp</span>
+                    <span className="font-semibold">{personalInfo.phone}</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Direct Message Form */}
+            <div className="lg:col-span-7">
+              <div className="story-bento-card p-6 sm:p-7 space-y-4 bg-white border border-black/[0.08]">
+                <h3 className="font-display font-bold text-base text-[#0C0A09]">Send a Message</h3>
+
+                <form onSubmit={handleContactSubmit} className="space-y-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Your Name / Company"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#FAFAF9] border border-black/[0.12] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-black"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="Email Address"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#FAFAF9] border border-black/[0.12] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-black"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <textarea
+                      required
+                      rows={3}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Write your message here..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#FAFAF9] border border-black/[0.12] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-black"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[10px] font-mono text-[#78716C]">
+                      Sends directly to Lohith
+                    </span>
+
+                    <button
+                      type="submit"
+                      disabled={formSending}
+                      className="btn-radiant-primary text-xs py-2 px-5"
+                    >
+                      {formSending ? "Sending..." : formSubmitted ? "Sent!" : "Send Message"}
+                    </button>
+                  </div>
+
+                  {formSubmitted && (
+                    <p className="text-emerald-700 text-xs font-mono font-medium">
+                      ✓ Thank you! Your message has been sent. Lohith will get back to you shortly.
+                    </p>
+                  )}
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      {/* Editorial Footer */}
+      <footer className="relative z-10 border-t border-black/[0.08] bg-[#FAFAF9] py-8 text-xs font-mono text-[#78716C]">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[#0C0A09]">Lohith R C</span>
+            <span>•</span>
+            <span className="font-serif-italic text-[#78716C]">Portfolio</span>
+          </div>
+
+          <div>
+            <span>© 2026 Lohith R C. All rights reserved.</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <a href="#top" className="hover:text-blue-700 transition-colors">Back to Top ↑</a>
+          </div>
+        </div>
+      </footer>
+
+      {/* Interactive Modals */}
+      <AiChatModal
+        isOpen={isAiModalOpen}
+        onClose={() => setIsAiModalOpen(false)}
+      />
+
+      <PlaintextResumeModal
+        isOpen={isResumeModalOpen}
+        onClose={() => setIsResumeModalOpen(false)}
+      />
+
+      {architectureModalProject && (
+        <ArchitectureModal
+          project={architectureModalProject}
+          isOpen={!!architectureModalProject}
+          onClose={() => setArchitectureModalProject(null)}
+        />
+      )}
+
+      {simulatorModalProject && (
+        <ProjectSimulatorModal
+          project={simulatorModalProject}
+          isOpen={!!simulatorModalProject}
+          onClose={() => setSimulatorModalProject(null)}
+        />
+      )}
+
+      <AchievementDrawer
+        item={drawerItem}
+        type={drawerType}
+        isOpen={!!drawerItem}
+        onClose={() => setDrawerItem(null)}
+      />
 
     </div>
   );

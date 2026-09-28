@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Network, Server, Database, Cpu, Layers, ArrowRight, Info } from 'lucide-react';
+import { X, Network, ArrowRight, Info, Code2 } from 'lucide-react';
 
 export default function ArchitectureModal({ project, isOpen, onClose }) {
   const [selectedNode, setSelectedNode] = useState(0);
@@ -7,122 +7,93 @@ export default function ArchitectureModal({ project, isOpen, onClose }) {
   if (!isOpen || !project) return null;
 
   const nodes = project.architectureNodes || [
-    { name: "Client UI Layer", desc: "User interface handling user interaction and state updates." },
-    { name: "API Gateway / Server", desc: "RESTful endpoints managing auth tokens and request routing." },
-    { name: "Core Engine / Logic", desc: "Algorithmic pipelines, ML inference, or agent orchestration." },
-    { name: "Database & Storage", desc: "Persistent database tables or vector indexes." }
+    { name: "Client UI Layer", desc: "User interface handling user interaction, telemetry capture, and local state." },
+    { name: "API Gateway / Server", desc: "RESTful endpoints managing authentication, token lifecycle, and request routing." },
+    { name: "Core Engine / Logic", desc: "Algorithmic pipelines, zero-trust policy evaluation, or agentic workflows." },
+    { name: "Database & Storage", desc: "Persistent database tables, vector indexes, or session stores." }
   ];
 
   return (
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={`System Architecture Flow for ${project.title}`}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '850px' }}>
+      <div className="modal-content max-w-3xl bg-white border border-stone-200 text-stone-900 shadow-2xl" onClick={(e) => e.stopPropagation()}>
         
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '16px', marginBottom: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Network size={22} color="#06B6D4" />
+        <div className="flex items-center justify-between pb-4 mb-5 border-b border-stone-100">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700">
+              <Network size={18} />
+            </div>
             <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#FFF' }}>
-                System Architecture Flow
+              <h3 className="text-base font-bold text-stone-900 tracking-tight">
+                System Architecture Blueprint
               </h3>
-              <div style={{ fontSize: '0.825rem', color: '#38BDF8' }}>
+              <div className="text-xs font-mono text-blue-700">
                 {project.title}
               </div>
             </div>
           </div>
-          <button onClick={onClose} aria-label="Close architecture modal" style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-            <X size={20} />
+
+          <button 
+            onClick={onClose} 
+            aria-label="Close architecture modal" 
+            className="p-1.5 rounded-lg text-stone-400 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+          >
+            <X size={18} />
           </button>
         </div>
 
         {/* Node Flow Map */}
-        <div style={{
-          background: 'rgba(9, 13, 22, 0.6)',
-          border: '1px solid var(--border-glass)',
-          borderRadius: '16px',
-          padding: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px'
-        }}>
-          
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Interactive Execution Pipeline (Click nodes to inspect details)
+        <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-4">
+          <div className="text-[11px] font-mono text-stone-500 uppercase tracking-wider">
+            Execution Pipeline (Click steps to inspect)
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
+          <div className="flex items-center flex-wrap gap-2.5">
             {nodes.map((node, idx) => (
               <React.Fragment key={idx}>
                 <button
                   onClick={() => setSelectedNode(idx)}
-                  style={{
-                    background: selectedNode === idx ? 'linear-gradient(135deg, #06B6D4 0%, #2563EB 100%)' : 'rgba(255, 255, 255, 0.05)',
-                    border: selectedNode === idx ? '1px solid #38BDF8' : '1px solid var(--border-glass)',
-                    borderRadius: '14px',
-                    padding: '14px 18px',
-                    color: '#FFF',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    textAlign: 'left',
-                    minWidth: '160px',
-                    boxShadow: selectedNode === idx ? '0 0 20px rgba(6, 182, 212, 0.4)' : 'none'
-                  }}
+                  className={`p-3 rounded-xl text-left transition-all cursor-pointer ${
+                    selectedNode === idx
+                      ? 'bg-neutral-900 text-white shadow-sm'
+                      : 'bg-white border border-stone-200 hover:bg-stone-100 text-stone-700'
+                  }`}
                 >
-                  <div style={{ fontSize: '0.75rem', opacity: 0.8, color: selectedNode === idx ? '#E0F2FE' : '#94A3B8', fontFamily: 'var(--font-mono)' }}>
+                  <div className={`text-[10px] font-mono ${selectedNode === idx ? 'text-blue-300' : 'text-blue-700'}`}>
                     Step 0{idx + 1}
                   </div>
-                  <div style={{ fontWeight: '600', fontSize: '0.9rem', marginTop: '2px' }}>
+                  <div className="font-semibold text-xs mt-0.5">
                     {node.name}
                   </div>
                 </button>
                 {idx < nodes.length - 1 && (
-                  <ArrowRight size={18} color="var(--text-dim)" />
+                  <ArrowRight size={14} className="text-stone-400 hidden sm:inline-block" />
                 )}
               </React.Fragment>
             ))}
           </div>
-
         </div>
 
-        {/* Selected Node Details Box */}
-        <div style={{
-          marginTop: '20px',
-          background: 'rgba(15, 23, 42, 0.9)',
-          border: '1px solid rgba(139, 92, 246, 0.3)',
-          borderRadius: '16px',
-          padding: '20px',
-          display: 'flex',
-          gap: '16px',
-          alignItems: 'flex-start'
-        }}>
-          <Info size={24} color="#8B5CF6" style={{ flexShrink: 0, marginTop: '2px' }} />
+        {/* Node Inspection Box */}
+        <div className="mt-4 p-4 rounded-xl bg-stone-50/70 border border-stone-200 flex items-start gap-3">
+          <Info size={18} className="text-blue-700 shrink-0 mt-0.5" />
           <div>
-            <h4 style={{ fontSize: '1rem', color: '#FFF', fontWeight: '700' }}>
-              Node Inspection: {nodes[selectedNode].name}
+            <h4 className="text-xs font-mono font-semibold text-stone-900">
+              {nodes[selectedNode].name}
             </h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '6px', lineHeight: '1.6' }}>
+            <p className="text-xs text-stone-600 mt-1 leading-relaxed">
               {nodes[selectedNode].desc}
             </p>
           </div>
         </div>
 
-        {/* Code Snippet Preview */}
+        {/* Code Snippet */}
         {project.codeSnippet && (
-          <div style={{ marginTop: '20px' }}>
-            <div style={{ fontSize: '0.825rem', color: 'var(--text-dim)', marginBottom: '8px', fontFamily: 'var(--font-mono)' }}>
-              Core Code Snippet:
+          <div className="mt-4">
+            <div className="text-[11px] font-mono text-stone-500 mb-2 flex items-center gap-1.5">
+              <Code2 size={13} className="text-blue-700" /> Implementation Excerpt
             </div>
-            <pre style={{
-              background: '#090D16',
-              border: '1px solid var(--border-glass)',
-              borderRadius: '12px',
-              padding: '16px',
-              color: '#38BDF8',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.825rem',
-              overflowX: 'auto',
-              lineHeight: '1.5'
-            }}>
+            <pre className="p-4 rounded-xl bg-stone-900 border border-stone-800 font-mono text-xs text-stone-100 overflow-x-auto leading-relaxed max-h-56">
               <code>{project.codeSnippet}</code>
             </pre>
           </div>
