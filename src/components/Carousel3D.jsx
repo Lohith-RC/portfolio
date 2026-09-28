@@ -147,8 +147,8 @@ export default function Carousel3D({
                 </div>
 
                 {/* Card Actions */}
-                <div className="mt-4 pt-3 border-t border-white/20 flex items-center justify-between gap-2">
-                  <div className="flex gap-1.5">
+                <div className="mt-4 pt-3 border-t border-white/20 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {project.isCaseStudy ? (
                       <button
                         onClick={(e) => { e.stopPropagation(); onOpenCaseStudy?.(project); }}
@@ -173,6 +173,18 @@ export default function Carousel3D({
                         <Play size={12} className="text-purple-300" /> Demo
                       </button>
                     )}
+
+                    {project.demoUrl && project.demoUrl !== '#' && !project.demoUrl.includes('github.com') && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="btn-secondary text-[11px] font-bold py-1.5 px-2.5 bg-emerald-500/20 border-emerald-400/40 text-emerald-200 inline-flex items-center gap-1"
+                      >
+                        <ExternalLink size={11} className="text-emerald-300" /> Live
+                      </a>
+                    )}
                   </div>
 
                   <a
@@ -180,7 +192,7 @@ export default function Carousel3D({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-white/70 hover:text-white transition-colors p-1"
                   >
                     <GithubIcon size={14} />
                   </a>

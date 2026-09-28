@@ -1,43 +1,45 @@
 export const resumeData = {
   personalInfo: {
     name: "Lohith R C",
-    title: "Full-Stack & Agentic AI Software Engineer",
-    subheading: "B.E. Computer Science & Engineering Undergraduate (CGPA 8.6 / 10)",
+    title: "Full-Stack Developer & Applied AI/ML Engineer",
+    subheading: "Final-Year B.E. Computer Science & Engineering Undergraduate (CGPA 8.6 / 10)",
     college: "Kalpataru Institute of Technology, Tiptur (VTU)",
     graduation: "Expected 2027",
     location: "Arsikere, Karnataka, India",
     email: "lohithraj9090@gmail.com",
     phone: "+91 78994 60920",
     github: "https://github.com/Lohith-RC",
-    linkedin: "https://linkedin.com",
-    summary: "Final-year CS student with production experience across Java, Python, Spring Boot, FastAPI, and React/Redux. Specializing in AI-integrated full-stack architectures, RAG pipelines, agentic workflows (LangGraph), and explainable machine learning models. Hackathon winner with a track record of building and shipping end-to-end applications under tight deadlines."
+    linkedin: "https://www.linkedin.com/in/lohith-r-c/",
+    livePortfolio: "https://portfolio-delta-five-xn2osh53b6.vercel.app/",
+    currentRole: "Frontend Lead & TPM @ SkillForge (MagnusCopo & Elcarreira Technologies)",
+    summary: "Final-year Computer Science student (8.6 CGPA) and Frontend Lead & TPM @ SkillForge. Architect of production-ready systems spanning AI-driven disaster triage, zero-trust enterprise security architectures, medical NLP CRMs, VR emergency simulators, and full-stack cloud applications."
   },
 
   roleModes: [
     {
       id: "fullstack",
       label: "Full-Stack Engineer",
-      badge: "React • Redux • FastAPI • Spring Boot • PostgreSQL",
-      description: "Focusing on end-to-end web apps, state management, REST API microservices, and database modeling."
+      badge: "React • TypeScript • FastAPI • Node.js • PostgreSQL • Django",
+      description: "Building responsive frontend architectures, REST microservices, database schemas, and seamless cloud deployments."
     },
     {
       id: "aiml",
       label: "AI / ML & Agentic Engineer",
-      badge: "LangGraph • LangChain • RAG • FAISS • CNN Ensembles • SHAP",
-      description: "Focusing on agentic AI workflows, vector retrieval pipelines, computer vision ensembles, and model explainability."
+      badge: "LangGraph • LangChain • RAG • FAISS • CNN Ensembles • SHAP • Groq",
+      description: "Architecting agentic AI workflows, vector retrieval pipelines, medical computer vision, and explainable ML triage models."
     },
     {
       id: "backend",
       label: "Backend & Systems Specialist",
-      badge: "Java • Python • REST APIs • MongoDB • PostgreSQL • JWT",
-      description: "Focusing on robust API design, security, database optimization, and scalable backend architecture."
+      badge: "Python • Java • Zero-Trust Security • Cisco CyberOps • PostgreSQL • Docker",
+      description: "Designing zero-trust policy enforcement engines, high-performance APIs, JWT authentication, and secure network infrastructure."
     }
   ],
 
   stats: [
-    { label: "CGPA (BE CS)", value: "8.6", suffix: "/ 10" },
+    { label: "CGPA (BE CSE)", value: "8.6", suffix: "/ 10" },
+    { label: "GitHub Repositories", value: "10", suffix: "+" },
     { label: "Hackathons & Expos", value: "10", suffix: "+" },
-    { label: "Production Projects", value: "8", suffix: "+" },
     { label: "Industry Credentials", value: "15", suffix: "+" }
   ],
 
@@ -106,14 +108,84 @@ export const resumeData = {
 
   projects: [
     {
-      id: "ai-crm",
-      title: "AI-First CRM: Agentic HCP Interaction Logging",
-      subtitle: "Full-Stack Healthcare CRM powered by LangGraph Agents & Groq",
-      roles: ["fullstack", "aiml", "backend"],
+      id: "trust-sphere",
+      title: "TrustSphere — Enterprise Zero-Trust Identity Platform",
+      subtitle: "Layered Policy Enforcement Point (PEP) & RBAC/ABAC Engine",
+      roles: ["backend", "fullstack"],
+      category: "Zero-Trust Security & Systems",
+      featured: true,
+      description: "Structured layered reference architecture where every access request from a user or device passes through a Policy Enforcement Point (PEP) before reaching enterprise resources. Combines role- and attribute-based rules with real-time contextual trust calculations.",
+      stack: ["JavaScript", "React", "Node.js", "Zero-Trust Architecture", "RBAC / ABAC", "Vercel"],
+      metrics: [
+        { label: "Deployment", val: "Live on Vercel" },
+        { label: "Security Policy", val: "PEP + PDP Layer" },
+        { label: "Trust Engine", val: "Real-Time ABAC" }
+      ],
+      architectureNodes: [
+        { name: "Client / Device Agent", desc: "Captures contextual device telemetry, IP posture, and session signatures." },
+        { name: "Policy Enforcement Point (PEP)", desc: "Gatekeeper intercepting 100% of incoming resource access requests." },
+        { name: "Policy Decision Engine (PDP)", desc: "Evaluates multi-attribute RBAC/ABAC rules against real-time risk scores." },
+        { name: "Enterprise Resource Layer", desc: "Protected backend microservices and databases granted just-in-time access." }
+      ],
+      simulatorType: "generic",
+      codeSnippet: `// Policy Enforcement Point Access Evaluation
+async function evaluateAccessRequest(requestContext) {
+  const { user, resource, devicePosture, riskScore } = requestContext;
+  const policyDecision = await PolicyEngine.evaluate({
+    subject: user.attributes,
+    action: requestContext.action,
+    resource: resource.id,
+    environment: { ipRisk: riskScore, mfaVerified: user.mfa }
+  });
+  if (policyDecision.granted && riskScore < 30) {
+    return { status: "PERMIT", token: generateEphemeralToken(user) };
+  }
+  return { status: "DENY", reason: policyDecision.violationReason };
+}`,
+      github: "https://github.com/Lohith-RC/Enterprise-zero-trust-identity-platform",
+      demoUrl: "https://enterprise-zero-trust-identity-plat.vercel.app"
+    },
+    {
+      id: "disaster-lens",
+      title: "DisasterLens — AI Disaster Intelligence Platform",
+      subtitle: "Real-time SOS Triage Platform with DBSCAN & SHAP Explainability",
+      roles: ["aiml", "fullstack", "backend"],
+      category: "Machine Learning & Rescue Analytics",
+      featured: true,
+      description: "A two-sided emergency intelligence platform connecting rescue teams with victims during disasters. Features a Random Forest priority scoring engine for SOS signals, DBSCAN spatial clustering to group victims into rescue-optimized zones, and SHAP explainability so first responders understand priority decisions.",
+      stack: ["TypeScript", "Python", "Flask", "scikit-learn", "DBSCAN", "SHAP", "SQLite"],
+      metrics: [
+        { label: "Hackathon MVP", val: "Shipped in 24 hrs" },
+        { label: "Clustering Algo", val: "DBSCAN Spatial" },
+        { label: "XAI Method", val: "SHAP Values" }
+      ],
+      architectureNodes: [
+        { name: "Victim / Responder UI", desc: "Dual dashboard with offline PWA mode for low-connectivity environments." },
+        { name: "Flask Backend", desc: "Processes incoming distress telemetry and updates rescue queues." },
+        { name: "Random Forest Scoring", desc: "Calculates emergency priority (1-100) based on severity, age, medical status." },
+        { name: "DBSCAN Clustering Engine", desc: "Groups GPS distress signals into geographic rescue zones automatically." },
+        { name: "SHAP Explainability Visualizer", desc: "Generates waterfall charts showing feature impact on priority score." }
+      ],
+      simulatorType: "disaster-lens",
+      codeSnippet: `# DBSCAN Spatial Signal Clustering
+from sklearn.cluster import DBSCAN
+coords = df[['latitude', 'longitude']].values
+kms_per_radian = 6371.0088
+epsilon = 0.5 / kms_per_radian # 500m radius
+db = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(np.radians(coords))
+df['rescue_zone_id'] = db.labels_`,
+      github: "https://github.com/Lohith-RC/DisasterLens",
+      demoUrl: "https://github.com/Lohith-RC/DisasterLens"
+    },
+    {
+      id: "medpulse-crm",
+      title: "MedPulse AI — Autonomous Healthcare CRM",
+      subtitle: "Agentic HCP Interaction Logging, Voice/NLP & Sentiment Analytics",
+      roles: ["aiml", "fullstack", "backend"],
       category: "Agentic AI & Full-Stack",
       featured: true,
-      description: "Designed and built an enterprise-grade CRM module for Healthcare Professional (HCP) interaction logging. Uses a React + Redux frontend coupled with a FastAPI backend. Implements LangGraph multi-step agent workflows powered by Groq LLMs to automatically parse unstructured meeting notes into structured database records.",
-      stack: ["React", "Redux", "FastAPI", "PostgreSQL", "LangGraph", "Groq API"],
+      description: "Autonomous AI-powered CRM module for Healthcare Professionals (HCPs) featuring voice/NLP meeting logging, sentiment analysis, and intelligent follow-up generation using LangGraph stateful agent workflows and Groq LLMs.",
+      stack: ["JavaScript", "FastAPI", "PostgreSQL", "LangGraph", "Groq API", "NLP"],
       metrics: [
         { label: "Logging Time", val: "85% Reduction" },
         { label: "Agent Precision", val: "98.4%" },
@@ -136,40 +208,203 @@ const extractHCPData = async (state) => {
   });
   return { ...state, structuredLog: JSON.parse(response.choices[0].message.content) };
 };`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
+      github: "https://github.com/Lohith-RC/medpulse-ai-crm",
+      demoUrl: "https://github.com/Lohith-RC/medpulse-ai-crm"
     },
     {
-      id: "disaster-lens",
-      title: "DisasterLens — Disaster Intelligence Platform",
-      subtitle: "Real-time SOS Triage Platform with DBSCAN & SHAP Explainability",
-      roles: ["aiml", "fullstack", "backend"],
-      category: "Machine Learning & Rescue Analytics",
+      id: "cbrn-x",
+      title: "CBRN-X — Immersive VR Emergency Response Simulator",
+      subtitle: "VR-Ready Chemical, Biological, Radiological & Nuclear Disaster Platform",
+      roles: ["fullstack", "backend"],
+      category: "Immersive VR & Spatial Systems",
       featured: true,
-      description: "A two-sided emergency intelligence platform connecting rescue teams with victims during disasters. Features a Random Forest priority scoring engine for SOS signals, DBSCAN spatial clustering to group victims into rescue-optimized zones, and SHAP explainability so first responders understand priority decisions.",
-      stack: ["Python", "Flask", "SQLite", "scikit-learn", "DBSCAN", "SHAP", "HTML/CSS/JS"],
+      description: "An immersive VR-ready platform for training emergency responders in Chemical, Biological, Radiological & Nuclear disaster response through realistic physics simulations, triage drills, and real-time performance analytics.",
+      stack: ["C#", "Unity", "WebXR", "Spatial Analytics", "Real-Time Telemetry"],
       metrics: [
-        { label: "Hackathon MVP", val: "Shipped in 24 hrs" },
-        { label: "Clustering Algo", val: "DBSCAN Spatial" },
-        { label: "XAI Method", val: "SHAP Values" }
+        { label: "Simulation Engine", val: "Unity & C#" },
+        { label: "Hazards Simulated", val: "CBRN 4-Class" },
+        { label: "Analytics", val: "Real-time Telemetry" }
       ],
       architectureNodes: [
-        { name: "Victim / Responder UI", desc: "Dual dashboard with offline PWA mode for low-connectivity environments." },
-        { name: "Flask Backend", desc: "Processes incoming distress telemetry and updates rescue queues." },
-        { name: "Random Forest Scoring", desc: "Calculates emergency priority (1-100) based on severity, age, medical status." },
-        { name: "DBSCAN Clustering Engine", desc: "Groups GPS distress signals into geographic rescue zones automatically." },
-        { name: "SHAP Explainability Visualizer", desc: "Generates waterfall charts showing feature impact on priority score." }
+        { name: "VR Training Simulation", desc: "Physics-accurate contamination spread and sensor telemetry." },
+        { name: "C# Core Logic Engine", desc: "Hazard diffusion algorithms, exposure dosage tracking, and triage protocols." },
+        { name: "Responder Analytics Dashboard", desc: "Evaluates response time, contamination containment, and decision metrics." }
       ],
-      simulatorType: "disaster-lens",
-      codeSnippet: `# DBSCAN Spatial Signal Clustering
-from sklearn.cluster import DBSCAN
-coords = df[['latitude', 'longitude']].values
-kms_per_radian = 6371.0088
-epsilon = 0.5 / kms_per_radian # 500m radius
-db = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(np.radians(coords))
-df['rescue_zone_id'] = db.labels_`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
+      simulatorType: "generic",
+      codeSnippet: `// Radiation Dosage & Spatial Exposure Calculation
+public class HazardSimulation : MonoBehaviour {
+    public float CalculateExposureRate(Vector3 responderPos, Vector3 sourcePos, float sourceIntensity) {
+        float distance = Vector3.Distance(responderPos, sourcePos);
+        if (distance < 0.1f) distance = 0.1f;
+        // Inverse square law attenuation with material shielding
+        float exposure = sourceIntensity / (distance * distance);
+        return exposure;
+    }
+}`,
+      github: "https://github.com/Lohith-RC/CBRN-X",
+      demoUrl: "https://github.com/Lohith-RC/CBRN-X"
+    },
+    {
+      id: "mock-genius",
+      title: "MockGenius — AI Technical Interview Platform",
+      subtitle: "Interactive Technical Mock Interviews with Real-time AI Evaluation",
+      roles: ["fullstack", "aiml"],
+      category: "Agentic AI & Full-Stack",
+      featured: true,
+      description: "The smartest way to practice technical interviews. Features AI-powered interactive mock interview sessions, live code evaluation, instant feedback across problem solving, algorithmic complexity, and communication clarity.",
+      stack: ["TypeScript", "React", "Node.js", "AI Evaluation", "Tailwind CSS"],
+      metrics: [
+        { label: "Languages", val: "Multi-Language Code" },
+        { label: "Feedback", val: "Instant Rubric" },
+        { label: "Evaluation", val: "AI Voice & Logic" }
+      ],
+      architectureNodes: [
+        { name: "Interactive Interview Studio", desc: "Split-screen editor, voice proctoring, and question prompts." },
+        { name: "AI Evaluator Service", desc: "Benchmarks student responses against standard competitive programming test cases." },
+        { name: "Skill Analytics Engine", desc: "Generates comprehensive post-interview feedback and improvement roadmaps." }
+      ],
+      simulatorType: "generic",
+      codeSnippet: `// MockGenius Candidate Code Evaluation Logic
+export async function evaluateSubmission(code: string, language: string, problemId: string) {
+  const evaluationPrompt = \`Analyze the following \${language} code for correctness, time complexity, and edge cases: \${code}\`;
+  const result = await aiEngine.analyze(evaluationPrompt);
+  return {
+    score: result.score,
+    feedback: result.feedback,
+    timeComplexity: result.timeComplexity,
+    suggestedOptimizations: result.optimizations
+  };
+}`,
+      github: "https://github.com/Lohith-RC/MockGenius",
+      demoUrl: "https://github.com/Lohith-RC/MockGenius"
+    },
+    {
+      id: "skill-passport",
+      title: "SkillPassport — Verifiable Digital Skill Platform",
+      subtitle: "Decentralized & Tamper-Proof Skill Credential Verification",
+      roles: ["fullstack", "backend"],
+      category: "Zero-Trust Security & Systems",
+      featured: true,
+      description: "A modern, verifiable digital credentials ecosystem allowing students and engineers to showcase tamper-proof proofs of skills, certifications, and hackathon milestones with instant public verification.",
+      stack: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Vercel"],
+      metrics: [
+        { label: "Deployment", val: "Live on Vercel" },
+        { label: "Verification", val: "Cryptographic Proof" },
+        { label: "UI / UX", val: "Responsive Next.js" }
+      ],
+      architectureNodes: [
+        { name: "Digital Passport UI", desc: "Visual badges, skill progression graphs, and verifiable QR codes." },
+        { name: "Credential Verification API", desc: "Validates digital signatures against authentic issuer certificates." },
+        { name: "Issuer Portal", desc: "Enables educational institutions and hackathons to mint verifiable skill tokens." }
+      ],
+      simulatorType: "generic",
+      codeSnippet: `// Verifiable Credential Validation Function
+export function verifySkillProof(credentialPayload: Credential): boolean {
+  const hash = generatePayloadHash(credentialPayload.data);
+  const isValidSignature = verifyDigitalSignature(hash, credentialPayload.signature, credentialPayload.issuerPublicKey);
+  return isValidSignature && !isCredentialRevoked(credentialPayload.id);
+}`,
+      github: "https://github.com/Lohith-RC/skillpassport",
+      demoUrl: "https://skillpassport-one.vercel.app"
+    },
+    {
+      id: "saarthi",
+      title: "SAARTHI — Smart Indoor Harvester AI Assistant",
+      subtitle: "AI Assistant & Precision Telemetry for Indoor Crop Harvesting",
+      roles: ["aiml", "backend"],
+      category: "Machine Learning & Rescue Analytics",
+      featured: false,
+      description: "AI-driven agricultural optimization assistant for indoor harvesters. Monitors micro-climatic sensor streams, predicts crop maturity cycles, and automates environmental parameter adjustments.",
+      stack: ["Java", "Spring Boot", "IoT Telemetry", "Computer Vision", "Analytics"],
+      metrics: [
+        { label: "Language", val: "Java Enterprise" },
+        { label: "Domain", val: "Smart Agriculture" },
+        { label: "Analytics", val: "Telemetry Telemetry" }
+      ],
+      architectureNodes: [
+        { name: "IoT Sensor Gateway", desc: "Streams temperature, humidity, soil moisture, and CO2 telemetry." },
+        { name: "Spring Boot Microservice", desc: "Processes sensor streams and evaluates anomaly threshold triggers." },
+        { name: "Harvester Guidance AI", desc: "Recommends lighting cycles, watering schedules, and harvest windows." }
+      ],
+      simulatorType: "generic",
+      codeSnippet: `// IoT Telemetry Processing in Spring Boot
+@RestController
+@RequestMapping("/api/v1/telemetry")
+public class TelemetryController {
+    @PostMapping("/harvest-zone")
+    public ResponseEntity<HarvestStatus> processTelemetry(@RequestBody CropTelemetry data) {
+        HarvestStatus status = harvestService.evaluateOptimalConditions(data);
+        return ResponseEntity.ok(status);
+    }
+}`,
+      github: "https://github.com/Lohith-RC/SAARTHI",
+      demoUrl: "https://github.com/Lohith-RC/SAARTHI"
+    },
+    {
+      id: "verdant-sprout",
+      title: "Verdant Sprout — Minimalist E-Commerce Platform",
+      subtitle: "Curated Indoor Plants & Aesthetic Lifestyle Goods",
+      roles: ["fullstack"],
+      category: "Full-Stack Web Applications",
+      featured: false,
+      description: "A full-stack, minimalist e-commerce web application specializing in curated indoor plants and aesthetic lifestyle goods. Built as part of the CodeAlpha Full Stack Development Internship with smooth asynchronous catalog interactions.",
+      stack: ["JavaScript", "HTML5/CSS3", "REST APIs", "State Management", "E-Commerce"],
+      metrics: [
+        { label: "Context", val: "CodeAlpha Internship" },
+        { label: "Design", val: "Minimalist Aesthetic" },
+        { label: "UX Flow", val: "Async Cart & Checkout" }
+      ],
+      architectureNodes: [
+        { name: "Curated Catalog UI", desc: "Fluid filtering by plant care difficulty, light needs, and aesthetic categories." },
+        { name: "Async Cart & Order State", desc: "Instant local and server-synced cart operations without full-page reloads." }
+      ],
+      simulatorType: "generic",
+      codeSnippet: `// Asynchronous Cart Dispatcher
+async function addToCart(productId, quantity = 1) {
+  const response = await fetch('/api/cart/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId, quantity })
+  });
+  const updatedCart = await response.json();
+  updateCartBadge(updatedCart.totalItems);
+}`,
+      github: "https://github.com/Lohith-RC/verdant_sprout",
+      demoUrl: "https://github.com/Lohith-RC/verdant_sprout"
+    },
+    {
+      id: "dev-connect",
+      title: "DevConnect — Developer Social Network",
+      subtitle: "Milestone Sharing & Asymmetric Follow Graph Platform",
+      roles: ["fullstack", "backend"],
+      category: "Full-Stack Web Applications",
+      featured: false,
+      description: "A professional developer network for sharing live code updates & milestones. Features a Django backend with an asymmetric follow system and structured relational database, plus an HTML5/CSS3 frontend using Vanilla JS fetch() for async likes/connections without page refreshes.",
+      stack: ["Python", "Django", "JavaScript", "PostgreSQL", "REST APIs"],
+      metrics: [
+        { label: "Backend", val: "Django & ORM" },
+        { label: "Social Graph", val: "Asymmetric Follows" },
+        { label: "Interactivity", val: "Vanilla JS Async" }
+      ],
+      architectureNodes: [
+        { name: "Interactive Feed UI", desc: "Live code snippet rendering and real-time interaction buttons." },
+        { name: "Django REST API", desc: "Handles relational data models, user authentication, and activity feeds." }
+      ],
+      simulatorType: "generic",
+      codeSnippet: `# Django Asymmetric Follow View
+from django.http import JsonResponse
+@login_required
+def toggle_follow(request, user_id):
+    target_user = get_object_or_404(User, id=user_id)
+    if request.user in target_user.followers.all():
+        target_user.followers.remove(request.user)
+        following = False
+    else:
+        target_user.followers.add(request.user)
+        following = True
+    return JsonResponse({'following': following, 'count': target_user.followers.count()})`,
+      github: "https://github.com/Lohith-RC/DevConnect",
+      demoUrl: "https://github.com/Lohith-RC/DevConnect"
     },
     {
       id: "visionary-diagnostics",
@@ -235,95 +470,22 @@ retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k
 qa_chain = RetrievalQA.from_chain_type(llm=OpenAI(temperature=0), retriever=retriever)`,
       github: "https://github.com/Lohith-RC",
       demoUrl: "#"
-    },
-    {
-      id: "modalbridge",
-      title: "ModalBridge — Satellite Image Retrieval",
-      subtitle: "Cross-Modal Satellite Search for Disaster Response",
-      roles: ["aiml", "backend"],
-      category: "Computer Vision & Contrastive Learning",
-      featured: false,
-      description: "Built for Bharatiya Antariksh Hackathon 2026 as a 4-person cross-college team. Uses frozen ResNet backbones with contrastive projection heads (InfoNCE loss) and FAISS similarity search for rapid matching of multi-spectral satellite imagery during natural disasters.",
-      stack: ["Python", "ResNet", "InfoNCE Loss", "FAISS", "PyTorch"],
-      metrics: [
-        { label: "Hackathon", val: "Bharatiya Antariksh '26" },
-        { label: "Loss Function", val: "Contrastive InfoNCE" },
-        { label: "Team Size", val: "4-Person Cross-College" }
-      ],
-      architectureNodes: [
-        { name: "Satellite Data Ingestion", desc: "Handles multi-band satellite images and query metadata." },
-        { name: "ResNet Projection Heads", desc: "Embeds image regions into shared high-dimensional latent vector space." },
-        { name: "FAISS Cosine Similarity", desc: "Finds closest matching satellite patches in milliseconds." }
-      ],
-      simulatorType: "generic",
-      codeSnippet: `# InfoNCE Contrastive Loss Projection Head
-import torch.nn as nn
-class ContrastiveHead(nn.Module):
-    def __init__(self, in_features, projection_dim=128):
-        super().__init__()
-        self.fc = nn.Sequential(
-            nn.Linear(in_features, 512),
-            nn.ReLU(),
-            nn.Linear(512, projection_dim)
-        )
-    def forward(self, x):
-        return nn.functional.normalize(self.fc(x), p=2, dim=1)`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
-    },
-    {
-      id: "smart-student-assistant",
-      title: "Smart Student Assistant — AI Learning Platform",
-      subtitle: "Adaptive Testing Engine & Automated Flashcard Evaluation",
-      roles: ["fullstack", "backend"],
-      category: "EdTech & System Design",
-      featured: false,
-      description: "Multi-user learning platform built with Flask and MongoDB. Features an adaptive testing engine that adjusts question difficulty based on student performance, JWT authentication, and comprehensive edge-case test suites.",
-      stack: ["Flask", "MongoDB", "REST APIs", "Python", "JWT Auth"],
-      metrics: [
-        { label: "Architecture", val: "Modular REST API" },
-        { label: "Testing", val: "Log-based Debug Plans" }
-      ],
-      simulatorType: "generic",
-      codeSnippet: `# Adaptive Difficulty Engine Logic
-def calculate_next_difficulty(student_score_history, current_level):
-    recent_accuracy = sum(student_score_history[-3:]) / 3.0
-    if recent_accuracy > 0.85 and current_level < 5:
-        return current_level + 1
-    elif recent_accuracy < 0.40 and current_level > 1:
-        return current_level - 1
-    return current_level`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
-    },
-    {
-      id: "custom-online-judge",
-      title: "Custom Online Judge Backend",
-      subtitle: "Multi-Language Automated Code Evaluation System",
-      roles: ["backend"],
-      category: "Backend & Execution Engine",
-      featured: false,
-      description: "End-to-end online judge supporting multi-language submissions (Python, C++, Java) with automated test-case evaluation, isolated execution workflows, scalable REST API layer, and MongoDB submission tracking.",
-      stack: ["Flask", "Python", "MongoDB", "REST APIs"],
-      metrics: [
-        { label: "Languages Supported", val: "Python, Java, C++" },
-        { label: "Evaluation", val: "Isolated Sandbox" }
-      ],
-      simulatorType: "generic",
-      codeSnippet: `# Test Case Execution Handler
-import subprocess
-def run_code_in_sandbox(code_path, input_data, timeout_sec=2):
-    try:
-        proc = subprocess.run(['python', code_path], input=input_data, text=True, capture_output=True, timeout=timeout_sec)
-        return {"stdout": proc.stdout, "status": "PASSED" if proc.returncode == 0 else "RUNTIME_ERROR"}
-    except subprocess.TimeoutExpired:
-        return {"status": "TIME_LIMIT_EXCEEDED"}`,
-      github: "https://github.com/Lohith-RC",
-      demoUrl: "#"
     }
   ],
 
   experience: [
+    {
+      role: "Frontend Lead & Technical Project Manager",
+      company: "SkillForge (MagnusCopo & Elcarreira Technologies)",
+      location: "Bengaluru, India (Hybrid)",
+      period: "2026 – Present",
+      type: "Leadership & Engineering",
+      highlights: [
+        "Leading the frontend engineering team and driving technical project management for the SkillForge developer enablement platform.",
+        "Architecting modern responsive UI systems with React, TypeScript, and state management while ensuring high performance and accessibility.",
+        "Coordinating cross-functional engineering sprints, code reviews, and API contracts between frontend and backend services."
+      ]
+    },
     {
       role: "Full Stack Development Intern",
       company: "CodeAlpha",
@@ -331,7 +493,7 @@ def run_code_in_sandbox(code_path, input_data, timeout_sec=2):
       period: "Jul 2026 – Aug 2026",
       type: "Internship",
       highlights: [
-        "Built and shipped production-style full-stack features end-to-end, handling modern JS UI components and Python REST APIs.",
+        "Built and shipped production-style full-stack features end-to-end (including Verdant Sprout), handling modern JS UI components and Python REST APIs.",
         "Collaborated in a remote, deadline-driven environment using structured Git branching, code reviews, and Agile sprints.",
         "Strengthened practical skills in REST API integration, state management with Redux, and database-backed app design."
       ]
@@ -632,12 +794,28 @@ Trained a contrastive projection head using InfoNCE loss over a frozen ResNet-50
       answer: "Lohith specializes in applied AI! He built 'PKE' (a private RAG Q&A system using LangChain, FAISS, FastAPI, MongoDB) and an 'AI-First CRM' module using LangGraph multi-step agent workflows and Groq LLMs for automated doctor interaction logging."
     },
     {
-      keywords: ["cgpa", "grades", "education", "college", "vtu"],
-      answer: "Lohith is currently in his final year of B.E. in CS & Engineering at Kalpataru Institute of Technology (VTU), holding a strong CGPA of 8.6 / 10, graduating in 2027."
+      keywords: ["skillforge", "lead", "tpm", "magnuscopo", "elcarreira", "current work"],
+      answer: "Lohith is currently the Frontend Lead & Technical Project Manager on SkillForge (under MagnusCopo & Elcarreira Technologies), leading UI architecture with React/TypeScript and managing cross-functional engineering sprints."
     },
     {
-      keywords: ["visionary", "cancer", "grad-cam", "cnn", "tensorflow"],
-      answer: "Visionary Diagnostics is a medical imaging app Lohith built using an ensemble of 4 CNNs (VGG16, ResNet50, EfficientNet, MobileNet) with Grad-CAM visual heatmaps for oral cancer (OSCC) detection."
+      keywords: ["trustsphere", "zero trust", "enterprise-zero-trust", "pep", "security"],
+      answer: "TrustSphere is an Enterprise Zero-Trust Identity Platform architected by Lohith. It enforces a strict Policy Enforcement Point (PEP) and real-time ABAC Policy Decision Engine (PDP) to govern all enterprise access requests. Deployed live on Vercel at enterprise-zero-trust-identity-plat.vercel.app."
+    },
+    {
+      keywords: ["cbrn-x", "cbrn", "vr", "unity", "emergency"],
+      answer: "CBRN-X is a VR-ready emergency response simulation platform Lohith developed for training first responders against Chemical, Biological, Radiological, and Nuclear disaster scenarios with real-time exposure telemetry and performance analytics."
+    },
+    {
+      keywords: ["mockgenius", "interview", "mock", "technical interview"],
+      answer: "MockGenius is an AI-powered technical interview preparation platform Lohith built with interactive real-time code evaluation, algorithmic feedback, and rubric scoring."
+    },
+    {
+      keywords: ["skillpassport", "credentials", "verification", "verifiable"],
+      answer: "SkillPassport is a verifiable digital credentialing ecosystem Lohith built in TypeScript/React on Vercel (skillpassport-one.vercel.app), providing tamper-proof cryptographic proofs of skills and achievements."
+    },
+    {
+      keywords: ["saarthi", "agriculture", "indoor harvest", "bot"],
+      answer: "SAARTHI is an AI assistant for indoor harvesters and precision agriculture built with Java/Spring Boot and IoT sensor telemetry integration for automated anomaly detection and climate optimization."
     }
   ]
 };

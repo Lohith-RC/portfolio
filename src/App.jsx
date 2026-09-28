@@ -67,7 +67,15 @@ export default function App() {
     return p.category === projectFilter;
   });
 
-  const categories = ['All', 'Interactive Canvas & Motion Design', 'Agentic AI & Full-Stack', 'Machine Learning & Rescue Analytics', 'Deep Learning & Diagnostic Web App', 'RAG & LLM Application'];
+  const categories = [
+    'All',
+    'Zero-Trust Security & Systems',
+    'Agentic AI & Full-Stack',
+    'Machine Learning & Rescue Analytics',
+    'Immersive VR & Spatial Systems',
+    'Full-Stack Web Applications',
+    'Deep Learning & Diagnostic Web App'
+  ];
 
   const copyToClipboard = (text, type) => {
     navigator.clipboard.writeText(text);
@@ -295,11 +303,17 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               transition={{ duration: 0.8 }}
               className="max-w-xl"
             >
-              <h1 className="font-chillax text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.15] tracking-tight text-white drop-shadow-md">
-                Lohith R C • BE Computer Science and engineering
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full liquid-pill text-xs font-mono text-cyan-300 mb-3 border-cyan-400/40">
+                <Sparkles size={12} className="text-cyan-400 animate-pulse" /> Frontend Lead & TPM @ SkillForge
+              </div>
+              <h1 className="font-chillax text-4xl sm:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] tracking-tight text-white drop-shadow-md">
+                Lohith R C • Full-Stack Developer & Applied AI Engineer
               </h1>
+              <p className="mt-3 text-sm sm:text-base text-white/90 leading-relaxed font-normal">
+                Final-year CSE student maintaining an <strong className="text-cyan-300">8.6 CGPA</strong> at KIT Tiptur (VTU). Architect of zero-trust identity engines, explainable AI triage platforms, VR emergency simulators, and medical ML web applications.
+              </p>
 
-              {/* Priority 1 Item 2: Hero Lead Email Form */}
+              {/* Hero Lead Email Form */}
               <form onSubmit={handleHeroEmailSubmit} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:inline-flex sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:liquid-pill sm:p-1.5 sm:border-white/30">
                 <input
                   type="email"
@@ -343,14 +357,13 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex flex-col gap-4 sm:flex-row lg:w-auto lg:gap-5"
             >
-              {/* Priority 4 Item 11: Replaced 42,500 LOC with Credible Credentials Signal */}
               <div className="liquid-glass p-5 sm:w-64 sm:p-6 flex flex-col justify-between border-white/30">
                 <div>
                   <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-white drop-shadow-sm">
-                    15+
+                    10+
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-white/90 sm:mt-4">
-                    Verified Industry Credentials & Shipped AI/Full-Stack Systems. <strong>8.6 CGPA</strong> in BE CS.
+                    Open-Source Repositories & Shipped AI/Full-Stack Systems. <strong>8.6 CGPA</strong> in BE CSE.
                   </p>
                 </div>
               </div>
@@ -362,10 +375,10 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                     <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-xs font-bold text-white shadow-sm">
                       <Code2 size={14} />
                     </div>
-                    <span className="text-sm font-semibold text-white drop-shadow-sm">CodeAlpha Intern</span>
+                    <span className="text-sm font-semibold text-white drop-shadow-sm">Lead & Core Builder</span>
                   </div>
                   <p className="text-sm leading-relaxed text-white/90">
-                    "Shipped end-to-end full-stack web applications with React UI, state management, and Python REST APIs."
+                    "Architecting production full-stack systems, zero-trust reference platforms, and explainable AI pipelines."
                   </p>
                 </div>
                 
@@ -377,7 +390,7 @@ VERIFIED CERTIFICATIONS & ACHIEVEMENTS:
                   />
                   <div>
                     <div className="text-sm font-bold text-white">Lohith R C</div>
-                    <div className="text-xs text-cyan-300 font-medium">Full-Stack & AI Engineer</div>
+                    <div className="text-xs text-cyan-300 font-medium">Frontend Lead & AI Engineer</div>
                   </div>
                 </div>
               </div>

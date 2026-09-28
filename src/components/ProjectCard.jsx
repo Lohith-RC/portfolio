@@ -72,7 +72,7 @@ export default function ProjectCard({ project, activeRole, onOpenArchitecture, o
 
       {/* Card Action Footer */}
       <div className="mt-6 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => onOpenArchitecture(project)}
             className="btn-secondary text-xs font-bold py-2 px-3.5"
@@ -87,6 +87,17 @@ export default function ProjectCard({ project, activeRole, onOpenArchitecture, o
             >
               <Play size={14} className="text-purple-300" /> Interactive Demo
             </button>
+          )}
+
+          {project.demoUrl && project.demoUrl !== '#' && !project.demoUrl.includes('github.com') && (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary text-xs font-bold py-2 px-3.5 bg-emerald-500/20 border-emerald-400/40 text-emerald-200 hover:bg-emerald-500/35 inline-flex items-center gap-1.5"
+            >
+              <ExternalLink size={13} className="text-emerald-300" /> Live App
+            </a>
           )}
         </div>
 
