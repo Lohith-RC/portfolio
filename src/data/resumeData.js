@@ -47,42 +47,42 @@ export const resumeData = {
     {
       year: "2004",
       phase: "Spawn",
-      location: "Arsikere, Karnataka, India",
+      location: "🌴 Arsikere, Karnataka, India",
       icon: "seed",
-      title: "Origins & Mathematical Curiosity",
-      desc: "First spark for computation, logical puzzles, and structured problem solving."
+      title: "Spawn",
+      desc: "First spark for computation, logical puzzles, and structured algorithmic problem solving."
     },
     {
       year: "2021 – 23",
-      phase: "Warm Up & Core Foundry",
-      location: "Karnataka, India",
+      phase: "Warm up",
+      location: "🎨 Code & System Craft",
       icon: "code",
-      title: "Algorithmic Foundations",
-      desc: "Deep-dive into Object-Oriented Java, C++ algorithmic thinking, and modern Python data structures."
+      title: "Warm up",
+      desc: "Developing impeccable taste for clean code, Object-Oriented Java, and modern Web architectures."
     },
     {
       year: "2023 – 27",
-      phase: "Academic Forge",
-      location: "Kalpataru Institute of Technology (VTU)",
+      phase: "KIT Tiptur (VTU)",
+      location: "🎓 B.E. in Computer Science, 📌 8.6 CGPA",
       icon: "academic",
-      title: "B.E. in Computer Science & Engineering",
-      desc: "Maintaining an 8.6 CGPA while mastering distributed operating systems, database internals, and computer networks."
+      title: "KIT Tiptur (VTU)",
+      desc: "Top 5% class standing; mastering distributed operating systems, database internals, and network security."
     },
     {
-      year: "2025 – 26",
-      phase: "Battle-Tested Arenas",
-      location: "National & State Hackathons",
-      icon: "trophy",
-      title: "Hackathon Finalist & Arena Victories",
-      desc: "Prototyped DisasterLens 24h MVP at MIT Mysore, competed in Bharatiya Antariksh Hackathon '26, and IEEE Code Breakers."
+      year: "2024 – 25",
+      phase: "SkillForge",
+      location: "⚡ Frontend Lead & Technical Project Manager",
+      icon: "zap",
+      title: "SkillForge",
+      desc: "Leading frontend engineering sprints, shaping design systems, and building scalable production workflows."
     },
     {
       year: "2026 – Present",
-      phase: "Industry Leadership",
-      location: "SkillForge & Beyond",
-      icon: "zap",
-      title: "Frontend Lead & TPM @ SkillForge",
-      desc: "Leading frontend engineering sprints, architecting Zero-Trust platforms, and building applied agentic AI systems."
+      phase: "Applied AI & Systems",
+      location: "🛡️ Zero-Trust Security & Agentic AI",
+      icon: "shield",
+      title: "Zero-Trust & Applied AI",
+      desc: "Architecting TrustSphere, DisasterLens, and MedPulse CRM with verified quantitative sub-50ms benchmarks."
     }
   ],
 

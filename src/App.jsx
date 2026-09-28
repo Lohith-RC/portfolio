@@ -123,42 +123,44 @@ export default function App() {
       <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#FAFAF9]/90 border-b border-black/[0.08] transition-all">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           
-          {/* Brand Tag */}
+          {/* Brand Signature */}
           <div className="flex items-center gap-3">
-            <a href="#top" className="flex items-center gap-2 group">
-              <span className="font-serif-editorial italic text-2xl text-[#0C0A09] group-hover:text-blue-700 transition-colors">
-                Lohith R C
+            <a href="#top" className="flex flex-col group">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-[#78716C] group-hover:text-blue-700 transition-colors">
+                Portfolio d’ Lohith R C
+              </span>
+              <span className="font-serif-editorial italic text-xl sm:text-2xl text-[#0C0A09] leading-tight">
+                Clarté Numérique
               </span>
             </a>
           </div>
 
-          {/* Clean Navigation Links */}
+          {/* Clean Editorial Navigation Links */}
           <nav className="hidden md:flex items-center gap-7 font-mono text-xs text-[#57534E]">
-            <a href="#top" className="hover:text-[#0C0A09] transition-colors">Home</a>
+            <a href="#top" className="hover:text-[#0C0A09] transition-colors">Lohith R C</a>
             <a href="#work" className="hover:text-[#0C0A09] transition-colors">Work</a>
             <a href="#timeline" className="hover:text-[#0C0A09] transition-colors">Timeline</a>
             <a href="#skills" className="hover:text-[#0C0A09] transition-colors">Skills</a>
-            <a href="#hackathons" className="hover:text-[#0C0A09] transition-colors">Hackathons</a>
-            <a href="#atelier" className="hover:text-blue-700 transition-colors uppercase tracking-wider font-semibold">Contact</a>
+            <a href="#atelier" className="hover:text-blue-700 transition-colors uppercase tracking-wider font-semibold">ATELIER</a>
           </nav>
 
           {/* Action CTAs */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsAiModalOpen(true)}
-              className="btn-action-pill border-blue-600/30 text-blue-700 bg-blue-50 hover:bg-blue-100/80"
+              className="btn-action-pill border-blue-600/30 text-blue-700 bg-blue-50 hover:bg-blue-100/80 cursor-pointer"
               title="Ask AI Assistant"
             >
               <Bot className="w-3.5 h-3.5 text-blue-600" />
               <span className="hidden sm:inline font-semibold">Ask AI</span>
             </button>
             <button
-              onClick={() => printPdfResume(resumeData)}
+              onClick={() => setIsResumeModalOpen(true)}
               className="btn-radiant-primary py-1.5 px-3.5 text-xs cursor-pointer"
-              title="Download or Print PDF Resume"
+              title="View & Download Resume (PDF / ATS)"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>Resume (PDF)</span>
+              <FileText className="w-3.5 h-3.5" />
+              <span>Resume</span>
             </button>
           </div>
         </div>
@@ -205,10 +207,10 @@ export default function App() {
           {/* Large Hero Title */}
           <div className="space-y-4 max-w-4xl">
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-normal font-serif-editorial text-[#0C0A09] leading-[1.12] tracking-tight">
-              Hi, I’m <strong className="font-normal font-serif-editorial italic text-[#0C0A09] underline decoration-black/30 decoration-1 underline-offset-8">{personalInfo.name}</strong>. I build reliable web apps, security systems & applied AI tools.
+              Hi, I’m <strong className="font-normal font-serif-editorial italic text-[#0C0A09] underline decoration-black/30 decoration-1 underline-offset-8">Lohith</strong>. A systems thinker, builder & software engineer.
             </h1>
             <p className="text-[#44403C] text-base sm:text-lg md:text-xl font-normal leading-relaxed">
-              I am a final-year Computer Science student at Kalpataru Institute of Technology (VTU) with an <span className="font-mono text-[#0C0A09] font-semibold bg-[#F5F5F4] px-2 py-0.5 rounded-md border border-[#E7E5E4]">8.6 CGPA</span>. Currently working as <strong className="text-[#0C0A09] font-semibold">Frontend Lead & Technical Project Manager</strong> at <a href="https://github.com/Lohith-RC" target="_blank" rel="noreferrer" className="text-blue-700 font-medium hover:underline">SkillForge</a>. I enjoy solving real problems with clean code and solid architecture.
+              Currently working as <strong className="text-[#0C0A09] font-semibold">Frontend Lead & Technical Project Manager</strong> at <a href="https://github.com/Lohith-RC" target="_blank" rel="noreferrer" className="text-blue-700 font-medium hover:underline">SkillForge</a>, shaping high-throughput products from the ground up. Final-year Computer Science student at Kalpataru Institute of Technology (VTU) with an <span className="font-mono text-[#0C0A09] font-semibold bg-[#F5F5F4] px-2 py-0.5 rounded-md border border-[#E7E5E4]">8.6 CGPA</span>. I build dependable web applications, zero-trust security architectures, and applied AI systems that scale.
             </p>
           </div>
 
@@ -261,29 +263,20 @@ export default function App() {
             </a>
 
             <button
-              onClick={() => printPdfResume(resumeData)}
-              className="btn-radiant-primary bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white shadow-lg shadow-blue-700/20 cursor-pointer"
-              title="1-Click Download or Print Official PDF Resume"
+              onClick={() => setIsResumeModalOpen(true)}
+              className="btn-cyber-glow cursor-pointer"
+              title="View & Download Resume (PDF / ATS)"
             >
-              <Download className="w-4 h-4 text-white" />
-              <span>Download Resume (PDF)</span>
+              <FileText className="w-4 h-4 text-blue-700" />
+              <span>Resume (PDF / ATS)</span>
             </button>
 
             <button
               onClick={() => setIsAiModalOpen(true)}
-              className="btn-cyber-glow cursor-pointer"
+              className="btn-glass-tactile cursor-pointer"
             >
               <Bot className="w-4 h-4 text-blue-700" />
               <span>Ask AI Assistant</span>
-            </button>
-
-            <button
-              onClick={() => setIsResumeModalOpen(true)}
-              className="btn-glass-tactile cursor-pointer"
-              title="View Standard Machine-Readable Plaintext ATS Resume"
-            >
-              <FileText className="w-4 h-4 text-[#44403C]" />
-              <span>Plaintext ATS</span>
             </button>
 
             <a
@@ -323,13 +316,13 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            TIMELINE SECTION (Simple, clean milestones)
+            TIMELINE SECTION (Chronologie & Parcours)
            ======================================================== */}
         <section id="timeline" className="space-y-6 scroll-mt-20">
           <div className="flex items-center justify-between border-b border-black/[0.08] pb-4">
             <div>
               <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-                01 // Timeline
+                01 // Chronologie & Parcours
               </span>
               <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
                 How I Got Here <span className="font-serif-italic text-[#78716C]">(2004 — Present)</span>
@@ -357,7 +350,7 @@ export default function App() {
                       {item.phase}
                     </h3>
                     <p className="text-[11px] font-mono text-[#78716C] mt-0.5">
-                      📍 {item.location}
+                      {item.location}
                     </p>
                   </div>
 
@@ -376,17 +369,20 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            SELECTED PROJECTS CAROUSEL (Interactive Carousel Effect)
+            SELECTED PROJECTS CAROUSEL (Sélection de projets)
            ======================================================== */}
         <section id="work" className="space-y-8 scroll-mt-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/[0.08] pb-4">
             <div>
               <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-                02 // Selected Work
+                02 // Sélection de projets
               </span>
               <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
                 Projects I've Built & Shipped.
               </h2>
+              <p className="text-xs font-mono text-[#78716C] mt-1">
+                Selected production systems, applied AI architectures & verified prototypes.
+              </p>
             </div>
             
             {/* View Mode & Category Controls */}
@@ -796,12 +792,12 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            SKILLS & TOOLS (Clean, direct categorization)
+            SKILLS & TOOLS (Outils & Technologies)
            ======================================================== */}
         <section id="skills" className="space-y-8 scroll-mt-20">
           <div className="border-b border-black/[0.08] pb-4">
             <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-              03 // Skills & Tools
+              03 // Outils & Technologies
             </span>
             <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
               Technologies I Work With.
@@ -858,12 +854,12 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            HACKATHONS & CERTIFICATIONS (Direct, clean)
+            HACKATHONS & CERTIFICATIONS (Distinctions & Certifications)
            ======================================================== */}
         <section id="hackathons" className="space-y-8 scroll-mt-20">
           <div className="border-b border-black/[0.08] pb-4">
             <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-              04 // Hackathons & Certifications
+              04 // Distinctions & Certifications
             </span>
             <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
               Competitions & Verified Credentials.
@@ -942,15 +938,18 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            ATELIER / CONTACT (Simple English)
+            ATELIER / WORKSHOP (Replicating Adithya Krishna's Atelier)
            ======================================================== */}
         <section id="atelier" className="space-y-8 scroll-mt-20 pt-8 border-t border-black/[0.08]">
           <div className="space-y-2">
+            <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block">
+              05 // Atelier
+            </span>
             <h2 className="text-3xl sm:text-5xl font-normal font-serif-editorial text-[#0C0A09]">
-              Get In Touch
+              Atelier
             </h2>
             <p className="text-[#78716C] font-serif-italic text-sm sm:text-base">
-              Feel free to reach out for software engineering roles, project inquiries, or technical collaborations.
+              noun / a workshop or studio, especially one used by an artist or engineer.
             </p>
           </div>
 
@@ -962,32 +961,43 @@ export default function App() {
               <div className="space-y-4">
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#0C0A09] text-white font-semibold text-sm hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 group"
+                  className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#0C0A09] text-white font-semibold text-sm hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 group cursor-pointer"
                 >
                   <PenTool className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                  <span>Send an Email</span>
+                  <span>✒ Pen a note</span>
                 </a>
 
                 <p className="text-xs text-[#57534E] font-mono leading-relaxed">
-                  I typically respond within 24 hours. You can also connect directly on LinkedIn or WhatsApp.
+                  Open for full-time software engineering roles, product systems engineering, and technical collaborations.
                 </p>
               </div>
 
               {/* Direct Links */}
               <div className="space-y-2 pt-2 border-t border-black/[0.08]">
                 <div className="flex flex-col gap-2 font-mono text-xs text-[#44403C]">
-                  <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-blue-700 flex items-center justify-between py-1.5 border-b border-black/[0.05]">
+                  <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-blue-700 flex items-center justify-between py-2 border-b border-black/[0.05] transition-colors">
                     <span className="flex items-center gap-2"><LinkedinIcon size={14} color="#0284C7" /> LinkedIn</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E]" />
                   </a>
-                  <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-blue-700 flex items-center justify-between py-1.5 border-b border-black/[0.05]">
+                  <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-blue-700 flex items-center justify-between py-2 border-b border-black/[0.05] transition-colors">
                     <span className="flex items-center gap-2"><GithubIcon size={14} /> GitHub (@Lohith-RC)</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E]" />
                   </a>
-                  <a href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`} className="hover:text-blue-700 flex items-center justify-between py-1.5 border-b border-black/[0.05]">
+                  <a href={`mailto:${personalInfo.email}`} className="hover:text-blue-700 flex items-center justify-between py-2 border-b border-black/[0.05] transition-colors">
+                    <span className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-blue-600" /> Email</span>
+                    <span className="text-[#78716C]">{personalInfo.email}</span>
+                  </a>
+                  <a href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`} className="hover:text-blue-700 flex items-center justify-between py-2 border-b border-black/[0.05] transition-colors">
                     <span className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-emerald-700" /> Phone / WhatsApp</span>
                     <span className="font-semibold">{personalInfo.phone}</span>
                   </a>
+                  <button 
+                    onClick={() => setIsResumeModalOpen(true)}
+                    className="hover:text-blue-700 flex items-center justify-between py-2 border-b border-black/[0.05] transition-colors text-left w-full cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-indigo-600" /> Resume (PDF / ATS)</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E]" />
+                  </button>
                 </div>
               </div>
 
@@ -1065,9 +1075,9 @@ export default function App() {
       <footer className="relative z-10 border-t border-black/[0.08] bg-[#FAFAF9] py-8 text-xs font-mono text-[#78716C]">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#0C0A09]">Lohith R C</span>
+            <span className="font-bold text-[#0C0A09]">Portfolio d’ Lohith R C</span>
             <span>•</span>
-            <span className="font-serif-italic text-[#78716C]">Portfolio</span>
+            <span className="font-serif-italic text-[#78716C]">Clarté Numérique // 2026</span>
           </div>
 
           <div>
