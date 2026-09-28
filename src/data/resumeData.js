@@ -46,43 +46,43 @@ export const resumeData = {
   genesisTimeline: [
     {
       year: "2004",
-      phase: "Spawn",
-      location: "🌴 Arsikere, Karnataka, India",
+      phase: "Born",
+      location: "Arsikere, Karnataka",
       icon: "seed",
-      title: "Spawn",
-      desc: "First spark for computation, logical puzzles, and structured algorithmic problem solving."
+      title: "Early Curiosity",
+      desc: "Where my interest in logic, math, and computers began."
     },
     {
       year: "2021 – 23",
-      phase: "Warm up",
-      location: "🎨 Code & System Craft",
+      phase: "Foundations",
+      location: "Learning to Code",
       icon: "code",
-      title: "Warm up",
-      desc: "Developing impeccable taste for clean code, Object-Oriented Java, and modern Web architectures."
+      title: "Core Fundamentals",
+      desc: "Learned Java, Python, data structures, and the basics of building for the web."
     },
     {
       year: "2023 – 27",
-      phase: "KIT Tiptur (VTU)",
-      location: "🎓 B.E. in Computer Science, 📌 8.6 CGPA",
+      phase: "College",
+      location: "KIT Tiptur (VTU) • 8.6 CGPA",
       icon: "academic",
-      title: "KIT Tiptur (VTU)",
-      desc: "Top 5% class standing; mastering distributed operating systems, database internals, and network security."
+      title: "B.E. in Computer Science",
+      desc: "Studying algorithms, operating systems, database systems, and networking."
     },
     {
       year: "2024 – 25",
       phase: "SkillForge",
-      location: "⚡ Frontend Lead & Technical Project Manager",
+      location: "Frontend Lead & TPM",
       icon: "zap",
-      title: "SkillForge",
-      desc: "Leading frontend engineering sprints, shaping design systems, and building scalable production workflows."
+      title: "Team Leadership",
+      desc: "Led frontend development, designed user interfaces, and shipped web applications."
     },
     {
       year: "2026 – Present",
-      phase: "Applied AI & Systems",
-      location: "🛡️ Zero-Trust Security & Agentic AI",
+      phase: "Projects & AI",
+      location: "Applied Systems",
       icon: "shield",
       title: "Zero-Trust & Applied AI",
-      desc: "Architecting TrustSphere, DisasterLens, and MedPulse CRM with verified quantitative sub-50ms benchmarks."
+      desc: "Building security tools, emergency disaster response apps, and medical AI systems."
     }
   ],
 

@@ -126,22 +126,22 @@ export default function App() {
           {/* Brand Signature */}
           <div className="flex items-center gap-3">
             <a href="#top" className="flex flex-col group">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-[#78716C] group-hover:text-blue-700 transition-colors">
-                Portfolio d’ Lohith R C
+              <span className="font-serif-editorial italic text-2xl text-[#0C0A09] group-hover:text-blue-700 transition-colors leading-none">
+                Lohith R C
               </span>
-              <span className="font-serif-editorial italic text-xl sm:text-2xl text-[#0C0A09] leading-tight">
-                Clarté Numérique
+              <span className="font-mono text-[10px] text-[#78716C] tracking-wide mt-1">
+                Software & Systems
               </span>
             </a>
           </div>
 
-          {/* Clean Editorial Navigation Links */}
+          {/* Clean Minimalist Navigation Links */}
           <nav className="hidden md:flex items-center gap-7 font-mono text-xs text-[#57534E]">
-            <a href="#top" className="hover:text-[#0C0A09] transition-colors">Lohith R C</a>
-            <a href="#work" className="hover:text-[#0C0A09] transition-colors">Work</a>
+            <a href="#top" className="hover:text-[#0C0A09] transition-colors">About</a>
+            <a href="#work" className="hover:text-[#0C0A09] transition-colors">Projects</a>
             <a href="#timeline" className="hover:text-[#0C0A09] transition-colors">Timeline</a>
             <a href="#skills" className="hover:text-[#0C0A09] transition-colors">Skills</a>
-            <a href="#atelier" className="hover:text-blue-700 transition-colors uppercase tracking-wider font-semibold">ATELIER</a>
+            <a href="#contact" className="hover:text-blue-700 transition-colors font-semibold">Contact</a>
           </nav>
 
           {/* Action CTAs */}
@@ -316,16 +316,16 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            TIMELINE SECTION (Chronologie & Parcours)
+            TIMELINE SECTION (Simple English)
            ======================================================== */}
         <section id="timeline" className="space-y-6 scroll-mt-20">
           <div className="flex items-center justify-between border-b border-black/[0.08] pb-4">
             <div>
               <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-                01 // Chronologie & Parcours
+                01 // Timeline
               </span>
               <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
-                How I Got Here <span className="font-serif-italic text-[#78716C]">(2004 — Present)</span>
+                My Journey <span className="font-serif-italic text-[#78716C]">(2004 — Present)</span>
               </h2>
             </div>
             <span className="hidden sm:inline font-mono text-xs text-[#78716C]">Milestones</span>
@@ -369,19 +369,19 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            SELECTED PROJECTS CAROUSEL (Sélection de projets)
+            SELECTED PROJECTS CAROUSEL (Simple English)
            ======================================================== */}
         <section id="work" className="space-y-8 scroll-mt-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/[0.08] pb-4">
             <div>
               <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-                02 // Sélection de projets
+                02 // Projects
               </span>
               <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
                 Projects I've Built & Shipped.
               </h2>
               <p className="text-xs font-mono text-[#78716C] mt-1">
-                Selected production systems, applied AI architectures & verified prototypes.
+                Production systems, full-stack web applications, and AI prototypes.
               </p>
             </div>
             
@@ -792,77 +792,57 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            SKILLS & TOOLS (Outils & Technologies)
+            SKILLS / TECHNOLOGIES (Small Minimalist Block)
            ======================================================== */}
-        <section id="skills" className="space-y-8 scroll-mt-20">
-          <div className="border-b border-black/[0.08] pb-4">
-            <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-              03 // Outils & Technologies
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
-              Technologies I Work With.
-            </h2>
+        <section id="skills" className="space-y-4 scroll-mt-20">
+          <div className="border-b border-black/[0.08] pb-3 flex items-baseline justify-between">
+            <div>
+              <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-0.5">
+                03 // Skills
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-normal font-serif-editorial text-[#0C0A09]">
+                Technologies & Tools
+              </h2>
+            </div>
+            <span className="text-xs font-mono text-[#78716C] hidden sm:inline">Stack & competencies</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {skillsCategory.map((cat, idx) => (
-              <div key={idx} className="story-bento-card p-6 flex flex-col justify-between space-y-4">
-                <div>
-                  <div className="flex items-center justify-between border-b border-black/[0.06] pb-3 mb-4">
-                    <h3 className="font-display font-bold text-base text-[#0C0A09] flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-blue-600" />
+          <div className="bg-white rounded-2xl border border-black/[0.08] p-5 sm:p-6 shadow-xs">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {skillsCategory.map((cat, idx) => (
+                <div key={idx} className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0" />
+                    <span className="font-mono text-xs uppercase tracking-wider text-[#0C0A09] font-bold">
                       {cat.category}
-                    </h3>
-                    <span className="font-mono text-[11px] text-[#78716C]">{cat.skills.length} tools</span>
+                    </span>
                   </div>
-
-                  <div className="space-y-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {cat.skills.map((skill, sIdx) => (
-                      <div 
+                      <span 
                         key={sIdx}
-                        className="p-2.5 rounded-xl bg-[#FAFAF9] border border-black/[0.06] hover:border-black/25 transition-all group"
+                        className="px-2.5 py-0.5 rounded-md bg-[#FAFAF9] border border-black/[0.07] text-xs font-mono text-[#44403C] hover:border-black/30 hover:text-black transition-colors"
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-xs text-[#1C1917] group-hover:text-blue-700 transition-colors">
-                            {skill.name}
-                          </span>
-                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                            skill.level === 'Primary' || skill.level === 'Advanced'
-                              ? 'bg-blue-50 text-blue-800 border border-blue-200'
-                              : 'bg-white text-[#78716C] border border-black/[0.08]'
-                          }`}>
-                            {skill.level}
-                          </span>
-                        </div>
-                        {skill.note && (
-                          <p className="text-[10px] text-[#57534E] mt-1 font-mono leading-tight">
-                            {skill.note}
-                          </p>
-                        )}
-                      </div>
+                        {skill.name}
+                      </span>
                     ))}
                   </div>
                 </div>
-
-                <div className="pt-2 border-t border-black/[0.06] flex items-center justify-between text-[11px] font-mono text-[#78716C]">
-                  <span>Hands-On Experience</span>
-                  <CheckCheck className="w-3.5 h-3.5 text-emerald-600" />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ========================================================
-            HACKATHONS & CERTIFICATIONS (Distinctions & Certifications)
+            HACKATHONS & CERTIFICATIONS (Simple English)
            ======================================================== */}
         <section id="hackathons" className="space-y-8 scroll-mt-20">
           <div className="border-b border-black/[0.08] pb-4">
             <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block mb-1">
-              04 // Distinctions & Certifications
+              04 // Hackathons & Certifications
             </span>
             <h2 className="text-2xl sm:text-4xl font-normal font-serif-editorial text-[#0C0A09]">
-              Competitions & Verified Credentials.
+              Competitions & Credentials.
             </h2>
           </div>
 
@@ -938,18 +918,18 @@ export default function App() {
         </section>
 
         {/* ========================================================
-            ATELIER / WORKSHOP (Replicating Adithya Krishna's Atelier)
+            CONTACT SECTION (Clean, Simple English)
            ======================================================== */}
-        <section id="atelier" className="space-y-8 scroll-mt-20 pt-8 border-t border-black/[0.08]">
+        <section id="contact" className="space-y-6 scroll-mt-20 pt-8 border-t border-black/[0.08]">
           <div className="space-y-2">
             <span className="font-mono text-xs text-blue-700 uppercase tracking-widest block">
-              05 // Atelier
+              05 // Contact
             </span>
             <h2 className="text-3xl sm:text-5xl font-normal font-serif-editorial text-[#0C0A09]">
-              Atelier
+              Get In Touch
             </h2>
-            <p className="text-[#78716C] font-serif-italic text-sm sm:text-base">
-              noun / a workshop or studio, especially one used by an artist or engineer.
+            <p className="text-[#78716C] text-sm sm:text-base">
+              I am open to full-time software engineering roles, internships, and technical collaborations.
             </p>
           </div>
 
@@ -958,17 +938,17 @@ export default function App() {
             {/* Quick Contact & Links */}
             <div className="lg:col-span-5 space-y-6">
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#0C0A09] text-white font-semibold text-sm hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 group cursor-pointer"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-[#0C0A09] text-white font-semibold text-xs hover:bg-neutral-800 transition-all shadow-md group cursor-pointer"
                 >
-                  <PenTool className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                  <span>✒ Pen a note</span>
+                  <Mail className="w-4 h-4" />
+                  <span>Send an Email</span>
                 </a>
 
                 <p className="text-xs text-[#57534E] font-mono leading-relaxed">
-                  Open for full-time software engineering roles, product systems engineering, and technical collaborations.
+                  I typically respond within 24 hours. Feel free to connect directly on LinkedIn or WhatsApp.
                 </p>
               </div>
 
@@ -1075,9 +1055,9 @@ export default function App() {
       <footer className="relative z-10 border-t border-black/[0.08] bg-[#FAFAF9] py-8 text-xs font-mono text-[#78716C]">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#0C0A09]">Portfolio d’ Lohith R C</span>
+            <span className="font-bold text-[#0C0A09]">Lohith R C</span>
             <span>•</span>
-            <span className="font-serif-italic text-[#78716C]">Clarté Numérique // 2026</span>
+            <span>Software & Systems Engineer</span>
           </div>
 
           <div>
